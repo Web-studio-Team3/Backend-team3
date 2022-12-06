@@ -37,7 +37,7 @@ category_router = APIRouter()
 #     return categoriesEntity(db.categories.find())
 
 # Category relation
-@category_router.get('/categories/', tags=["categories"])
+@category_router.get('/')
 def find_all_categories():
     # parentCategories = []
 
@@ -95,7 +95,7 @@ def next_lvl_category(categories, allCategories):
         nextLvlCategories.append(nextLvlCategory)
     return nextLvlCategories, allCategories
 
-@category_router.post('/categories/', tags=["categories"])
+@category_router.post('/')
 async def create_category(
         category: CategoryModel, 
         parent_category=Query(
@@ -141,7 +141,7 @@ async def create_category(
     #         db.categories.find_one({"_id": ObjectId(childCategoryId)}),
     #     )
 
-@category_router.get('/categories/{category_id}', tags=["categories"])
+@category_router.get('/{category_id}')
 async def find_one_category(category_id):
     # parentCategoryId = db.categories_relation.find_one({"child_category_id": ObjectId(category_id)})["parent_category_id"]
 
@@ -150,7 +150,7 @@ async def find_one_category(category_id):
         # db.categories.find_one({"_id": ObjectId(parentCategoryId)}),
     )
 
-@category_router.put('/categories/{category_id}', tags=["categories"])
+@category_router.put('/{category_id}')
 async def update_category(
         category_id,
         category: CategoryModel,
@@ -196,7 +196,7 @@ async def update_category(
         # parentCategory
     )
 
-@category_router.delete('/categories/{category_id}', tags=["categories"])
+@category_router.delete('/{category_id}')
 async def delete_category(category_id):
     db.categories.find_one_and_delete({'_id': ObjectId(category_id)})
     db.categories_relation.find_one_and_delete({'child_category_id': ObjectId(category_id)})
