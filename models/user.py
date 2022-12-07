@@ -10,6 +10,7 @@ class UserModel(BaseModel):
     password: Optional[str] = Field(...)
     fullname: Optional[str] = Field(...)
     date_of_birth: Optional[datetime] = None
+    photo_url: Optional[str] = Field(...)
 
     class Config:
         # allow_population_by_field_name = True
@@ -23,5 +24,6 @@ class UserModel(BaseModel):
                 "password": "31321231244",
                 "fullname": "Jane Doe",
                 "date_of_birth": datetime.utcnow(),
+                "photo_url": "some_photo_url",
             }
         }
