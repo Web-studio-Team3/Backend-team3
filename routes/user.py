@@ -52,7 +52,7 @@ async def update_user(user_id, user: UserModel):
     return userEntity(db.user.find_one({"_id": ObjectId(user_id)}))
 
 
-@user_router.put("/users/{user_id}/update_photo", tags=["users"])
+@user_router.put("/{user_id}/update_photo")
 async def update_photo(user_id: str, photo: UploadFile = File(...)):
     user = userEntity(db.user.find_one({"_id": ObjectId(user_id)}))
     delete_picture(user.get("photo_url"))
