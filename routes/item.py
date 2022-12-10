@@ -7,7 +7,7 @@ from schemas.item import itemEntity, itemsEntity
 from routes.photo_item_relation import relation_router
 
 item_router = APIRouter()
-item_router.include_router(relation_router, prefix="/{item_id}/photo", tags=["item_photo"])
+item_router.include_router(relation_router, prefix="/{item_id}/photo")
 
 
 @item_router.get('/')
