@@ -4,6 +4,7 @@ from bson import ObjectId
 
 from models.user import UserModel
 from config.db import db
+from auth.jwt import get_password_hash
 from schemas.user import userEntity, usersEntity
 
 user_router = APIRouter()
@@ -14,7 +15,9 @@ async def find_all_users():
 
 @user_router.post('/users/', tags=["users"])
 async def create_user(user: UserModel):
-    userId = db.user.insert_one(user.dict(exclude_none=True)).inserted_id
+    user_dict = user.dict(exclude_none=True)
+    user_dict["password"] = get_password_hash(user_dict["password"])
+    userId = db.user.insert_one(user_dict).inserted_id
     return userEntity(db.user.find_one({'_id': ObjectId(userId)}))
 
 # @user_router.post('/users/', response_model=UserModel)
