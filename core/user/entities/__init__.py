@@ -1,3 +1,0 @@
-from .user import User
-from .user_item_sold_relation import UserItemSoldRelation
-from .user_item_tracking_relation import UserItemTrackingRelation
