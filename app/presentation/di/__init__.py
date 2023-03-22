@@ -5,5 +5,8 @@ from app.presentation.di.di import (
     provide_create_token_stub,
     provide_password_hasher_stub,
     provide_get_user_by_email_stub,
-    provide_get_user_by_id_stub
+    provide_get_user_by_id_stub,
+    provide_logout_stub,
+    provide_update_user_stub,
+    provide_delete_user_stub
 )

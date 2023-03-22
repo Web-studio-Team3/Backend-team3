@@ -1,5 +1,6 @@
-from app.core.user.dao.token_read import TokenRead
-from app.core.user.entities.token import AccessToken
+from app.core.token.dao.token_read import TokenRead
+from app.core.token.entities.token import AccessToken
+
 from app.infrastracture.dao.base import BaseDao
 
 

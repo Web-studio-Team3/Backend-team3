@@ -1,4 +1,4 @@
-from app.core.user.dao.token_coder import TokenCoder
+from app.core.token.dao.token_coder import TokenCoder
 from decouple import config
 import jwt
 import time
@@ -11,7 +11,7 @@ class EncodeToken(TokenCoder):
     def encode(self, user_id: str) -> str:
         return jwt.encode({
             "user_id": user_id,
-            "expires": time.time() + 600
+            "expires": time.time() + 86400
         },
             JWT_SECRET,
             algorithm=JWT_ALGORITHM

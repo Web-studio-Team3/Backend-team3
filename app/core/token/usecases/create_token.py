@@ -1,8 +1,8 @@
 from app.core.shared.usecase_base import UseCase
-from app.core.user.dao.token_write import TokenWrite
-from app.core.user.dto.token import AccessTokenUserIdDto, AccessTokenDto
-from app.core.user.entities.token import AccessToken
-from app.core.user.dao.token_coder import TokenCoder
+from app.core.token.dao.token_write import TokenWrite
+from app.core.token.dto.token import AccessTokenUserIdDto, AccessTokenDto
+from app.core.token.entities.token import AccessToken
+from app.core.token.dao.token_coder import TokenCoder
 
 
 class CreateTokenUseCase(UseCase[AccessTokenUserIdDto, AccessToken]):

@@ -8,24 +8,28 @@ from app.infrastracture.dao.token_read import TokenReadDaoImpl
 from app.infrastracture.dao.user_read import UserReadDaoImpl
 from app.infrastracture.dao.token_write import TokenWriteDaoImpl
 
+from app.core.user.dao.password_hasher import PasswordHasher
 from app.core.user.usecases.sign_up import SignUpUseCase
 from app.core.user.usecases.sign_in import SignInUseCase
 from app.core.user.usecases.get_user_by_id import GetUserByIdUseCase
 from app.core.user.usecases.get_user_by_email import GetUserByEmailUseCase
-from app.core.user.dao.password_hasher import PasswordHasher
-from app.core.user.dao.token_coder import TokenCoder
-
-from app.core.user.usecases.create_token import CreateTokenUseCase
+from app.core.user.usecases.logout import LogoutUseCase
+from app.core.user.usecases.update_user import UpdateUserUseCase
+from app.core.user.usecases.delete_user import DeleteUserUseCase
 from app.core.user.usecases.password_hasher import PasswordHasherImp
-from app.core.user.usecases.encode_token import EncodeToken
-from app.core.user.usecases.decode_token import DecodeToken
+
+from app.core.token.usecases.create_token import CreateTokenUseCase
+from app.core.token.usecases.encode_token import EncodeToken
+from app.core.token.usecases.decode_token import DecodeToken
+from app.core.token.usecases.delete_token_by_user_id import DeleteTokenByUserIdUseCase
+from app.core.token.dao.token_coder import TokenCoder
 
 from app.presentation.di.stubs import (
     provide_database_stub,
     provide_create_token_stub,
     provide_password_hasher_stub,
     provide_token_encoder_stub,
-    provide_token_decoder_stub
+    provide_delete_token_by_user_id_stub
 )
 
 
@@ -90,7 +94,19 @@ def provide_create_token(
     return CreateTokenUseCase(dao=token_write_dao, token_coder=token_coder)
 
 
-# def logout
+def provide_delete_token_by_user_id(
+        token_write_dao: BaseDao = Depends(
+            get_pymongo_dao(TokenWriteDaoImpl)
+        )
+) -> DeleteTokenByUserIdUseCase:
+    return DeleteTokenByUserIdUseCase(token_write_dao=token_write_dao)
+
+
+def provide_logout(
+        delete_token_use_case: DeleteTokenByUserIdUseCase
+        = Depends(provide_delete_token_by_user_id_stub)
+) -> LogoutUseCase:
+    return LogoutUseCase(delete_token_use_case=delete_token_use_case)
 
 
 def provide_get_user_by_email(
@@ -111,3 +127,32 @@ def provide_token_encoder() -> EncodeToken:
 
 def provide_token_decoder() -> DecodeToken:
     return DecodeToken()
+
+
+def provide_update_user(
+        user_write_dao: BaseDao = Depends(
+            get_pymongo_dao(UserWriteDaoImpl)
+        ),
+        user_read_dao: BaseDao = Depends(
+            get_pymongo_dao(UserReadDaoImpl)
+        ),
+        password_hasher: PasswordHasher = Depends(provide_password_hasher_stub)
+) -> UpdateUserUseCase:
+    return UpdateUserUseCase(
+        user_write_dao=user_write_dao,
+        user_read_dao=user_read_dao,
+        password_hasher=password_hasher
+    )
+
+
+def provide_delete_user(
+        user_write_dao: BaseDao = Depends(
+            get_pymongo_dao(UserWriteDaoImpl)
+        ),
+        delete_token_by_user_id_use_case: DeleteTokenByUserIdUseCase =
+        Depends(provide_delete_token_by_user_id_stub)
+) -> DeleteUserUseCase:
+    return DeleteUserUseCase(
+        user_write_dao=user_write_dao,
+        delete_token_by_user_id_use_case=delete_token_by_user_id_use_case
+    )

@@ -1,4 +1,4 @@
-from app.core.user.dao.token_coder import TokenCoder
+from app.core.token.dao.token_coder import TokenCoder
 from decouple import config
 import jwt
 import time

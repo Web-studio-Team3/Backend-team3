@@ -1,7 +1,7 @@
 from fastapi import Request, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
-from app.core.user.usecases.decode_token import DecodeToken
+from app.core.token.usecases.decode_token import DecodeToken
 from app.infrastracture.connect import database
 
 

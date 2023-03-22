@@ -1,5 +1,5 @@
-from app.core.user.dao.password_hasher import PasswordHasher
 import bcrypt
+from app.core.user.dao.password_hasher import PasswordHasher
 
 
 class PasswordHasherImp(PasswordHasher):

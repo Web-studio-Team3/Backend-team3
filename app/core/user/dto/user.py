@@ -1,4 +1,5 @@
 from app.shared.dto_base import BaseDto
+from typing import Optional
 
 
 class UserSignUpRaw(BaseDto):
@@ -29,6 +30,18 @@ class UserId(BaseDto):
     id: str
 
 
+class UserUpdate(BaseDto):
+    email: Optional[str]
+    password: Optional[str]
+    full_name: Optional[str]
+    date_of_birth: Optional[str]
+
+
+class UserUpdateWithId(BaseDto):
+    id: str
+    user_update: UserUpdate
+
+
 class UserGetByEmailReq(BaseDto):
     email: str
 
@@ -46,5 +59,6 @@ class UserSignIn(BaseDto):
 class UserInfo(BaseDto):
     id: str
     email: str
+    hashed_password: str
     full_name: str
     date_of_birth: str

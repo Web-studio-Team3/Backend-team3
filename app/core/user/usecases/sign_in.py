@@ -1,12 +1,14 @@
 from app.core.shared.usecase_base import UseCase
+
 from app.core.user.dto.user import UserSignIn
-from app.core.user.entities.token import AccessToken
 from app.core.user.dao.user_read import UserRead
 from app.core.user.exceptions.user import AuthError
 from app.core.user.dao.password_hasher import PasswordHasher
-from app.core.user.dao.token_read import TokenRead
-from app.core.user.dto.token import AccessTokenUserIdDto
-from app.core.user.usecases.create_token import CreateTokenUseCase
+
+from app.core.token.entities.token import AccessToken
+from app.core.token.dao.token_read import TokenRead
+from app.core.token.dto.token import AccessTokenUserIdDto
+from app.core.token.usecases.create_token import CreateTokenUseCase
 
 
 class SignInUseCase(UseCase[UserSignIn, AccessToken]):

@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from datetime import date
 from app.core.user.entities.user import User
 
 

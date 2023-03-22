@@ -32,3 +32,19 @@ def provide_token_encoder_stub():
 
 def provide_token_decoder_stub():
     raise NotImplementedError
+
+
+def provide_delete_token_by_user_id_stub():
+    raise NotImplementedError
+
+
+def provide_logout_stub():
+    raise NotImplementedError
+
+
+def provide_update_user_stub():
+    raise NotImplementedError
+
+
+def provide_delete_user_stub():
+    raise NotImplementedError

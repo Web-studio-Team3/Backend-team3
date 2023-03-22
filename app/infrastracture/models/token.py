@@ -1,6 +1,5 @@
 from pydantic import BaseModel
-from app.core.user.entities.token import AccessToken
-from uuid import UUID
+from app.core.token.entities.token import AccessToken
 
 
 class AccessTokenModel(BaseModel):

@@ -1,10 +1,10 @@
 from typing import Protocol
-from app.core.user.dto.token import (
+from app.core.token.dto.token import (
     AccessTokenDto,
-    AccessTokenDeleteDto,
-    AccessTokenUpdateDto
+    AccessTokenUpdateDto,
+    AccessTokenUserIdDto
 )
-from app.core.user.entities.token import AccessToken
+from app.core.token.entities.token import AccessToken
 
 
 class TokenWrite(Protocol):
@@ -14,5 +14,5 @@ class TokenWrite(Protocol):
     def update(self, token: AccessTokenUpdateDto) -> AccessToken:
         raise NotImplementedError
 
-    def delete(self, token: AccessTokenDeleteDto) -> None:
+    def delete_by_user_id(self, token: AccessTokenUserIdDto) -> None:
         raise NotImplementedError

@@ -1,5 +1,5 @@
 from typing import Protocol
-from app.core.user.entities.token import AccessToken
+from app.core.token.entities.token import AccessToken
 
 
 class TokenRead(Protocol):

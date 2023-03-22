@@ -1,11 +1,10 @@
 from dataclasses import dataclass
-from uuid import UUID
 from datetime import date
 
 
 @dataclass
 class User:
-    id: UUID
+    id: str
     email: str
     hashed_password: str
     full_name: str

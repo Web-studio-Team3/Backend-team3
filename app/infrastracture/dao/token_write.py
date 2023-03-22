@@ -1,10 +1,12 @@
+from bson import ObjectId
+
 from app.infrastracture.dao.base import BaseDao
-from app.core.user.dao.token_write import TokenWrite
-from app.core.user.entities.token import AccessToken
 from app.infrastracture.models.token import AccessTokenModel
-from app.core.user.dto.token import (
-    AccessTokenDto,
-    AccessTokenDeleteDto,
+
+from app.core.token.dao.token_write import TokenWrite
+from app.core.token.entities.token import AccessToken
+from app.core.token.dto.token import (
+    AccessTokenDto, AccessTokenUserIdDto,
     AccessTokenUpdateDto
 )
 
@@ -27,19 +29,19 @@ class TokenWriteDaoImpl(
 
     def update(self, token: AccessTokenUpdateDto) -> AccessToken:
         self._database["token"].find_one_and_update(
-            {"_id": token.id},
+            {"_id": ObjectId(token.id)},
             {"$set": {
                 "user_id": token.user_id,
                 "jwt_token": token.token
             }}
         )
 
-        updated_token = self._database["token"].find_one({"_id": token.id})
+        updated_token = self._database["token"].find_one({"_id": ObjectId(token.id)})
         return AccessToken(
-            id=updated_token["_id"],
+            id=str(updated_token["_id"]),
             user_id=updated_token["user_id"],
             jwt_token=updated_token["jwt_token"]
         )
 
-    def delete(self, token: AccessTokenDeleteDto) -> None:
-        self._database["token"].find_one_and_delete({"_id": token.id})
+    def delete_by_user_id(self, token: AccessTokenUserIdDto) -> None:
+        self._database["token"].find_one_and_delete({"user_id": token.user_id})
