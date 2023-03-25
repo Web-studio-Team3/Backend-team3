@@ -1,10 +1,12 @@
 from app.core.token.dao.token_coder import TokenCoder
 from decouple import config
+from envparse import Env
 import jwt
 import time
 
-JWT_SECRET = config("secret")
-JWT_ALGORITHM = config("algorithm")
+env = Env()
+JWT_SECRET = env.str("SECRET", default="please_please_update_me_please")
+JWT_ALGORITHM = env.str("ALGORITHM", default="HS256")
 
 
 class EncodeToken(TokenCoder):

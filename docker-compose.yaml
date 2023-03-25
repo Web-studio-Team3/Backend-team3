@@ -1,0 +1,30 @@
+version: "3"
+services:
+  app:
+    container_name: "app"
+    image: app
+    environment:
+      - MONGODB_URL=mongodb://mongo_db
+      - SECRET=please_please_update_me_please
+      - ALGORITHM=HS256
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - custom
+    depends_on:
+      - mongo_db
+
+  mongo_db:
+    container_name: "mongo_db"
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - custom
+
+networks:
+  custom:
+    driver: bridge
