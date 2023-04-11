@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from app.core.user.entities.user import User
 
 
 class UserModel(BaseModel):
@@ -7,12 +6,4 @@ class UserModel(BaseModel):
     hashed_password: str
     full_name: str
     date_of_birth: str
-
-
-def from_entity(user: User) -> UserModel:
-    return UserModel(
-        email=user.email,
-        hashed_password=user.hashed_password,
-        full_name=user.full_name,
-        date_of_birth=user.date_of_birth
-    )
+    picture_id: str

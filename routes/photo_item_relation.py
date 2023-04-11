@@ -1,7 +1,7 @@
 from fastapi import APIRouter, UploadFile, File
 from bson import ObjectId
 from typing import List
-from helpers.save_picture import save_picture, delete_picture
+from app.core.picture.picture_helper import save_picture, delete_picture
 
 from models.photo_item_relation import PhotoItemRelation
 from config.db import db

@@ -1,7 +1,6 @@
-from fastapi import APIRouter, Body, Form, APIRouter, UploadFile, File
-from fastapi.encoders import jsonable_encoder
+from fastapi import Form, APIRouter, UploadFile, File
 from bson import ObjectId
-from helpers.save_picture import save_picture, delete_picture
+from app.core.picture.picture_helper import save_picture, delete_picture
 
 from models.user import UserModel
 from config.db import db

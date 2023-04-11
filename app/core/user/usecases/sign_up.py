@@ -7,7 +7,11 @@ from app.core.user.exceptions.user import AuthError
 
 
 class SignUpUseCase(UseCase[UserSignUpRaw, None]):
-    def __init__(self, dao: UserWrite, password_hasher: PasswordHasher):
+    def __init__(
+            self,
+            dao: UserWrite,
+            password_hasher: PasswordHasher
+    ):
         self._dao = dao
         self._password_hasher = password_hasher
 
@@ -17,7 +21,8 @@ class SignUpUseCase(UseCase[UserSignUpRaw, None]):
                 email=user.email,
                 hashed_password=self._password_hasher.hash(user.raw_password),
                 full_name=user.full_name,
-                date_of_birth=user.date_of_birth
+                date_of_birth=user.date_of_birth,
+                picture_id=user.picture_id
             )
         except ValueError as e:
             raise AuthError(e)
@@ -26,5 +31,6 @@ class SignUpUseCase(UseCase[UserSignUpRaw, None]):
 
         try:
             self._dao.create(user=user)
+
         except IndexError:
             raise AuthError("User with this email already exists")

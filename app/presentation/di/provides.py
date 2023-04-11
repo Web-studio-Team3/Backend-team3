@@ -7,6 +7,8 @@ from app.infrastracture.dao.user_write import UserWriteDaoImpl
 from app.infrastracture.dao.token_read import TokenReadDaoImpl
 from app.infrastracture.dao.user_read import UserReadDaoImpl
 from app.infrastracture.dao.token_write import TokenWriteDaoImpl
+from app.infrastracture.dao.picture_write import PictureWriteImpl
+from app.infrastracture.dao.picture_read import PictureReadImpl
 
 from app.core.user.dao.password_hasher import PasswordHasher
 from app.core.user.usecases.sign_up import SignUpUseCase
@@ -24,12 +26,19 @@ from app.core.token.usecases.decode_token import DecodeToken
 from app.core.token.usecases.delete_token_by_user_id import DeleteTokenByUserIdUseCase
 from app.core.token.dao.token_coder import TokenCoder
 
+from app.core.picture.usecases.create_picture import CreatePictureUseCase
+from app.core.picture.usecases.get_picture_by_id import GetPictureByIdUseCase
+from app.core.picture.usecases.delete_picture_by_id import DeletePictureByIDUseCase
+from app.core.picture.usecases.delete_picture_by_user_id import DeletePictureByUserIDUseCase
+from app.core.picture.picture_helper import PictureHelper
+
 from app.presentation.di.stubs import (
     provide_database_stub,
     provide_create_token_stub,
     provide_password_hasher_stub,
     provide_token_encoder_stub,
-    provide_delete_token_by_user_id_stub
+    provide_delete_token_by_user_id_stub,
+    provide_create_picture_stub
 )
 
 
@@ -155,4 +164,50 @@ def provide_delete_user(
     return DeleteUserUseCase(
         user_write_dao=user_write_dao,
         delete_token_by_user_id_use_case=delete_token_by_user_id_use_case
+    )
+
+
+def provide_create_picture(
+        picture_write_dao: BaseDao = Depends(
+            get_pymongo_dao(PictureWriteImpl)
+        )
+) -> CreatePictureUseCase:
+    return CreatePictureUseCase(
+        write_dao=picture_write_dao,
+        picture_helper=PictureHelper()
+    )
+
+
+def provide_get_picture(
+        picture_read_dao: BaseDao = Depends(
+            get_pymongo_dao(PictureReadImpl)
+        )
+) -> GetPictureByIdUseCase:
+    return GetPictureByIdUseCase(
+        read_dao=picture_read_dao
+    )
+
+
+def provide_delete_picture(
+        picture_write_dao: BaseDao = Depends(
+            get_pymongo_dao(PictureWriteImpl)
+        ),
+        picture_read_dao: BaseDao = Depends(
+            get_pymongo_dao(PictureReadImpl)
+        )
+) -> DeletePictureByIDUseCase:
+    return DeletePictureByIDUseCase(
+        write_dao=picture_write_dao,
+        read_dao=picture_read_dao,
+        picture_helper=PictureHelper()
+    )
+
+
+def provide_delete_picture_by_user_id(
+        get_user_by_id_use_case: BaseDao = Depends(provide_get_user_by_id),
+        delete_picture_use_case: BaseDao = Depends(provide_delete_picture)
+) -> DeletePictureByUserIDUseCase:
+    return DeletePictureByUserIDUseCase(
+        get_user_by_id_use_case=get_user_by_id_use_case,
+        delete_picture_use_case=delete_picture_use_case
     )
