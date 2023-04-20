@@ -9,3 +9,4 @@ class User:
     hashed_password: str
     full_name: str
     date_of_birth: date
+    picture_id: str

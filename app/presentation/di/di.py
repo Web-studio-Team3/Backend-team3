@@ -15,7 +15,11 @@ from app.presentation.di.stubs import (
     provide_logout_stub,
     provide_delete_token_by_user_id_stub,
     provide_delete_user_stub,
-    provide_update_user_stub
+    provide_update_user_stub,
+    provide_create_picture_stub,
+    provide_get_picture_stub,
+    provide_delete_picture_by_user_id_stub,
+    provide_delete_picture_stub
 )
 
 from app.presentation.di.provides import (
@@ -30,7 +34,11 @@ from app.presentation.di.provides import (
     provide_delete_token_by_user_id,
     provide_logout,
     provide_delete_user,
-    provide_update_user
+    provide_update_user,
+    provide_create_picture,
+    provide_get_picture,
+    provide_delete_picture_by_user_id,
+    provide_delete_picture
 )
 
 
@@ -52,6 +60,10 @@ def setup_di(app: FastAPI):
             provide_delete_token_by_user_id_stub: provide_delete_token_by_user_id,
             provide_logout_stub: provide_logout,
             provide_delete_user_stub: provide_delete_user,
-            provide_update_user_stub: provide_update_user
+            provide_update_user_stub: provide_update_user,
+            provide_create_picture_stub: provide_create_picture,
+            provide_get_picture_stub: provide_get_picture,
+            provide_delete_picture_by_user_id_stub: provide_delete_picture_by_user_id,
+            provide_delete_picture_stub: provide_delete_picture
         }
     )

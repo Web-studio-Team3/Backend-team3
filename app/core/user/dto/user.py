@@ -7,6 +7,7 @@ class UserSignUpRaw(BaseDto):
     raw_password: str
     full_name: str
     date_of_birth: str
+    picture_id: str
 
     class Config:
         schema_extra = {
@@ -14,7 +15,8 @@ class UserSignUpRaw(BaseDto):
                 "email": "user@gmail.com",
                 "raw_password": "12345",
                 "full_name": "Jane Doe",
-                "date_of_birth": "01-01-2000"
+                "date_of_birth": "01-01-2000",
+                "picture_id": "642aab64757e9f5d986662c1"
             }
         }
 
@@ -24,6 +26,7 @@ class UserSignUpHash(BaseDto):
     hashed_password: str
     full_name: str
     date_of_birth: str
+    picture_id: str
 
 
 class UserId(BaseDto):
@@ -35,6 +38,7 @@ class UserUpdate(BaseDto):
     password: Optional[str]
     full_name: Optional[str]
     date_of_birth: Optional[str]
+    picture_id: Optional[str]
 
 
 class UserUpdateWithId(BaseDto):

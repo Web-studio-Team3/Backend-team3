@@ -28,5 +28,6 @@ class UserReadDaoImpl(
             email=user["email"],
             hashed_password=user["hashed_password"],
             full_name=user["full_name"],
-            date_of_birth=user["date_of_birth"]
+            date_of_birth=user["date_of_birth"],
+            picture_id=user["picture_id"]
         )

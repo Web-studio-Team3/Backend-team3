@@ -8,5 +8,9 @@ from app.presentation.di.di import (
     provide_get_user_by_id_stub,
     provide_logout_stub,
     provide_update_user_stub,
-    provide_delete_user_stub
+    provide_delete_user_stub,
+    provide_create_picture_stub,
+    provide_get_picture_stub,
+    provide_delete_picture_by_user_id_stub,
+    provide_delete_picture_stub
 )
