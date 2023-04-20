@@ -19,7 +19,13 @@ from app.presentation.di.stubs import (
     provide_create_picture_stub,
     provide_get_picture_stub,
     provide_delete_picture_by_user_id_stub,
-    provide_delete_picture_stub
+    provide_delete_picture_stub,
+    provide_database_stub,
+    provide_get_items_stub,
+    provide_get_item_by_id_stub,
+    provide_create_item_stub,
+    provide_delete_item_stub,
+    provide_update_item_stub
 )
 
 from app.presentation.di.provides import (
@@ -38,7 +44,12 @@ from app.presentation.di.provides import (
     provide_create_picture,
     provide_get_picture,
     provide_delete_picture_by_user_id,
-    provide_delete_picture
+    provide_delete_picture,
+    provide_get_items,
+    provide_get_item_by_id,
+    provide_create_item,
+    provide_delete_item,
+    provide_update_item
 )
 
 
@@ -64,6 +75,11 @@ def setup_di(app: FastAPI):
             provide_create_picture_stub: provide_create_picture,
             provide_get_picture_stub: provide_get_picture,
             provide_delete_picture_by_user_id_stub: provide_delete_picture_by_user_id,
-            provide_delete_picture_stub: provide_delete_picture
+            provide_delete_picture_stub: provide_delete_picture,
+            provide_get_items_stub: provide_get_items,
+            provide_get_item_by_id_stub: provide_get_item_by_id,
+            provide_create_item_stub: provide_create_item,
+            provide_delete_item_stub: provide_delete_item,
+            provide_update_item_stub: provide_update_item
         }
     )
