@@ -11,8 +11,6 @@ class PictureItemRelationReadImpl(
 ):
     def get_picture_item_relations(self) -> list[PictureItemRelation]:
         relations = self._database["picture_item_relation"].find()
-        if not relations:
-            raise TypeError
         return list(map(create_picture_item_relation, relations))
 
     def get_picture_item_relation_by_id(self, id: str) -> PictureItemRelation:

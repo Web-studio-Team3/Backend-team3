@@ -104,3 +104,23 @@ def provide_get_picture_item_relation_by_id_stub():
 
 def provide_update_picture_item_relation_stub():
     raise NotImplementedError
+
+
+def provide_create_sale_item_relation_stub():
+    raise NotImplementedError
+
+
+def provide_delete_sale_item_relation_stub():
+    raise NotImplementedError
+
+
+def provide_get_sale_item_relation_by_id_stub():
+    raise NotImplementedError
+
+
+def provide_get_sale_item_relation_by_user_id_stub():
+    raise NotImplementedError
+
+
+def provide_get_sale_item_relation_by_item_id_stub():
+    raise NotImplementedError
