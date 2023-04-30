@@ -5,7 +5,7 @@ from app.core.item.dto.item import (
 
 
 class ItemWrite(Protocol):
-    def create(self, item: ItemCreate) -> None:
+    def create(self, item: ItemCreate) -> ItemId:
         raise NotImplementedError
 
     def delete(self, item_id: ItemId) -> None:

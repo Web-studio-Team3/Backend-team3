@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status, HTTPException, UploadFile, File
+from fastapi import APIRouter, Depends, UploadFile, File
 
 from app.core.picture.usecases.create_picture import CreatePictureUseCase
 from app.core.picture.usecases.get_picture_by_id import GetPictureByIdUseCase
@@ -46,6 +46,9 @@ async def delete(
             provide_delete_picture_stub
         )
 ):
-    return delete_picture_by_id_use_case.execute(picture_id_obj=PictureId(
+    delete_picture_by_id_use_case.execute(picture_id_obj=PictureId(
         id=picture_id
     ))
+    return {
+        "message": "picture was deleted"
+    }

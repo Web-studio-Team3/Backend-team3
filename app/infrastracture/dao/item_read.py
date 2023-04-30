@@ -1,6 +1,6 @@
 from bson import ObjectId
 
-from app.infrastructure.dao.base import BaseDao
+from app.infrastracture.dao.base import BaseDao
 
 from app.core.item.dao.item_read import ItemRead
 from app.core.item.entities.item import Item

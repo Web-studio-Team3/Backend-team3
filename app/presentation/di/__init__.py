@@ -18,5 +18,10 @@ from app.presentation.di.di import (
     provide_get_item_by_id_stub,
     provide_create_item_stub,
     provide_delete_item_stub,
-    provide_update_item_stub
+    provide_update_item_stub,
+    provide_create_picture_item_relation_stub,
+    provide_delete_picture_item_relation_stub,
+    provide_get_picture_item_relation_by_id_stub,
+    provide_get_picture_item_relations_by_item_id_stub,
+    provide_update_picture_item_relation_stub
 )

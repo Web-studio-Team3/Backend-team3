@@ -25,7 +25,12 @@ from app.presentation.di.stubs import (
     provide_get_item_by_id_stub,
     provide_create_item_stub,
     provide_delete_item_stub,
-    provide_update_item_stub
+    provide_update_item_stub,
+    provide_create_picture_item_relation_stub,
+    provide_delete_picture_item_relation_stub,
+    provide_get_picture_item_relation_by_id_stub,
+    provide_get_picture_item_relations_by_item_id_stub,
+    provide_update_picture_item_relation_stub
 )
 
 from app.presentation.di.provides import (
@@ -49,7 +54,12 @@ from app.presentation.di.provides import (
     provide_get_item_by_id,
     provide_create_item,
     provide_delete_item,
-    provide_update_item
+    provide_update_item,
+    provide_create_picture_item_relation,
+    provide_delete_picture_item_relation,
+    provide_get_picture_item_relation_by_id,
+    provide_get_picture_item_relations_by_item_id,
+    provide_update_picture_item_relation
 )
 
 
@@ -80,6 +90,11 @@ def setup_di(app: FastAPI):
             provide_get_item_by_id_stub: provide_get_item_by_id,
             provide_create_item_stub: provide_create_item,
             provide_delete_item_stub: provide_delete_item,
-            provide_update_item_stub: provide_update_item
+            provide_update_item_stub: provide_update_item,
+            provide_create_picture_item_relation_stub: provide_create_picture_item_relation,
+            provide_delete_picture_item_relation_stub: provide_delete_picture_item_relation,
+            provide_get_picture_item_relation_by_id_stub: provide_get_picture_item_relation_by_id,
+            provide_get_picture_item_relations_by_item_id_stub: provide_get_picture_item_relations_by_item_id,
+            provide_update_picture_item_relation_stub: provide_update_picture_item_relation
         }
     )

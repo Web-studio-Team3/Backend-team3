@@ -32,14 +32,24 @@ from app.core.picture.usecases.delete_picture_by_id import DeletePictureByIDUseC
 from app.core.picture.usecases.delete_picture_by_user_id import DeletePictureByUserIDUseCase
 from app.core.picture.picture_helper import PictureHelper
 
-from app.infrastructure.dao.item_write import ItemWriteDaoImpl
-from app.infrastructure.dao.item_read import ItemReadDaoImpl
+from app.infrastracture.dao.item_write import ItemWriteDaoImpl
+from app.infrastracture.dao.item_read import ItemReadDaoImpl
 
 from app.core.item.usecases.get_item_all import GetItemAllUseCase
 from app.core.item.usecases.get_item_by_id import GetItemByIdUseCase
 from app.core.item.usecases.create_item import CreateItemUseCase
 from app.core.item.usecases.delete_item import DeleteItemUseCase
 from app.core.item.usecases.update_item import UpdateItemUseCase
+
+from app.infrastracture.dao.picture_item_relation_write import PictureItemRelationWriteImpl
+from app.infrastracture.dao.picture_item_relation_read import PictureItemRelationReadImpl
+
+from app.core.picture_item_relation.usecases.create_picture_item_relation import CreatePictureItemRelationUseCase
+from app.core.picture_item_relation.usecases.delete_picture_item_relation import DeletePictureItemRelationUseCase
+from app.core.picture_item_relation.usecases.get_picture_item_relations_by_item_id import GetPictureItemRelationsByItemIdUseCase
+from app.core.picture_item_relation.usecases.get_picture_item_relation_by_id import GetPictureItemRelationByIdUseCase
+from app.core.picture_item_relation.usecases.update_picture_item_relation import UpdatePictureItemRelationUseCase
+
 
 from app.presentation.di.stubs import (
     provide_database_stub,
@@ -221,6 +231,7 @@ def provide_delete_picture_by_user_id(
         delete_picture_use_case=delete_picture_use_case
     )
 
+
 def get_pymongo_dao(
     dao_type: Type[Dao]
 ) -> Callable[[Database], Dao]:
@@ -228,7 +239,7 @@ def get_pymongo_dao(
         database: Database = Depends(provide_database_stub)
     ) -> Dao:
         return dao_type(database)
-    
+
     return _get_dao
 
 
@@ -277,4 +288,54 @@ def provide_delete_item(
 ) -> DeleteItemUseCase:
     return DeleteItemUseCase(
         item_write_dao=item_write_dao
+    )
+
+
+def provide_create_picture_item_relation(
+    picture_item_relation_write_dao: BaseDao = Depends(
+        get_pymongo_dao(PictureItemRelationWriteImpl)
+    )
+) -> CreatePictureItemRelationUseCase:
+    return CreatePictureItemRelationUseCase(
+        write_dao=picture_item_relation_write_dao
+    )
+
+
+def provide_delete_picture_item_relation(
+    picture_item_relation_write_dao: BaseDao = Depends(
+        get_pymongo_dao(PictureItemRelationWriteImpl)
+    )
+) -> DeletePictureItemRelationUseCase:
+    return DeletePictureItemRelationUseCase(
+        write_dao=picture_item_relation_write_dao
+    )
+
+
+def provide_get_picture_item_relations_by_item_id(
+        picture_item_relation_read_dao: BaseDao = Depends(
+            get_pymongo_dao(PictureItemRelationReadImpl)
+        )
+) -> GetPictureItemRelationsByItemIdUseCase:
+    return GetPictureItemRelationsByItemIdUseCase(
+        read_dao=picture_item_relation_read_dao
+    )
+
+
+def provide_get_picture_item_relation_by_id(
+        picture_item_relation_read_dao: BaseDao = Depends(
+            get_pymongo_dao(PictureItemRelationReadImpl)
+        )
+) -> GetPictureItemRelationByIdUseCase:
+    return GetPictureItemRelationByIdUseCase(
+        read_dao=picture_item_relation_read_dao
+    )
+
+
+def provide_update_picture_item_relation(
+    picute_item_relation_write_dao: BaseDao = Depends(
+        get_pymongo_dao(PictureItemRelationWriteImpl)
+    )
+) -> UpdatePictureItemRelationUseCase:
+    return UpdatePictureItemRelationUseCase(
+        write_dao=picute_item_relation_write_dao
     )
