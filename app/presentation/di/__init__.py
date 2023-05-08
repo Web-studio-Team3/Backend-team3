@@ -29,4 +29,10 @@ from app.presentation.di.di import (
     provide_get_sale_item_relation_by_id_stub,
     provide_get_sale_item_relation_by_item_id_stub,
     provide_get_sale_item_relation_by_user_id_stub,
+    provide_create_sold_item_relation_stub,
+    provide_delete_sold_item_relation_stub,
+    provide_get_sold_item_relation_by_id_stub,
+    provide_get_sold_item_relation_by_item_id_stub,
+    provide_get_sold_item_relation_by_buyer_id_stub,
+    provide_get_sold_item_relation_by_seller_id_stub,
 )

@@ -58,6 +58,15 @@ from app.core.sale_item.usecase.get_sale_item_relation_by_user_id import GetSale
 from app.infrastracture.dao.sale_item.sale_item_write import SaleItemRelationWriteImpl
 from app.infrastracture.dao.sale_item.sale_item_read import SaleItemRelationReadImpl
 
+from app.infrastracture.dao.sold_item.sold_item_write import SoldItemRelationWriteImpl
+from app.infrastracture.dao.sold_item.sold_item_read import SoldItemRelationReadImpl
+from app.core.sold_item.usecase.create_sold_item_relation import CreateSoldItemRelationUseCase
+from app.core.sold_item.usecase.delete_sold_item_relation import DeleteSoldItemRelationUseCase
+from app.core.sold_item.usecase.get_sold_item_relation_by_buyer_id import GetSoldItemRelationByBuyerIdUseCase
+from app.core.sold_item.usecase.get_sold_item_relation_by_id import GetSoldItemRelationByIdUseCase
+from app.core.sold_item.usecase.get_sold_item_relation_by_item_id import GetSoldItemRelationByItemIdUseCase
+from app.core.sold_item.usecase.get_sold_item_relation_by_seller_id import GetSoldItemRelationBySellerIdUseCase
+
 from app.presentation.di.stubs import (
     provide_database_stub,
     provide_create_token_stub,
@@ -395,4 +404,64 @@ def provide_get_sale_item_relation_by_user_id(
 ) -> GetSaleItemRelationByUserIdUseCase:
     return GetSaleItemRelationByUserIdUseCase(
         read_dao=sale_item_relation_read_dao
+    )
+
+
+def provide_create_sold_item_relation(
+    sold_item_relation_write_dao: BaseDao = Depends(
+        get_pymongo_dao(SoldItemRelationWriteImpl)
+    )
+) -> CreateSoldItemRelationUseCase:
+    return CreateSoldItemRelationUseCase(
+        write_dao=sold_item_relation_write_dao
+    )
+
+
+def provide_delete_sold_item_relation(
+    sold_item_relation_write_dao: BaseDao = Depends(
+        get_pymongo_dao(SoldItemRelationWriteImpl)
+    )
+) -> DeleteSoldItemRelationUseCase:
+    return DeleteSoldItemRelationUseCase(
+        write_dao=sold_item_relation_write_dao
+    )
+
+
+def provide_get_sold_item_relation_by_id(
+    sold_item_relation_read_dao: BaseDao = Depends(
+        get_pymongo_dao(SoldItemRelationReadImpl)
+    )
+) -> GetSoldItemRelationByIdUseCase:
+    return GetSoldItemRelationByIdUseCase(
+        read_dao=sold_item_relation_read_dao
+    )
+
+
+def provide_get_sold_item_relation_by_buyer_id(
+    sold_item_relation_read_dao: BaseDao = Depends(
+        get_pymongo_dao(SoldItemRelationReadImpl)
+    )
+) -> GetSoldItemRelationByBuyerIdUseCase:
+    return GetSoldItemRelationByBuyerIdUseCase(
+        read_dao=sold_item_relation_read_dao
+    )
+
+
+def provide_get_sold_item_relation_by_item_id(
+    sold_item_relation_read_dao: BaseDao = Depends(
+        get_pymongo_dao(SoldItemRelationReadImpl)
+    )
+) -> GetSoldItemRelationByItemIdUseCase:
+    return GetSoldItemRelationByItemIdUseCase(
+        read_dao=sold_item_relation_read_dao
+    )
+
+
+def provide_get_sold_item_relation_by_seller_id(
+    sold_item_relation_read_dao: BaseDao = Depends(
+        get_pymongo_dao(SoldItemRelationReadImpl)
+    )
+) -> GetSoldItemRelationBySellerIdUseCase:
+    return GetSoldItemRelationBySellerIdUseCase(
+        read_dao=sold_item_relation_read_dao
     )

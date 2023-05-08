@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status, HTTPException, UploadFile, File, Form
+from fastapi import APIRouter, Depends, File, Form
 
 from app.core.sale_item.dto.sale_item_relation import (
     SaleItemRelation,
