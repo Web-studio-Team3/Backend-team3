@@ -149,3 +149,21 @@ def provide_get_sold_item_relation_by_item_id_stub():
 def provide_get_sold_item_relation_by_seller_id_stub():
     raise NotImplementedError
 
+def provide_create_favourite_stub():
+    raise NotImplementedError
+
+
+def provide_delete_favourite_stub():
+    raise NotImplementedError
+
+
+def provide_get_favourite_by_id_stub():
+    raise NotImplementedError
+
+
+def provide_get_favourites_by_item_id_stub():
+    raise NotImplementedError
+
+
+def provide_get_favourites_by_user_id_stub():
+    raise NotImplementedError

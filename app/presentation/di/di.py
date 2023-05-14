@@ -41,7 +41,12 @@ from app.presentation.di.stubs import (
     provide_get_sold_item_relation_by_buyer_id_stub,
     provide_get_sold_item_relation_by_id_stub,
     provide_get_sold_item_relation_by_item_id_stub,
-    provide_get_sold_item_relation_by_seller_id_stub
+    provide_get_sold_item_relation_by_seller_id_stub,
+    provide_create_favourite_stub,
+    provide_delete_favourite_stub,
+    provide_get_favourite_by_id_stub,
+    provide_get_favourites_by_item_id_stub,
+    provide_get_favourites_by_user_id_stub
 )
 
 from app.presentation.di.provides import (
@@ -81,7 +86,12 @@ from app.presentation.di.provides import (
     provide_get_sold_item_relation_by_buyer_id,
     provide_get_sold_item_relation_by_id,
     provide_get_sold_item_relation_by_item_id,
-    provide_get_sold_item_relation_by_seller_id
+    provide_get_sold_item_relation_by_seller_id,
+    provide_create_favourite,
+    provide_delete_favourite,
+    provide_get_favourite_by_id,
+    provide_get_favourites_by_item_id,
+    provide_get_favourites_by_user_id
 )
 
 
@@ -128,6 +138,11 @@ def setup_di(app: FastAPI):
             provide_get_sold_item_relation_by_buyer_id_stub: provide_get_sold_item_relation_by_buyer_id,
             provide_get_sold_item_relation_by_id_stub: provide_get_sold_item_relation_by_id,
             provide_get_sold_item_relation_by_item_id_stub: provide_get_sold_item_relation_by_item_id,
-            provide_get_sold_item_relation_by_seller_id_stub: provide_get_sold_item_relation_by_seller_id
+            provide_get_sold_item_relation_by_seller_id_stub: provide_get_sold_item_relation_by_seller_id,
+            provide_create_favourite_stub: provide_create_favourite,
+            provide_delete_favourite_stub: provide_delete_favourite,
+            provide_get_favourite_by_id_stub: provide_get_favourite_by_id,
+            provide_get_favourites_by_item_id_stub: provide_get_favourites_by_item_id,
+            provide_get_favourites_by_user_id_stub: provide_get_favourites_by_user_id
         }
     )

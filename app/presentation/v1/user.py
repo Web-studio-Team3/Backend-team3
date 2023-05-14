@@ -40,16 +40,12 @@ async def sign_up(
         raw_password: str = Form(),
         full_name: str = Form(),
         date_of_birth: str = Form(),
-        # user: UserSignUpRaw,
         picture: UploadFile = File(...),
         sign_up_use_case: SignUpUseCase = Depends(provide_sign_up_stub),
         create_picture_use_case: CreatePictureUseCase =
         Depends(provide_create_picture_stub)
 ):
     try:
-        # user.picture_url = create_picture_use_case.execute(
-        #     PictureCreate(file=picture)
-        # )
         sign_up_use_case.execute(user=UserSignUpRaw(
             email=email,
             raw_password=raw_password,

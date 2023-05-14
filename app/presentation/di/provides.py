@@ -67,6 +67,14 @@ from app.core.sold_item.usecase.get_sold_item_relation_by_id import GetSoldItemR
 from app.core.sold_item.usecase.get_sold_item_relation_by_item_id import GetSoldItemRelationByItemIdUseCase
 from app.core.sold_item.usecase.get_sold_item_relation_by_seller_id import GetSoldItemRelationBySellerIdUseCase
 
+from app.infrastracture.dao.favourite.favourite_read import FavouriteReadImpl
+from app.infrastracture.dao.favourite.favourite_write import FavouriteWriteImpl
+from app.core.favourites.usecase.create_favourite import CreateFavouriteUseCase
+from app.core.favourites.usecase.delete_favourite import DeleteFavouriteUseCase
+from app.core.favourites.usecase.get_favourite_by_id import GetFavouriteByIdUseCase
+from app.core.favourites.usecase.get_favourites_by_item_id import GetFavouritesByItemIdUseCase
+from app.core.favourites.usecase.get_favourites_by_user_id import GetFavouritesByUserIdUseCase
+
 from app.presentation.di.stubs import (
     provide_database_stub,
     provide_create_token_stub,
@@ -464,4 +472,54 @@ def provide_get_sold_item_relation_by_seller_id(
 ) -> GetSoldItemRelationBySellerIdUseCase:
     return GetSoldItemRelationBySellerIdUseCase(
         read_dao=sold_item_relation_read_dao
+    )
+
+
+def provide_create_favourite(
+    favourite_write_dao: BaseDao = Depends(
+        get_pymongo_dao(FavouriteWriteImpl)
+    )
+) -> CreateFavouriteUseCase:
+    return CreateFavouriteUseCase(
+        write_dao=favourite_write_dao
+    )
+
+
+def provide_delete_favourite(
+    favourite_write_dao: BaseDao = Depends(
+        get_pymongo_dao(FavouriteWriteImpl)
+    )
+) -> DeleteFavouriteUseCase:
+    return DeleteFavouriteUseCase(
+        write_dao=favourite_write_dao
+    )
+
+
+def provide_get_favourite_by_id(
+    favourite_read_dao: BaseDao = Depends(
+        get_pymongo_dao(FavouriteReadImpl)
+    )
+) -> GetFavouriteByIdUseCase:
+    return GetFavouriteByIdUseCase(
+        read_dao=favourite_read_dao
+    )
+
+
+def provide_get_favourites_by_item_id(
+    favourite_read_dao: BaseDao = Depends(
+        get_pymongo_dao(FavouriteReadImpl)
+    )
+) -> GetFavouritesByItemIdUseCase:
+    return GetFavouritesByItemIdUseCase(
+        read_dao=favourite_read_dao
+    )
+
+
+def provide_get_favourites_by_user_id(
+    favourite_read_dao: BaseDao = Depends(
+        get_pymongo_dao(FavouriteReadImpl)
+    )
+) -> GetFavouritesByUserIdUseCase:
+    return GetFavouritesByUserIdUseCase(
+        read_dao=favourite_read_dao
     )
