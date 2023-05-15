@@ -1,0 +1,7 @@
+<script>
+    fetch("http://127.0.0.1:8000/api/users/sign_up").then((Response) => {
+        return Response.json()
+    }).then((data) => {
+        console.log(data);
+    })
+</script>

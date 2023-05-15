@@ -7,6 +7,8 @@ from app.infrastracture.dao.user_write import UserWriteDaoImpl
 from app.infrastracture.dao.token_read import TokenReadDaoImpl
 from app.infrastracture.dao.user_read import UserReadDaoImpl
 from app.infrastracture.dao.token_write import TokenWriteDaoImpl
+from app.infrastracture.dao.picture_write import PictureWriteImpl
+from app.infrastracture.dao.picture_read import PictureReadImpl
 
 from app.core.user.dao.password_hasher import PasswordHasher
 from app.core.user.usecases.sign_up import SignUpUseCase
@@ -24,12 +26,62 @@ from app.core.token.usecases.decode_token import DecodeToken
 from app.core.token.usecases.delete_token_by_user_id import DeleteTokenByUserIdUseCase
 from app.core.token.dao.token_coder import TokenCoder
 
+from app.core.picture.usecases.create_picture import CreatePictureUseCase
+from app.core.picture.usecases.get_picture_by_id import GetPictureByIdUseCase
+from app.core.picture.usecases.delete_picture_by_id import DeletePictureByIDUseCase
+from app.core.picture.usecases.delete_picture_by_user_id import DeletePictureByUserIDUseCase
+from app.core.picture.picture_helper import PictureHelper
+
+from app.infrastracture.dao.item_write import ItemWriteDaoImpl
+from app.infrastracture.dao.item_read import ItemReadDaoImpl
+
+from app.core.item.usecases.get_item_all import GetItemAllUseCase
+from app.core.item.usecases.get_item_by_id import GetItemByIdUseCase
+from app.core.item.usecases.create_item import CreateItemUseCase
+from app.core.item.usecases.delete_item import DeleteItemUseCase
+from app.core.item.usecases.update_item import UpdateItemUseCase
+
+from app.infrastracture.dao.picture_item_relation_write import PictureItemRelationWriteImpl
+from app.infrastracture.dao.picture_item_relation_read import PictureItemRelationReadImpl
+
+from app.core.picture_item_relation.usecases.create_picture_item_relation import CreatePictureItemRelationUseCase
+from app.core.picture_item_relation.usecases.delete_picture_item_relation import DeletePictureItemRelationUseCase
+from app.core.picture_item_relation.usecases.get_picture_item_relations_by_item_id import GetPictureItemRelationsByItemIdUseCase
+from app.core.picture_item_relation.usecases.get_picture_item_relation_by_id import GetPictureItemRelationByIdUseCase
+from app.core.picture_item_relation.usecases.update_picture_item_relation import UpdatePictureItemRelationUseCase
+
+from app.core.sale_item.usecase.create_sale_item_relation import CreateSaleItemRelationUseCase
+from app.core.sale_item.usecase.delete_sale_item_relation import DeleteSaleItemRelationUseCase
+from app.core.sale_item.usecase.get_sale_item_relation_by_id import GetSaleItemRelationByIdUseCase
+from app.core.sale_item.usecase.get_sale_item_relation_by_item_id import GetSaleItemRelationByItemIdUseCase
+from app.core.sale_item.usecase.get_sale_item_relation_by_user_id import GetSaleItemRelationByUserIdUseCase
+from app.infrastracture.dao.sale_item.sale_item_write import SaleItemRelationWriteImpl
+from app.infrastracture.dao.sale_item.sale_item_read import SaleItemRelationReadImpl
+
+from app.infrastracture.dao.sold_item.sold_item_write import SoldItemRelationWriteImpl
+from app.infrastracture.dao.sold_item.sold_item_read import SoldItemRelationReadImpl
+from app.core.sold_item.usecase.create_sold_item_relation import CreateSoldItemRelationUseCase
+from app.core.sold_item.usecase.delete_sold_item_relation import DeleteSoldItemRelationUseCase
+from app.core.sold_item.usecase.get_sold_item_relation_by_buyer_id import GetSoldItemRelationByBuyerIdUseCase
+from app.core.sold_item.usecase.get_sold_item_relation_by_id import GetSoldItemRelationByIdUseCase
+from app.core.sold_item.usecase.get_sold_item_relation_by_item_id import GetSoldItemRelationByItemIdUseCase
+from app.core.sold_item.usecase.get_sold_item_relation_by_seller_id import GetSoldItemRelationBySellerIdUseCase
+
+from app.infrastracture.dao.favourite.favourite_read import FavouriteReadImpl
+from app.infrastracture.dao.favourite.favourite_write import FavouriteWriteImpl
+from app.core.favourites.usecase.create_favourite import CreateFavouriteUseCase
+from app.core.favourites.usecase.delete_favourite import DeleteFavouriteUseCase
+from app.core.favourites.usecase.get_favourite_by_id import GetFavouriteByIdUseCase
+from app.core.favourites.usecase.get_favourites_by_item_id import GetFavouritesByItemIdUseCase
+from app.core.favourites.usecase.get_favourites_by_user_id import GetFavouritesByUserIdUseCase
+
 from app.presentation.di.stubs import (
     provide_database_stub,
     provide_create_token_stub,
     provide_password_hasher_stub,
     provide_token_encoder_stub,
-    provide_delete_token_by_user_id_stub
+    provide_delete_token_by_user_id_stub,
+    provide_create_picture_stub
 )
 
 
@@ -155,4 +207,319 @@ def provide_delete_user(
     return DeleteUserUseCase(
         user_write_dao=user_write_dao,
         delete_token_by_user_id_use_case=delete_token_by_user_id_use_case
+    )
+
+
+def provide_create_picture(
+        picture_write_dao: BaseDao = Depends(
+            get_pymongo_dao(PictureWriteImpl)
+        )
+) -> CreatePictureUseCase:
+    return CreatePictureUseCase(
+        write_dao=picture_write_dao,
+        picture_helper=PictureHelper()
+    )
+
+
+def provide_get_picture(
+        picture_read_dao: BaseDao = Depends(
+            get_pymongo_dao(PictureReadImpl)
+        )
+) -> GetPictureByIdUseCase:
+    return GetPictureByIdUseCase(
+        read_dao=picture_read_dao
+    )
+
+
+def provide_delete_picture(
+        picture_write_dao: BaseDao = Depends(
+            get_pymongo_dao(PictureWriteImpl)
+        ),
+        picture_read_dao: BaseDao = Depends(
+            get_pymongo_dao(PictureReadImpl)
+        )
+) -> DeletePictureByIDUseCase:
+    return DeletePictureByIDUseCase(
+        write_dao=picture_write_dao,
+        read_dao=picture_read_dao,
+        picture_helper=PictureHelper()
+    )
+
+
+def provide_delete_picture_by_user_id(
+        get_user_by_id_use_case: BaseDao = Depends(provide_get_user_by_id),
+        delete_picture_use_case: BaseDao = Depends(provide_delete_picture)
+) -> DeletePictureByUserIDUseCase:
+    return DeletePictureByUserIDUseCase(
+        get_user_by_id_use_case=get_user_by_id_use_case,
+        delete_picture_use_case=delete_picture_use_case
+    )
+
+
+def get_pymongo_dao(
+    dao_type: Type[Dao]
+) -> Callable[[Database], Dao]:
+    def _get_dao(
+        database: Database = Depends(provide_database_stub)
+    ) -> Dao:
+        return dao_type(database)
+
+    return _get_dao
+
+
+def provide_get_items(
+    dao: BaseDao = Depends(
+        get_pymongo_dao(ItemReadDaoImpl)
+    )
+) -> GetItemAllUseCase:
+    return GetItemAllUseCase(dao)
+
+
+def provide_get_item_by_id(
+    dao: BaseDao = Depends(
+        get_pymongo_dao(ItemReadDaoImpl)
+    )
+) -> GetItemByIdUseCase:
+    return GetItemByIdUseCase(dao)
+
+
+def provide_create_item(
+    dao: BaseDao = Depends(
+        get_pymongo_dao(ItemWriteDaoImpl)
+    )
+) -> CreateItemUseCase:
+    return CreateItemUseCase(dao)
+
+
+def provide_update_item(
+    item_write_dao: BaseDao = Depends(
+        get_pymongo_dao(ItemWriteDaoImpl)
+    ),
+    item_read_dao: BaseDao = Depends(
+        get_pymongo_dao(ItemReadDaoImpl)
+    )
+) -> UpdateItemUseCase:
+    return UpdateItemUseCase(
+        item_write_dao=item_write_dao,
+        item_read_dao=item_read_dao
+    )
+
+
+def provide_delete_item(
+    item_write_dao: BaseDao = Depends(
+        get_pymongo_dao(ItemWriteDaoImpl)
+    ),
+) -> DeleteItemUseCase:
+    return DeleteItemUseCase(
+        item_write_dao=item_write_dao
+    )
+
+
+def provide_create_picture_item_relation(
+    picture_item_relation_write_dao: BaseDao = Depends(
+        get_pymongo_dao(PictureItemRelationWriteImpl)
+    )
+) -> CreatePictureItemRelationUseCase:
+    return CreatePictureItemRelationUseCase(
+        write_dao=picture_item_relation_write_dao
+    )
+
+
+def provide_delete_picture_item_relation(
+    picture_item_relation_write_dao: BaseDao = Depends(
+        get_pymongo_dao(PictureItemRelationWriteImpl)
+    )
+) -> DeletePictureItemRelationUseCase:
+    return DeletePictureItemRelationUseCase(
+        write_dao=picture_item_relation_write_dao
+    )
+
+
+def provide_get_picture_item_relations_by_item_id(
+        picture_item_relation_read_dao: BaseDao = Depends(
+            get_pymongo_dao(PictureItemRelationReadImpl)
+        )
+) -> GetPictureItemRelationsByItemIdUseCase:
+    return GetPictureItemRelationsByItemIdUseCase(
+        read_dao=picture_item_relation_read_dao
+    )
+
+
+def provide_get_picture_item_relation_by_id(
+        picture_item_relation_read_dao: BaseDao = Depends(
+            get_pymongo_dao(PictureItemRelationReadImpl)
+        )
+) -> GetPictureItemRelationByIdUseCase:
+    return GetPictureItemRelationByIdUseCase(
+        read_dao=picture_item_relation_read_dao
+    )
+
+
+def provide_update_picture_item_relation(
+    picute_item_relation_write_dao: BaseDao = Depends(
+        get_pymongo_dao(PictureItemRelationWriteImpl)
+    )
+) -> UpdatePictureItemRelationUseCase:
+    return UpdatePictureItemRelationUseCase(
+        write_dao=picute_item_relation_write_dao
+    )
+
+
+def provide_create_sale_item_relation(
+    sale_item_relation_write_dao: BaseDao = Depends(
+        get_pymongo_dao(SaleItemRelationWriteImpl)
+    )
+) -> CreateSaleItemRelationUseCase:
+    return CreateSaleItemRelationUseCase(
+        write_dao=sale_item_relation_write_dao
+    )
+
+
+def provide_delete_sale_item_relation(
+    sale_item_relation_write_dao: BaseDao = Depends(
+        get_pymongo_dao(SaleItemRelationWriteImpl)
+    )
+) -> DeleteSaleItemRelationUseCase:
+    return DeleteSaleItemRelationUseCase(
+        write_dao=sale_item_relation_write_dao
+    )
+
+
+def provide_get_sale_item_relation_by_id(
+    sale_item_relation_read_dao: BaseDao = Depends(
+        get_pymongo_dao(SaleItemRelationReadImpl)
+    )
+) -> GetSaleItemRelationByIdUseCase:
+    return GetSaleItemRelationByIdUseCase(
+        read_dao=sale_item_relation_read_dao
+    )
+
+
+def provide_get_sale_item_relation_by_item_id(
+    sale_item_relation_read_dao: BaseDao = Depends(
+        get_pymongo_dao(SaleItemRelationReadImpl)
+    )
+) -> GetSaleItemRelationByItemIdUseCase:
+    return GetSaleItemRelationByItemIdUseCase(
+        read_dao=sale_item_relation_read_dao
+    )
+
+
+def provide_get_sale_item_relation_by_user_id(
+    sale_item_relation_read_dao: BaseDao = Depends(
+        get_pymongo_dao(SaleItemRelationReadImpl)
+    )
+) -> GetSaleItemRelationByUserIdUseCase:
+    return GetSaleItemRelationByUserIdUseCase(
+        read_dao=sale_item_relation_read_dao
+    )
+
+
+def provide_create_sold_item_relation(
+    sold_item_relation_write_dao: BaseDao = Depends(
+        get_pymongo_dao(SoldItemRelationWriteImpl)
+    )
+) -> CreateSoldItemRelationUseCase:
+    return CreateSoldItemRelationUseCase(
+        write_dao=sold_item_relation_write_dao
+    )
+
+
+def provide_delete_sold_item_relation(
+    sold_item_relation_write_dao: BaseDao = Depends(
+        get_pymongo_dao(SoldItemRelationWriteImpl)
+    )
+) -> DeleteSoldItemRelationUseCase:
+    return DeleteSoldItemRelationUseCase(
+        write_dao=sold_item_relation_write_dao
+    )
+
+
+def provide_get_sold_item_relation_by_id(
+    sold_item_relation_read_dao: BaseDao = Depends(
+        get_pymongo_dao(SoldItemRelationReadImpl)
+    )
+) -> GetSoldItemRelationByIdUseCase:
+    return GetSoldItemRelationByIdUseCase(
+        read_dao=sold_item_relation_read_dao
+    )
+
+
+def provide_get_sold_item_relation_by_buyer_id(
+    sold_item_relation_read_dao: BaseDao = Depends(
+        get_pymongo_dao(SoldItemRelationReadImpl)
+    )
+) -> GetSoldItemRelationByBuyerIdUseCase:
+    return GetSoldItemRelationByBuyerIdUseCase(
+        read_dao=sold_item_relation_read_dao
+    )
+
+
+def provide_get_sold_item_relation_by_item_id(
+    sold_item_relation_read_dao: BaseDao = Depends(
+        get_pymongo_dao(SoldItemRelationReadImpl)
+    )
+) -> GetSoldItemRelationByItemIdUseCase:
+    return GetSoldItemRelationByItemIdUseCase(
+        read_dao=sold_item_relation_read_dao
+    )
+
+
+def provide_get_sold_item_relation_by_seller_id(
+    sold_item_relation_read_dao: BaseDao = Depends(
+        get_pymongo_dao(SoldItemRelationReadImpl)
+    )
+) -> GetSoldItemRelationBySellerIdUseCase:
+    return GetSoldItemRelationBySellerIdUseCase(
+        read_dao=sold_item_relation_read_dao
+    )
+
+
+def provide_create_favourite(
+    favourite_write_dao: BaseDao = Depends(
+        get_pymongo_dao(FavouriteWriteImpl)
+    )
+) -> CreateFavouriteUseCase:
+    return CreateFavouriteUseCase(
+        write_dao=favourite_write_dao
+    )
+
+
+def provide_delete_favourite(
+    favourite_write_dao: BaseDao = Depends(
+        get_pymongo_dao(FavouriteWriteImpl)
+    )
+) -> DeleteFavouriteUseCase:
+    return DeleteFavouriteUseCase(
+        write_dao=favourite_write_dao
+    )
+
+
+def provide_get_favourite_by_id(
+    favourite_read_dao: BaseDao = Depends(
+        get_pymongo_dao(FavouriteReadImpl)
+    )
+) -> GetFavouriteByIdUseCase:
+    return GetFavouriteByIdUseCase(
+        read_dao=favourite_read_dao
+    )
+
+
+def provide_get_favourites_by_item_id(
+    favourite_read_dao: BaseDao = Depends(
+        get_pymongo_dao(FavouriteReadImpl)
+    )
+) -> GetFavouritesByItemIdUseCase:
+    return GetFavouritesByItemIdUseCase(
+        read_dao=favourite_read_dao
+    )
+
+
+def provide_get_favourites_by_user_id(
+    favourite_read_dao: BaseDao = Depends(
+        get_pymongo_dao(FavouriteReadImpl)
+    )
+) -> GetFavouritesByUserIdUseCase:
+    return GetFavouritesByUserIdUseCase(
+        read_dao=favourite_read_dao
     )

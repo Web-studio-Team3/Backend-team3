@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends, status, HTTPException
+from fastapi import APIRouter, Depends, status, HTTPException, UploadFile, File, Form
+from typing import Optional
 
 from app.core.user.dto.user import (
     UserSignUpRaw, UserSignIn, UserId, UserUpdate, UserUpdateWithId
@@ -12,6 +13,11 @@ from app.core.user.usecases.delete_user import DeleteUserUseCase
 
 from app.core.user.exceptions.user import AuthError
 
+from app.core.picture.usecases.create_picture import CreatePictureUseCase
+from app.core.picture.dto.picture import PictureCreate, PictureId
+from app.core.picture.usecases.delete_picture_by_id import DeletePictureByIDUseCase
+from app.core.picture.usecases.delete_picture_by_user_id import DeletePictureByUserIDUseCase
+
 from app.presentation.bearer import JWTBearer
 from app.presentation.di import (
     provide_sign_up_stub,
@@ -19,7 +25,10 @@ from app.presentation.di import (
     provide_get_user_by_id_stub,
     provide_logout_stub,
     provide_update_user_stub,
-    provide_delete_user_stub
+    provide_delete_user_stub,
+    provide_create_picture_stub,
+    provide_delete_picture_stub,
+    provide_delete_picture_by_user_id_stub
 )
 
 router = APIRouter()
@@ -27,11 +36,25 @@ router = APIRouter()
 
 @router.post(path="/sign_up")
 async def sign_up(
-        user: UserSignUpRaw,
-        sign_up_use_case: SignUpUseCase = Depends(provide_sign_up_stub)
+        email: str = Form(),
+        raw_password: str = Form(),
+        full_name: str = Form(),
+        date_of_birth: str = Form(),
+        picture: UploadFile = File(...),
+        sign_up_use_case: SignUpUseCase = Depends(provide_sign_up_stub),
+        create_picture_use_case: CreatePictureUseCase =
+        Depends(provide_create_picture_stub)
 ):
     try:
-        sign_up_use_case.execute(user=user)
+        sign_up_use_case.execute(user=UserSignUpRaw(
+            email=email,
+            raw_password=raw_password,
+            full_name=full_name,
+            date_of_birth=date_of_birth,
+            picture_id=create_picture_use_case.execute(
+                PictureCreate(file=picture)
+            ).id
+        ))
     except AuthError as e:
         return HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
@@ -89,12 +112,32 @@ async def logout(
 @router.put(path="/{user_id}", dependencies=[Depends(JWTBearer())])
 async def update(
         user_id: str,
-        user: UserUpdate,
-        update_user_use_case: UpdateUserUseCase = Depends(provide_update_user_stub)
+        email: Optional[str] = Form(None),
+        password: Optional[str] = Form(None),
+        full_name: Optional[str] = Form(None),
+        date_of_birth: Optional[str] = Form(None),
+        picture: Optional[UploadFile] = File(None),
+        update_user_use_case: UpdateUserUseCase = Depends(provide_update_user_stub),
+        delete_picture_by_user_id_use_case: DeletePictureByUserIDUseCase =
+        Depends(provide_delete_picture_by_user_id_stub),
+        create_picture_use_case: CreatePictureUseCase =
+        Depends(provide_create_picture_stub)
 ):
+    if picture:
+        delete_picture_by_user_id_use_case.execute(
+            user_id_obj=UserId(id=user_id)
+        )
     updated_user = update_user_use_case.execute(UserUpdateWithId(
         id=user_id,
-        user_update=user
+        user_update=UserUpdate(
+            email=email,
+            password=password,
+            full_name=full_name,
+            date_of_birth=date_of_birth,
+            picture_id=create_picture_use_case.execute(
+                PictureCreate(file=picture)
+            ).id
+        )
     ))
     return updated_user
 
@@ -102,9 +145,12 @@ async def update(
 @router.delete(path="/{user_id}", dependencies=[Depends(JWTBearer())])
 async def delete(
         user_id: str,
-        delete_user_use_case: DeleteUserUseCase = Depends(provide_delete_user_stub)
+        delete_user_use_case: DeleteUserUseCase = Depends(provide_delete_user_stub),
+        delete_picture_by_user_id_use_case: DeletePictureByUserIDUseCase =
+        Depends(provide_delete_picture_by_user_id_stub)
 ):
     delete_user_use_case.execute(user_id=UserId(id=user_id))
+    delete_picture_by_user_id_use_case.execute(user_id_obj=UserId(id=user_id))
     return {
         "message": "user was deleted"
     }
