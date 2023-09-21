@@ -101,7 +101,7 @@ async def create_item(
     address: str = Form(),
     cost: str = Form(),
     item_status: str = Form(),
-    picture: UploadFile = File(...),
+    pictures: list[UploadFile] = File(...),
     create_item_use_case: CreateItemUseCase = Depends(
         provide_create_item_stub),
     create_picture_use_case: CreatePictureUseCase = Depends(
@@ -119,15 +119,16 @@ async def create_item(
             cost=cost,
             status=item_status
         )).id
-        if picture:
-            picture_id = create_picture_use_case.execute(
-                picture_create=PictureCreate(file=picture)
-            ).id
-            create_picture_item_relation.execute(
-                obj=PictureItemRelation(
-                    picture_id=picture_id,
-                    item_id=item_id)
-            )
+        if pictures:
+            for picture in pictures:
+                picture_id = create_picture_use_case.execute(
+                    picture_create=PictureCreate(file=picture)
+                ).id
+                create_picture_item_relation.execute(
+                    obj=PictureItemRelation(
+                        picture_id=picture_id,
+                        item_id=item_id)
+                )
     except Exception as e:
         return HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
