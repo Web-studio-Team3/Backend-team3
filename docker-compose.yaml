@@ -16,6 +16,9 @@ services:
       - custom
     depends_on:
       - mongo_db
+    volumes:
+      - ./app:/app
+    command: uvicorn main:app --host 0.0.0.0 --reload
 
   mongo_db:
     container_name: "mongo_db"
