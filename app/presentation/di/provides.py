@@ -41,6 +41,15 @@ from app.core.item.usecases.create_item import CreateItemUseCase
 from app.core.item.usecases.delete_item import DeleteItemUseCase
 from app.core.item.usecases.update_item import UpdateItemUseCase
 
+from app.infrastracture.dao.category_write import CategoryWriteDaoImpl
+from app.infrastracture.dao.category_read import CategoryReadDaoImpl
+
+from app.core.category.usecases.get_category_all import GetCategoryAllUseCase
+from app.core.category.usecases.get_category_by_id import GetCategoryByIdUseCase
+from app.core.category.usecases.create_category import CreateCategoryUseCase
+from app.core.category.usecases.delete_category import DeleteCategoryUseCase
+from app.core.category.usecases.update_category import UpdateCategoryUseCase
+
 from app.infrastracture.dao.picture_item_relation_write import PictureItemRelationWriteImpl
 from app.infrastracture.dao.picture_item_relation_read import PictureItemRelationReadImpl
 
@@ -312,6 +321,54 @@ def provide_delete_item(
 ) -> DeleteItemUseCase:
     return DeleteItemUseCase(
         item_write_dao=item_write_dao
+    )
+
+
+def provide_get_categories(
+    dao: BaseDao = Depends(
+        get_pymongo_dao(CategoryReadDaoImpl)
+    )
+) -> GetCategoryAllUseCase:
+    return GetCategoryAllUseCase(dao)
+
+
+def provide_get_category_by_id(
+    dao: BaseDao = Depends(
+        get_pymongo_dao(CategoryReadDaoImpl)
+    )
+) -> GetCategoryByIdUseCase:
+    return GetCategoryByIdUseCase(dao)
+
+
+def provide_create_category(
+    dao: BaseDao = Depends(
+        get_pymongo_dao(CategoryWriteDaoImpl)
+    )
+) -> CreateCategoryUseCase:
+    return CreateCategoryUseCase(dao)
+
+
+def provide_update_category(
+    category_write_dao: BaseDao = Depends(
+        get_pymongo_dao(CategoryWriteDaoImpl)
+    ),
+    category_read_dao: BaseDao = Depends(
+        get_pymongo_dao(CategoryReadDaoImpl)
+    )
+) -> UpdateCategoryUseCase:
+    return UpdateCategoryUseCase(
+        category_write_dao=category_write_dao,
+        category_read_dao=category_read_dao
+    )
+
+
+def provide_delete_category(
+    category_write_dao: BaseDao = Depends(
+        get_pymongo_dao(CategoryWriteDaoImpl)
+    ),
+) -> DeleteCategoryUseCase:
+    return DeleteCategoryUseCase(
+        category_write_dao=category_write_dao
     )
 
 
