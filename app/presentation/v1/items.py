@@ -1,8 +1,10 @@
 from fastapi import APIRouter, Depends, status, HTTPException, Form, UploadFile, File
+from fastapi_pagination import Page, paginate
 
 from app.core.item.dto.item import (
     ItemId, ItemCreate, ItemUpdate, ItemUpdateWithId
 )
+from app.core.item.entities.item import Item
 
 from app.core.item.usecases.get_item_all import GetItemAllUseCase
 from app.core.item.usecases.get_item_by_id import GetItemByIdUseCase
@@ -39,7 +41,7 @@ from app.presentation.di import (
 router = APIRouter()
 
 
-@router.get(path='/')
+@router.get(path='/', response_model=Page[Item])
 async def get_item_all(
     get_item_all_use_case: GetItemAllUseCase = Depends(provide_get_items_stub)
 ):
@@ -50,7 +52,7 @@ async def get_item_all(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="No items"
         )
-    return items
+    return paginate(items)
 
 
 @router.get(path='/{item_id}')

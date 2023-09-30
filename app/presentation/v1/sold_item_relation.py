@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends, File, Form
+from fastapi import APIRouter, Depends
+from fastapi_pagination import Page, paginate
 
 from app.core.sold_item.dto.sold_item_relation import (
     SoldItemRelation,
@@ -7,6 +8,8 @@ from app.core.sold_item.dto.sold_item_relation import (
     SoldItemRelationBuyerId,
     SoldItemRelationSellerId
 )
+
+from app.core.sold_item.entities.sold_item_relation import SoldItemRelation as SoldItemRelationDataClass
 
 from app.core.sold_item.usecase.create_sold_item_relation import CreateSoldItemRelationUseCase
 from app.core.sold_item.usecase.delete_sold_item_relation import DeleteSoldItemRelationUseCase
@@ -75,7 +78,7 @@ async def get_by_item_id(
     return sold_item_relation
 
 
-@router.get(path="/seller/{seller_id}")
+@router.get(path="/seller/{seller_id}", response_model=Page[SoldItemRelationDataClass])
 async def get_by_seller_id(
     seller_id: str,
     get_sold_item_relation_by_seller_id_use_case: GetSoldItemRelationBySellerIdUseCase =
@@ -83,12 +86,10 @@ async def get_by_seller_id(
 ):
     sold_item_relations = get_sold_item_relation_by_seller_id_use_case.execute(
         obj=SoldItemRelationSellerId(seller_id=seller_id))
-    return {
-        "items": list(sold_item_relations)
-    }
+    return paginate(sold_item_relations)
 
 
-@router.get(path="/buyer/{buyer_id}")
+@router.get(path="/buyer/{buyer_id}", response_model=Page[SoldItemRelationDataClass])
 async def get_by_buyer_id(
     buyer_id: str,
     get_sold_item_relation_by_buyer_id_use_case: GetSoldItemRelationByBuyerIdUseCase =
@@ -96,6 +97,4 @@ async def get_by_buyer_id(
 ):
     sold_item_relations = get_sold_item_relation_by_buyer_id_use_case.execute(
         obj=SoldItemRelationBuyerId(buyer_id=buyer_id))
-    return {
-        "items": list(sold_item_relations)
-    }
+    return paginate(sold_item_relations)

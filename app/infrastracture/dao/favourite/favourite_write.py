@@ -20,7 +20,7 @@ class FavouriteWriteImpl(
                 item_id=favourite.item_id
             ).dict(exclude_none=True)
         ).inserted_id
-        return FavouriteId(id=inserted_id)
+        return FavouriteId(id=str(inserted_id))
 
     def delete(self, favourite_id: str) -> None:
         self._database["favourite"].delete_one(

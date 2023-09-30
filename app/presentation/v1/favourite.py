@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends, File, Form
+from fastapi import APIRouter, Depends
+from fastapi_pagination import Page, paginate
 
 from app.core.favourites.dto.favourite import (
     Favourite,
@@ -6,6 +7,8 @@ from app.core.favourites.dto.favourite import (
     FavouriteItemId,
     FavouriteUserId
 )
+
+from app.core.favourites.entities.favourite import Favourite as FavouriteDataClass
 
 from app.core.favourites.usecase.create_favourite import CreateFavouriteUseCase
 from app.core.favourites.usecase.delete_favourite import DeleteFavouriteUseCase
@@ -60,7 +63,7 @@ async def get(
     return favourite
 
 
-@router.get(path="/item/{item_id}")
+@router.get(path="/item/{item_id}", response_model=Page[FavouriteDataClass])
 async def get_by_item_id(
     item_id: str,
     get_favourite_by_item_id_use_case: GetFavouritesByItemIdUseCase =
@@ -69,12 +72,10 @@ async def get_by_item_id(
     favourites = get_favourite_by_item_id_use_case.execute(
         obj=FavouriteItemId(item_id=item_id)
     )
-    return {
-        "favourites": list(favourites)
-    }
+    return paginate(list(favourites))
 
 
-@router.get(path="/user/{user_id}")
+@router.get(path="/user/{user_id}", response_model=Page[FavouriteDataClass])
 async def get_by_user_id(
     user_id: str,
     get_favourites_by_user_id_use_case: GetFavouritesByUserIdUseCase =
@@ -82,6 +83,4 @@ async def get_by_user_id(
 ):
     favourites = get_favourites_by_user_id_use_case.execute(
         obj=FavouriteUserId(user_id=user_id))
-    return {
-        "favourites": list(favourites)
-    }
+    return paginate(list(favourites))
