@@ -28,3 +28,9 @@ class SaleItemRelationWriteImpl(
         self._database["sale_item_relation"].delete_one(
             {"_id": ObjectId(sale_item_relation_id)}
         )
+
+    
+    def deleteByItemId(self, item_id: str) -> None:
+        self._database['sale_item_relation'].delete_one(
+            {"item_id": item_id}
+        )

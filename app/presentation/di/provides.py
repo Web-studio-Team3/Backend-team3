@@ -24,6 +24,7 @@ from app.core.token.usecases.create_token import CreateTokenUseCase
 from app.core.token.usecases.encode_token import EncodeToken
 from app.core.token.usecases.decode_token import DecodeToken
 from app.core.token.usecases.delete_token_by_user_id import DeleteTokenByUserIdUseCase
+from app.core.token.usecases.get_access_token_by_jwt import GetAccessTokenByJwtUseCase
 from app.core.token.dao.token_coder import TokenCoder
 
 from app.core.picture.usecases.create_picture import CreatePictureUseCase
@@ -55,6 +56,7 @@ from app.core.sale_item.usecase.delete_sale_item_relation import DeleteSaleItemR
 from app.core.sale_item.usecase.get_sale_item_relation_by_id import GetSaleItemRelationByIdUseCase
 from app.core.sale_item.usecase.get_sale_item_relation_by_item_id import GetSaleItemRelationByItemIdUseCase
 from app.core.sale_item.usecase.get_sale_item_relation_by_user_id import GetSaleItemRelationByUserIdUseCase
+from app.core.sale_item.usecase.delete_sale_item_relation_by_item_id import DeleteSaleItemRelationByItemIdUseCase
 from app.infrastracture.dao.sale_item.sale_item_write import SaleItemRelationWriteImpl
 from app.infrastracture.dao.sale_item.sale_item_read import SaleItemRelationReadImpl
 
@@ -522,4 +524,24 @@ def provide_get_favourites_by_user_id(
 ) -> GetFavouritesByUserIdUseCase:
     return GetFavouritesByUserIdUseCase(
         read_dao=favourite_read_dao
+    )
+
+
+def provide_get_access_token_by_jwt(
+    token_read_dao: BaseDao = Depends(
+        get_pymongo_dao(TokenReadDaoImpl)
+    )
+) -> GetAccessTokenByJwtUseCase:
+    return GetAccessTokenByJwtUseCase(
+        dao=token_read_dao
+    )
+
+
+def provide_delete_sale_item_relation_by_item_id(
+        sale_item_write_dao: BaseDao = Depends(
+            get_pymongo_dao(SaleItemRelationWriteImpl)
+        )
+) -> DeleteSaleItemRelationByItemIdUseCase:
+    return DeleteSaleItemRelationByItemIdUseCase(
+        write_dao=sale_item_write_dao
     )

@@ -39,5 +39,7 @@ from app.presentation.di.di import (
     provide_delete_favourite_stub,
     provide_get_favourite_by_id_stub,
     provide_get_favourites_by_user_id_stub,
-    provide_get_favourites_by_item_id_stub,    
+    provide_get_favourites_by_item_id_stub,
+    provide_get_access_token_by_jwt_stub,
+    provide_delete_sale_item_relation_by_item_id_stub,  
 )
