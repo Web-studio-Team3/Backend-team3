@@ -1,9 +1,9 @@
 from pydantic import BaseModel, Field
 from typing import Optional
 
-#class ChatList(BaseModel):
 
 class Chat(BaseModel):
-    #_id
-    chat_id: Optional[int] = Field(...)
+    #chat_id: str
+    client_id: Optional[str] = Field(...) #usr_id
+    seller_id: Optional[str] = Field(...) #usr_id
     message: Optional[str] = Field(...)
