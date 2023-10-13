@@ -62,7 +62,7 @@ async def sign_up(
             detail=str(e)
         )
     return {
-        "message": "user successfully created"
+        "chat_message": "user successfully created"
     }
 
 
@@ -131,7 +131,7 @@ async def logout(
     user_id = get_access_token_by_jwt_use_case.execute(jwt).user_id
     logout_use_case.execute(UserId(id=user_id))
     return {
-        "message": "success"
+        "chat_message": "success"
     }
 
 
@@ -189,5 +189,5 @@ async def delete(
     delete_user_use_case.execute(user_id=UserId(id=user_id))
     delete_picture_by_user_id_use_case.execute(user_id_obj=UserId(id=user_id))
     return {
-        "message": "user was deleted"
+        "chat_message": "user was deleted"
     }

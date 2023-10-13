@@ -261,5 +261,5 @@ async def delete_item(
     )
     
     return {
-        "message": "Item deleted"
+        "chat_message": "Item deleted"
     }

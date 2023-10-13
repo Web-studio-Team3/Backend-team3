@@ -50,5 +50,5 @@ async def delete(
         id=picture_id
     ))
     return {
-        "message": "picture was deleted"
+        "chat_message": "picture was deleted"
     }

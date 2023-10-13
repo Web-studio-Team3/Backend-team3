@@ -1,7 +1,7 @@
 from app.core.shared.usecase_base import UseCase
 
-from app.core.chat.dto.message import MessagesId
-from app.core.chat.dao.message_write import MessageWrite
+from app.core.chat_message.dto.message import MessagesId
+from app.core.chat_message.dao.message_write import MessageWrite
 from app.core.chat.dto.chat import ChatId
 from app.core.chat.dao.chat_write import ChatWrite
 

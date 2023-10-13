@@ -1,4 +1,4 @@
-from app.core.chat.dto.message import CreateMessage, MessagesId
+from app.core.chat_message.dto.message import CreateMessage, MessagesId
 from typing import Protocol
 
 

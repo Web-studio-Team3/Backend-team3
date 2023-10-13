@@ -32,7 +32,7 @@ def delete_all_items_photo(item_id):
     for relation in relations:
         delete_picture(relation.get("photo_url"))
     return {
-        "message": "success"
+        "chat_message": "success"
     }
 
 
@@ -41,5 +41,5 @@ def delete_items_photo(relation_id):
     relation = photo_item_relation_entity(db.items_photo.find_one_and_delete({"_id": ObjectId(relation_id)}))
     delete_picture(relation.get("photo_url"))
     return {
-        "message": "success"
+        "chat_message": "success"
     }

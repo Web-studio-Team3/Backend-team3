@@ -97,7 +97,7 @@ async def delete(
     delete_sold_item_relation_use_case.execute(
         obj=SoldItemRelationId(id=sold_item_relation_id ))
     return {
-        "message": "sale_item_relation was successfully deleted"
+        "chat_message": "sale_item_relation was successfully deleted"
     }
 
 

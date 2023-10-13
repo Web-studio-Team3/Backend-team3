@@ -148,5 +148,5 @@ async def delete(
         PictureItemRelationId(id=picture_item_relation_id)
     )
     return {
-        "message": "picture_item_relation was deleted"
+        "chat_message": "picture_item_relation was deleted"
     }

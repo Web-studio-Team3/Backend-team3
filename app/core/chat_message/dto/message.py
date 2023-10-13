@@ -1,5 +1,4 @@
 import datetime as datetime
-from typing import Optional
 from app.shared.dto_base import BaseDto
 
 

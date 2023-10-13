@@ -75,7 +75,7 @@ async def delete(
     delete_favourite_use_case.execute(
         obj=FavouriteId(id=favourite_id))
     return {
-        "message": "favourite was successfully deleted"
+        "chat_message": "favourite was successfully deleted"
     }
 
 

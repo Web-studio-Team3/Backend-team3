@@ -1,5 +1,4 @@
-from app.core.chat.dto.message import CreateMessage, MessagesId
-from app.core.chat.entities.message import Message
+from app.core.chat_message.dto.message import CreateMessage
 from app.core.shared.usecase_base import UseCase
 
 
