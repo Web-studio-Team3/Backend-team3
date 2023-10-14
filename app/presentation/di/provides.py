@@ -68,6 +68,7 @@ from app.core.sold_item.usecase.get_sold_item_relation_by_buyer_id import GetSol
 from app.core.sold_item.usecase.get_sold_item_relation_by_id import GetSoldItemRelationByIdUseCase
 from app.core.sold_item.usecase.get_sold_item_relation_by_item_id import GetSoldItemRelationByItemIdUseCase
 from app.core.sold_item.usecase.get_sold_item_relation_by_seller_id import GetSoldItemRelationBySellerIdUseCase
+from app.core.sold_item.usecase.delete_sold_item_relation_by_item_id import DeleteSoldItemRelationByItemIdUseCase
 
 from app.infrastracture.dao.favourite.favourite_read import FavouriteReadImpl
 from app.infrastracture.dao.favourite.favourite_write import FavouriteWriteImpl
@@ -76,6 +77,7 @@ from app.core.favourites.usecase.delete_favourite import DeleteFavouriteUseCase
 from app.core.favourites.usecase.get_favourite_by_id import GetFavouriteByIdUseCase
 from app.core.favourites.usecase.get_favourites_by_item_id import GetFavouritesByItemIdUseCase
 from app.core.favourites.usecase.get_favourites_by_user_id import GetFavouritesByUserIdUseCase
+from app.core.favourites.usecase.delete_favourites_by_item_id import DeleteFavouritesByItemIdUseCase
 
 from app.presentation.di.stubs import (
     provide_database_stub,
@@ -538,10 +540,32 @@ def provide_get_access_token_by_jwt(
 
 
 def provide_delete_sale_item_relation_by_item_id(
-        sale_item_write_dao: BaseDao = Depends(
-            get_pymongo_dao(SaleItemRelationWriteImpl)
-        )
+    sale_item_write_dao: BaseDao = Depends(
+        get_pymongo_dao(SaleItemRelationWriteImpl)
+    )
 ) -> DeleteSaleItemRelationByItemIdUseCase:
     return DeleteSaleItemRelationByItemIdUseCase(
         write_dao=sale_item_write_dao
+    )
+
+
+def provide_delete_favourites_by_item_id(
+    favourite_write_dao: BaseDao =
+    Depends(get_pymongo_dao(FavouriteWriteImpl)),
+    favourite_read_dao: BaseDao =
+    Depends(get_pymongo_dao(FavouriteReadImpl))
+) -> DeleteFavouritesByItemIdUseCase:
+    return DeleteFavouritesByItemIdUseCase(
+        write_dao=favourite_write_dao,
+        read_dao=favourite_read_dao
+    )
+
+
+def provide_delete_sold_item_relation_by_item_id(
+    favourite_write_dao: BaseDao = Depends(get_pymongo_dao(SoldItemRelationWriteImpl)),
+    favourite_read_dao: BaseDao = Depends(get_pymongo_dao(SoldItemRelationReadImpl))
+) -> DeleteSoldItemRelationByItemIdUseCase:
+    return DeleteSoldItemRelationByItemIdUseCase(
+        write_dao=favourite_write_dao,
+        read_dao=favourite_read_dao
     )

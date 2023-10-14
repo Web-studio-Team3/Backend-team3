@@ -175,3 +175,11 @@ def provide_get_access_token_by_jwt_stub():
 
 def provide_delete_sale_item_relation_by_item_id_stub():
     raise NotImplementedError
+
+
+def provide_delete_favourites_by_item_id_stub():
+    raise NotImplementedError
+
+
+def provide_delete_sold_item_realtion_by_item_id_stub():
+    raise NotImplementedError

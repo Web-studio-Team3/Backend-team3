@@ -5,7 +5,6 @@ from app.core.item.dto.item import (
     ItemId, ItemCreate, ItemUpdate, ItemUpdateWithId
 )
 from app.core.item.entities.item import Item
-
 from app.core.item.usecases.get_item_all import GetItemAllUseCase
 from app.core.item.usecases.get_item_by_id import GetItemByIdUseCase
 from app.core.item.usecases.create_item import CreateItemUseCase
@@ -13,7 +12,8 @@ from app.core.item.usecases.delete_item import DeleteItemUseCase
 from app.core.item.usecases.update_item import UpdateItemUseCase
 
 from app.core.picture.usecases.create_picture import CreatePictureUseCase
-from app.core.picture.dto.picture import PictureCreate
+from app.core.picture.dto.picture import PictureCreate, PictureId
+from app.core.picture.usecases.delete_picture_by_id import DeletePictureByIDUseCase
 
 from app.core.picture_item_relation.usecases.create_picture_item_relation import CreatePictureItemRelationUseCase
 from app.core.picture_item_relation.usecases.get_picture_item_relations_by_item_id import GetPictureItemRelationsByItemIdUseCase
@@ -35,6 +35,12 @@ from app.core.sale_item.dto.sale_item_relation import (
     SaleItemRelationItemId,
 )
 
+from app.core.favourites.usecase.delete_favourites_by_item_id import DeleteFavouritesByItemIdUseCase
+from app.core.favourites.dto.favourite import FavouriteItemId
+
+from app.core.sold_item.usecase.delete_sold_item_relation_by_item_id import DeleteSoldItemRelationByItemIdUseCase
+from app.core.sold_item.dto.sold_item_relation import SoldItemRelationItemId
+
 from app.presentation.bearer import JWTBearer
 from app.presentation.di import (
     provide_get_items_stub,
@@ -50,6 +56,9 @@ from app.presentation.di import (
     provide_create_sale_item_relation_stub,
     provide_get_sale_item_relation_by_user_id_stub,
     provide_delete_sale_item_relation_by_item_id_stub,
+    provide_delete_picture_stub,
+    provide_delete_favourites_by_item_id_stub,
+    provide_delete_sold_item_realtion_by_item_id_stub,
 )
 
 
@@ -213,6 +222,12 @@ async def delete_item(
     Depends(provide_get_sale_item_relation_by_user_id_stub),
     delete_sale_item_relation_by_item_id_use_case: DeleteSaleItemRelationByItemIdUseCase =
     Depends(provide_delete_sale_item_relation_by_item_id_stub),
+    delete_picture_by_id_use_case: DeletePictureByIDUseCase =
+    Depends(provide_delete_picture_stub),
+    delete_favourites_by_item_id_use_case: DeleteFavouritesByItemIdUseCase = 
+    Depends(provide_delete_favourites_by_item_id_stub),
+    delete_sold_item_relation_by_item_id_use_case: DeleteSoldItemRelationByItemIdUseCase =
+    Depends(provide_delete_sold_item_realtion_by_item_id_stub)
 ):
     sale_item_relations = get_sale_items_by_user_id_use_case.execute(
         SaleItemRelationUserId(
@@ -225,15 +240,24 @@ async def delete_item(
         }
 
     delete_item_use_case.execute(item_id=ItemId(id=item_id))
-    relations = get_picture_items_relation_by_item_id_use_case.execute(
+    picture_item_relations = get_picture_items_relation_by_item_id_use_case.execute(
         PictureItemRelationItemId(item_id=item_id)
     )
-    for relation in relations:
+    for relation in picture_item_relations:
         delete_picture_items_relation_use_case.execute(
             PictureItemRelationId(id=relation.id)
         )
+        delete_picture_by_id_use_case.execute(
+            picture_id_obj=PictureId(id=relation.picture_id)
+        )
+    delete_favourites_by_item_id_use_case.execute(
+        FavouriteItemId(item_id=item_id)
+    )
     delete_sale_item_relation_by_item_id_use_case.execute(
         SaleItemRelationItemId(item_id=item_id)
+    )
+    delete_sold_item_relation_by_item_id_use_case.execute(
+        SoldItemRelationItemId(item_id=item_id)
     )
     
     return {

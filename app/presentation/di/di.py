@@ -49,6 +49,8 @@ from app.presentation.di.stubs import (
     provide_get_favourites_by_user_id_stub,
     provide_get_access_token_by_jwt_stub,
     provide_delete_sale_item_relation_by_item_id_stub,
+    provide_delete_favourites_by_item_id_stub,
+    provide_delete_sold_item_realtion_by_item_id_stub,
 )
 
 from app.presentation.di.provides import (
@@ -96,6 +98,8 @@ from app.presentation.di.provides import (
     provide_get_favourites_by_user_id,
     provide_get_access_token_by_jwt,
     provide_delete_sale_item_relation_by_item_id,
+    provide_delete_favourites_by_item_id,
+    provide_delete_sold_item_relation_by_item_id,
 )
 
 
@@ -150,5 +154,7 @@ def setup_di(app: FastAPI):
             provide_get_favourites_by_user_id_stub: provide_get_favourites_by_user_id,
             provide_get_access_token_by_jwt_stub: provide_get_access_token_by_jwt,
             provide_delete_sale_item_relation_by_item_id_stub: provide_delete_sale_item_relation_by_item_id,
+            provide_delete_favourites_by_item_id_stub: provide_delete_favourites_by_item_id,
+            provide_delete_sold_item_realtion_by_item_id_stub: provide_delete_sold_item_relation_by_item_id,
         }
     )
