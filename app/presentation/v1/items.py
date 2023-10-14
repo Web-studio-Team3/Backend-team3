@@ -204,7 +204,7 @@ async def update_item(
     return updated_item
 
 
-@router.delete(path='/{item_id}', dependencies=[Depends(JWTBearer())])
+@router.delete(path='/{item_id}')
 async def delete_item(
     item_id: str,
     delete_item_use_case: DeleteItemUseCase = Depends(
