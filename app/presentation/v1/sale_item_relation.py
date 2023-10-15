@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends, File, Form
+from fastapi import APIRouter, Depends
+from fastapi_pagination import Page, paginate
 
 from app.core.sale_item.dto.sale_item_relation import (
     SaleItemRelation,
@@ -6,6 +7,8 @@ from app.core.sale_item.dto.sale_item_relation import (
     SaleItemRelationItemId,
     SaleItemRelationUserId
 )
+
+from app.core.sale_item.entities.sale_item_relation import SaleItemRelation as SaleItemRelationDataClass
 
 from app.core.sale_item.usecase.create_sale_item_relation import CreateSaleItemRelationUseCase
 from app.core.sale_item.usecase.delete_sale_item_relation import DeleteSaleItemRelationUseCase
@@ -72,7 +75,7 @@ async def get_by_item_id(
     return sale_item_relation
 
 
-@router.get(path="/user/{user_id}")
+@router.get(path="/user/{user_id}", response_model=Page[SaleItemRelationDataClass])
 async def get_by_user_id(
     user_id: str,
     get_sale_item_relation_by_user_id_use_case: GetSaleItemRelationByUserIdUseCase =
@@ -80,6 +83,4 @@ async def get_by_user_id(
 ):
     sale_item_relations = get_sale_item_relation_by_user_id_use_case.execute(
         obj=SaleItemRelationUserId(user_id=user_id))
-    return {
-        "items": list(sale_item_relations)
-    }
+    return paginate(list(sale_item_relations))

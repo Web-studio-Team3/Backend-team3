@@ -15,10 +15,10 @@ router = APIRouter()
 
 @router.post(path="/")
 async def create(
-        picture: UploadFile = File(...),
-        create_picture_use_case: CreatePictureUseCase = Depends(
-            provide_create_picture_stub
-        )
+    picture: UploadFile = File(...),
+    create_picture_use_case: CreatePictureUseCase = Depends(
+        provide_create_picture_stub
+    )
 ):
     created_picture = create_picture_use_case.execute(PictureCreate(file=picture))
     return {
@@ -29,10 +29,10 @@ async def create(
 
 @router.get(path="/{picture_id}")
 async def get(
-        picture_id: str,
-        get_picture_by_id: GetPictureByIdUseCase = Depends(
-            provide_get_picture_stub
-        )
+    picture_id: str,
+    get_picture_by_id: GetPictureByIdUseCase = Depends(
+        provide_get_picture_stub
+    )
 ):
     return get_picture_by_id.execute(picture_id_obj=PictureId(
         id=picture_id
@@ -41,10 +41,10 @@ async def get(
 
 @router.delete(path="/{picture_id}")
 async def delete(
-        picture_id: str,
-        delete_picture_by_id_use_case: DeletePictureByIDUseCase = Depends(
-            provide_delete_picture_stub
-        )
+    picture_id: str,
+    delete_picture_by_id_use_case: DeletePictureByIDUseCase = Depends(
+        provide_delete_picture_stub
+    )
 ):
     delete_picture_by_id_use_case.execute(picture_id_obj=PictureId(
         id=picture_id

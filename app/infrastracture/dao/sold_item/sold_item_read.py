@@ -3,7 +3,6 @@ from app.core.sold_item.entities.sold_item_relation import SoldItemRelation
 
 from app.infrastracture.dao.base import BaseDao
 
-from app.core.sold_item.dto.sold_item_relation import SoldItemRelation
 from app.core.sold_item.dao.sold_item_relation_read import SoldItemRelationRead
 
 

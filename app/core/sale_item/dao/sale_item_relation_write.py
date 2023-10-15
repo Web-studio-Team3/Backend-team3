@@ -8,3 +8,6 @@ class SaleItemRelationWrite(Protocol):
 
     def delete(self, sale_item_relation_id: str) -> None:
         raise NotImplementedError
+    
+    def deleteByItemId(self, item_id: str) -> None:
+        raise NotImplementedError
