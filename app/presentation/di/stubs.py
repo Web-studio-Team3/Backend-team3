@@ -86,6 +86,26 @@ def provide_update_item_stub():
     raise NotImplementedError
 
 
+def provide_get_categories_stub():
+    raise NotImplementedError
+
+
+def provide_get_category_by_id_stub():
+    raise NotImplementedError
+
+
+def provide_create_category_stub():
+    raise NotImplementedError
+
+
+def provide_delete_category_stub():
+    raise NotImplementedError
+
+
+def provide_update_category_stub():
+    raise NotImplementedError
+
+
 def provide_create_picture_item_relation_stub():
     raise NotImplementedError
 
