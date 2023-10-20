@@ -137,8 +137,8 @@ async def get_by_item_id(
     return sold_item_relation
 
 
-@router.get(path="/seller/", response_model=Page[SoldItemRelationDataClass])
-async def get_by_seller_id(
+@router.get(path="/user/", response_model=Page[SoldItemRelationDataClass])
+async def get_by_user(
     get_sold_item_relation_by_seller_id_use_case: GetSoldItemRelationBySellerIdUseCase =
     Depends(provide_get_sold_item_relation_by_seller_id_stub),
     jwt: str = Depends(JWTBearer()),
