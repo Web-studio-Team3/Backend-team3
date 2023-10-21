@@ -19,7 +19,6 @@ class CreateChatUseCase(UseCase[CreateChat, ChatId]):
         except TypeError:
             raise TypeError
         try:
-            print("create item use case")
             return self._dao.create(chat=chat)
         except TypeError:
             raise TypeError

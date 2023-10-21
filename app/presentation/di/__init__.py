@@ -49,4 +49,13 @@ from app.presentation.di.di import (
     provide_delete_sale_item_relation_by_item_id_stub,
     provide_delete_favourites_by_item_id_stub,
     provide_delete_sold_item_realtion_by_item_id_stub,
+    provide_get_favourites_by_item_id_stub,
+    provide_create_chat_stub,
+    provide_get_chat_by_id_stub,
+    provide_delete_chat_stub,
+    provide_add_message_stub,
+    provide_delete_message_stub,
+    provide_delete_all_messages_stub,
+    provide_get_all_messages_stub
+
 )

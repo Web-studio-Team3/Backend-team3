@@ -88,6 +88,19 @@ from app.core.favourites.usecase.get_favourites_count_by_item_id import GetFavou
 from app.core.favourites.usecase.get_favourites_by_user_id import GetFavouritesByUserIdUseCase
 from app.core.favourites.usecase.delete_favourites_by_item_id import DeleteFavouritesByItemIdUseCase
 
+from app.infrastracture.dao.chat_write import ChatWriteDaoImpl
+from app.infrastracture.dao.chat_read import ChatReadDaoImpl
+from app.core.chat.usecase.get_chat_by_id import GetChatByIdUseCase
+from app.core.chat.usecase.create_chat import CreateChatUseCase
+from app.core.chat.usecase.delete_chat import DeleteChatUseCase
+
+from app.infrastracture.dao.message_write import MessageWriteDaoImpl
+from app.infrastracture.dao.message_read import MessageReadDaoImpl
+from app.core.chat_message.usecase.get_all_messages import GetAllMesagesUseCase
+from app.core.chat_message.usecase.add_message import AddMessageUseCase
+from app.core.chat_message.usecase.delete_message import DeleteMessageUseCase
+from app.core.chat_message.usecase.delete_all_messages import DeleteAllMessagesUseCase
+
 from app.presentation.di.stubs import (
     provide_database_stub,
     provide_create_token_stub,
@@ -585,7 +598,6 @@ def provide_get_favourites_by_user_id(
         read_dao=favourite_read_dao
     )
 
-
 def provide_get_access_token_by_jwt(
     token_read_dao: BaseDao = Depends(
         get_pymongo_dao(TokenReadDaoImpl)
@@ -625,4 +637,73 @@ def provide_delete_sold_item_relation_by_item_id(
     return DeleteSoldItemRelationByItemIdUseCase(
         write_dao=favourite_write_dao,
         read_dao=favourite_read_dao
+    )
+
+def provide_create_chat(
+     chat_write_dao: BaseDao = Depends(
+         get_pymongo_dao(ChatWriteDaoImpl)
+     )
+) -> CreateChatUseCase:
+    return CreateChatUseCase(
+        read_dao=chat_write_dao
+    )
+
+
+def provide_get_chat_by_id(
+     chat_read_dao: BaseDao = Depends(
+         get_pymongo_dao(ChatReadDaoImpl)
+     )
+) -> GetChatByIdUseCase:
+    return GetChatByIdUseCase(
+        read_dao=chat_read_dao
+    )
+
+
+def provide_delete_chat(
+     chat_write_dao: BaseDao = Depends(
+         get_pymongo_dao(ChatWriteDaoImpl)
+     )
+) -> DeleteChatUseCase:
+    return DeleteChatUseCase(
+        read_dao=chat_write_dao
+    )
+
+
+def provide_add_message(
+     message_write_dao: BaseDao = Depends(
+         get_pymongo_dao(MessageWriteDaoImpl)
+     )
+) -> AddMessageUseCase:
+    return AddMessageUseCase(
+        read_dao=message_write_dao
+    )
+
+
+def provide_delete_message(
+     message_write_dao: BaseDao = Depends(
+         get_pymongo_dao(MessageWriteDaoImpl)
+     )
+) -> DeleteMessageUseCase:
+    return DeleteMessageUseCase(
+        read_dao=message_write_dao
+    )
+
+
+def provide_delete_all_messages(
+     message_write_dao: BaseDao = Depends(
+         get_pymongo_dao(MessageWriteDaoImpl)
+     )
+) -> DeleteAllMessagesUseCase:
+    return DeleteAllMessagesUseCase(
+        read_dao=message_write_dao
+    )
+
+
+def provide_get_all_messages(
+     message_read_dao: BaseDao = Depends(
+         get_pymongo_dao(MessageReadDaoImpl)
+     )
+) -> GetAllMesagesUseCase:
+    return GetAllMesagesUseCase(
+        read_dao=message_read_dao
     )

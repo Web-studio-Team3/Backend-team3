@@ -6,8 +6,11 @@ class MessagesId(BaseDto):
     id: str
 
 
-class CreateMessage(BaseDto):
+class Messages(BaseDto):
     message_id: str
+
+
+class Message(BaseDto):
     user_name: str
     datetime: datetime
     message: str

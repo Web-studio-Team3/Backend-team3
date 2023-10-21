@@ -188,7 +188,6 @@ def provide_get_favourites_count_by_item_id_stub():
 def provide_get_favourites_by_user_id_stub():
     raise NotImplementedError
 
-
 def provide_get_access_token_by_jwt_stub():
     raise NotImplementedError
 
@@ -200,6 +199,32 @@ def provide_delete_sale_item_relation_by_item_id_stub():
 def provide_delete_favourites_by_item_id_stub():
     raise NotImplementedError
 
-
 def provide_delete_sold_item_realtion_by_item_id_stub():
+    raise NotImplementedError
+
+def provide_get_chat_by_id_stub():
+    raise NotImplementedError
+
+
+def provide_create_chat_stub():
+    raise NotImplementedError
+
+
+def provide_delete_chat_stub():
+    raise NotImplementedError
+
+
+def provide_delete_message_stub():
+    raise NotImplementedError
+
+
+def provide_delete_all_messages_stub():
+    raise NotImplementedError
+
+
+def provide_add_message_stub():
+    raise NotImplementedError
+
+
+def provide_get_all_messages_stub():
     raise NotImplementedError

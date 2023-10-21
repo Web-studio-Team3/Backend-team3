@@ -1,15 +1,15 @@
 from app.core.shared.usecase_base import UseCase
 
-from app.core.chat_message.dto.message import CreateMessage
+from app.core.chat_message.dto.message import Messages
 from app.core.chat_message.dao.message_write import MessageWrite
 
 
-class DeleteChatUseCase(UseCase[CreateMessage, None]):
+class DeleteMessageUseCase(UseCase[Messages, None]):
     def __init__(
             self,
             message_write_dao: MessageWrite
     ):
         self._message_write_dao = message_write_dao
 
-    def execute(self, message_id: CreateMessage.message_id) -> None:
+    def execute(self, message_id: Messages.message_id) -> None:
         self._chat_write_dao.delete(messge_id=message_id)
