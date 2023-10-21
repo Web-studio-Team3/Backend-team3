@@ -19,7 +19,8 @@ from app.core.sold_item.usecase.get_sold_item_relation_by_item_id import GetSold
 from app.core.sold_item.usecase.get_sold_item_relation_by_seller_id import GetSoldItemRelationBySellerIdUseCase
 
 from app.core.sale_item.usecase.get_sale_item_relation_by_user_id import GetSaleItemRelationByUserIdUseCase
-from app.core.sale_item.dto.sale_item_relation import SaleItemRelationUserId
+from app.core.sale_item.dto.sale_item_relation import SaleItemRelationUserId, SaleItemRelationItemId
+from app.core.sale_item.usecase.delete_sale_item_relation_by_item_id import DeleteSaleItemRelationByItemIdUseCase
 
 from app.core.token.usecases.get_access_token_by_jwt import GetAccessTokenByJwtUseCase
 
@@ -34,6 +35,7 @@ from app.presentation.di import (
     provide_get_sold_item_relation_by_seller_id_stub,
     provide_get_access_token_by_jwt_stub,
     provide_get_sale_item_relation_by_user_id_stub,
+    provide_delete_sale_item_relation_by_item_id_stub,
 )
 
 router = APIRouter()
@@ -49,6 +51,8 @@ async def create(
     Depends(provide_get_access_token_by_jwt_stub),
     get_sale_items_by_user_id_use_case: GetSaleItemRelationByUserIdUseCase =
     Depends(provide_get_sale_item_relation_by_user_id_stub),
+    delete_sale_item_by_item_id_use_case: DeleteSaleItemRelationByItemIdUseCase =
+    Depends(provide_delete_sale_item_relation_by_item_id_stub)
 ):
     sale_item_relations = get_sale_items_by_user_id_use_case.execute(
         SaleItemRelationUserId(
@@ -63,6 +67,9 @@ async def create(
         }
     
     sold_item_relation_id = create_sold_item_relation_use_case.execute(obj=sold_item_relation)
+    delete_sale_item_by_item_id_use_case.execute(
+        obj=SaleItemRelationItemId(item_id=sold_item_relation.item_id)
+    )
     return {
         "id": sold_item_relation_id.id
     }
