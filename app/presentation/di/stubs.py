@@ -181,7 +181,7 @@ def provide_get_favourite_by_id_stub():
     raise NotImplementedError
 
 
-def provide_get_favourites_by_item_id_stub():
+def provide_get_favourites_count_by_item_id_stub():
     raise NotImplementedError
 
 

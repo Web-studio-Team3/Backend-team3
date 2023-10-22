@@ -84,7 +84,7 @@ from app.infrastracture.dao.favourite.favourite_write import FavouriteWriteImpl
 from app.core.favourites.usecase.create_favourite import CreateFavouriteUseCase
 from app.core.favourites.usecase.delete_favourite import DeleteFavouriteUseCase
 from app.core.favourites.usecase.get_favourite_by_id import GetFavouriteByIdUseCase
-from app.core.favourites.usecase.get_favourites_by_item_id import GetFavouritesByItemIdUseCase
+from app.core.favourites.usecase.get_favourites_count_by_item_id import GetFavouritesCountByItemIdUseCase
 from app.core.favourites.usecase.get_favourites_by_user_id import GetFavouritesByUserIdUseCase
 from app.core.favourites.usecase.delete_favourites_by_item_id import DeleteFavouritesByItemIdUseCase
 
@@ -566,12 +566,12 @@ def provide_get_favourite_by_id(
     )
 
 
-def provide_get_favourites_by_item_id(
+def provide_get_favourites_count_by_item_id(
     favourite_read_dao: BaseDao = Depends(
         get_pymongo_dao(FavouriteReadImpl)
     )
-) -> GetFavouritesByItemIdUseCase:
-    return GetFavouritesByItemIdUseCase(
+) -> GetFavouritesCountByItemIdUseCase:
+    return GetFavouritesCountByItemIdUseCase(
         read_dao=favourite_read_dao
     )
 
