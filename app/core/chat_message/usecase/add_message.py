@@ -11,7 +11,7 @@ class AddMessageUseCase(UseCase):
         try:
             message = Message(
                 user_name=message.user_name,
-                datetime=message.datetime,
+                date_time=message.date_time,
                 message=message.message
             )
         except TypeError:

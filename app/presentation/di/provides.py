@@ -101,6 +101,7 @@ from app.core.chat_message.usecase.add_message import AddMessageUseCase
 from app.core.chat_message.usecase.delete_message import DeleteMessageUseCase
 from app.core.chat_message.usecase.delete_all_messages import DeleteAllMessagesUseCase
 
+
 from app.presentation.di.stubs import (
     provide_database_stub,
     provide_create_token_stub,
@@ -597,6 +598,7 @@ def provide_get_favourites_by_user_id(
     return GetFavouritesByUserIdUseCase(
         read_dao=favourite_read_dao
     )
+
 
 def provide_get_access_token_by_jwt(
     token_read_dao: BaseDao = Depends(

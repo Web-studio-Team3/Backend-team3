@@ -64,6 +64,7 @@ from app.presentation.di.stubs import (
     provide_get_all_messages_stub,
     provide_delete_message_stub,
     provide_delete_all_messages_stub
+
 )
 
 from app.presentation.di.provides import (
@@ -127,6 +128,7 @@ from app.presentation.di.provides import (
     provide_add_message,
     provide_delete_message,
     provide_delete_all_messages
+
 )
 
 
@@ -195,7 +197,6 @@ def setup_di(app: FastAPI):
             provide_get_all_messages_stub: provide_get_all_messages,
             provide_add_message_stub: provide_add_message,
             provide_delete_message_stub: provide_delete_message,
-            provide_delete_all_messages_stub: provide_delete_all_messages
-
+            provide_delete_all_messages_stub: provide_delete_all_messages,
         }
     )

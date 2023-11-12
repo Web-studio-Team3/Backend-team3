@@ -15,7 +15,7 @@ class MessageReadDaoImpl(BaseDao, MessageRead):
                 Message(
                     id=str(messages["_id"]),
                     user_name=messages["user_name"],
-                    datatime=str(messages["datatime"]),
+                    data_time=messages["data_time"],
                     mewssage=messages["message"]
                 )
             )

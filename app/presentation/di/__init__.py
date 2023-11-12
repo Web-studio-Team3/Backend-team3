@@ -57,5 +57,4 @@ from app.presentation.di.di import (
     provide_delete_message_stub,
     provide_delete_all_messages_stub,
     provide_get_all_messages_stub
-
 )

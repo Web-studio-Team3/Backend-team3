@@ -1,7 +1,8 @@
 from typing import Protocol
 from app.core.chat_message.enteties.message import Message
+from app.core.chat_message.dto.message import MessageId
 
 
 class MessageRead(Protocol):
-    def get_all_messages_by_id(self, messages_id: str) -> list[Message]:
+    def get_all_messages_by_id(self, messages_id: MessageId) -> list[Message]:
         raise NotImplementedError
