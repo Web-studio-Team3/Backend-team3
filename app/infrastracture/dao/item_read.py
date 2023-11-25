@@ -1,14 +1,11 @@
 from bson import ObjectId
 
-from app.infrastracture.dao.base import BaseDao
-
 from app.core.item.dao.item_read import ItemRead
 from app.core.item.entities.item import Item
+from app.infrastracture.dao.base import BaseDao
 
 
-class ItemReadDaoImpl(
-    BaseDao, ItemRead
-):
+class ItemReadDaoImpl(BaseDao, ItemRead):
     def get_by_id(self, id: str) -> Item:
         item = self._database["item"].find_one({"_id": ObjectId(id)})
         if not item:
@@ -21,14 +18,14 @@ class ItemReadDaoImpl(
             condition=item["condition"],
             address=item["address"],
             cost=item["cost"],
-            status=item["status"]
+            status=item["status"],
         )
 
     def get_all(self) -> list[Item]:
         items = self._database["item"].find()
         if not items:
             raise TypeError
-        items_res = [] 
+        items_res = []
         for item in items:
             items_res.append(
                 Item(
@@ -39,7 +36,7 @@ class ItemReadDaoImpl(
                     condition=item["condition"],
                     address=item["address"],
                     cost=item["cost"],
-                    status=item["status"]
+                    status=item["status"],
                 )
             )
         return items_res

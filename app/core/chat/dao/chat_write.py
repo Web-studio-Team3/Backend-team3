@@ -1,5 +1,6 @@
-from app.core.chat.dto.chat import CreateChat, ChatId
 from typing import Protocol
+
+from app.core.chat.dto.chat import ChatId, CreateChat
 
 
 class ChatWrite(Protocol):

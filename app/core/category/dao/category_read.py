@@ -1,4 +1,5 @@
 from typing import Protocol
+
 from app.core.category.entities.category import Category
 
 

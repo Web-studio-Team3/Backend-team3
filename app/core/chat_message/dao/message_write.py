@@ -1,5 +1,6 @@
-from app.core.chat_message.dto.message import Message, MessageId
 from typing import Protocol
+
+from app.core.chat_message.dto.message import Message, MessageId
 
 
 class MessageWrite(Protocol):

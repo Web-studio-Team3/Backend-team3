@@ -1,14 +1,11 @@
 from bson import ObjectId
 
-from app.infrastracture.dao.base import BaseDao
-
 from app.core.category.dao.category_read import CategoryRead
 from app.core.category.entities.category import Category
+from app.infrastracture.dao.base import BaseDao
 
 
-class CategoryReadDaoImpl(
-    BaseDao, CategoryRead
-):
+class CategoryReadDaoImpl(BaseDao, CategoryRead):
     def get_by_id(self, id: str) -> Category:
         category = self._database["categories"].find_one({"_id": ObjectId(id)})
         if not category:
@@ -23,7 +20,7 @@ class CategoryReadDaoImpl(
         categories = self._database["categories"].find()
         if not categories:
             raise TypeError
-        categories_res = [] 
+        categories_res = []
         for category in categories:
             categories_res.append(
                 Category(

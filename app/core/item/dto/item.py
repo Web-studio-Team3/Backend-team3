@@ -1,5 +1,6 @@
-from app.shared.dto_base import BaseDto
 from typing import Optional
+
+from app.shared.dto_base import BaseDto
 
 
 class ItemId(BaseDto):
@@ -15,7 +16,7 @@ class ItemCreate(BaseDto):
     cost: str
     status: str
 
-        
+
 class ItemUpdate(BaseDto):
     category_id: Optional[str]
     title: Optional[str]
@@ -29,4 +30,3 @@ class ItemUpdate(BaseDto):
 class ItemUpdateWithId(BaseDto):
     id: str
     item_update: ItemUpdate
-    

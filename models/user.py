@@ -1,7 +1,8 @@
-from pydantic import BaseModel, EmailStr, Field
-from bson import ObjectId
+from datetime import date, datetime
 from typing import Optional
-from datetime import datetime, date
+
+from bson import ObjectId
+from pydantic import BaseModel, EmailStr, Field
 
 
 class UserModel(BaseModel):
@@ -16,7 +17,7 @@ class UserModel(BaseModel):
         # allow_population_by_field_name = True
         # arbitrary_types_allowed = True
         # json_encoders = {
-            # ObjectId: str,
+        # ObjectId: str,
         # }
         schema_extra = {
             "example": {

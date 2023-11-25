@@ -1,7 +1,6 @@
-from app.infrastracture.dao.base import BaseDao
-
 from app.core.chat_message.dao.message_read import MessageRead
 from app.core.chat_message.enteties.message import Message
+from app.infrastracture.dao.base import BaseDao
 
 
 class MessageReadDaoImpl(BaseDao, MessageRead):
@@ -16,7 +15,7 @@ class MessageReadDaoImpl(BaseDao, MessageRead):
                     id=str(messages["_id"]),
                     user_name=messages["user_name"],
                     data_time=messages["data_time"],
-                    mewssage=messages["message"]
+                    mewssage=messages["message"],
                 )
             )
         return messages_res

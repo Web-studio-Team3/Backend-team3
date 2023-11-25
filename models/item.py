@@ -1,7 +1,9 @@
-from pydantic import BaseModel, Field
+from datetime import date, datetime
+from typing import List, Optional
+
 from bson.objectid import ObjectId
-from datetime import datetime, date
-from typing import Optional, List
+from pydantic import BaseModel, Field
+
 
 class PyObjectId(ObjectId):
     @classmethod
@@ -18,6 +20,7 @@ class PyObjectId(ObjectId):
     def __modify_schema__(cls, field_schema):
         field_schema.update(type="string")
 
+
 class ItemModel(BaseModel):
     # id: str
     category_id: Optional[PyObjectId] = Field(...)
@@ -28,7 +31,6 @@ class ItemModel(BaseModel):
     cost: Optional[str] = Field(...)
     status: Optional[str] = Field(...)
     # owner_id: Optional[ObjectId] = Field(...)
-
 
     class Config:
         schema_extra = {

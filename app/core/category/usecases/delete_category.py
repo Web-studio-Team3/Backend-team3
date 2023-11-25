@@ -1,7 +1,6 @@
-from app.core.shared.usecase_base import UseCase
-
-from app.core.category.dto.category import CategoryId
 from app.core.category.dao.category_write import CategoryWrite
+from app.core.category.dto.category import CategoryId
+from app.core.shared.usecase_base import UseCase
 
 
 class DeleteCategoryUseCase(UseCase[CategoryId, None]):

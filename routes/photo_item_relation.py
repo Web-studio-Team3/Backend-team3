@@ -1,12 +1,15 @@
-from fastapi import APIRouter, UploadFile, File
-from bson import ObjectId
 from typing import List
-from app.core.picture.picture_helper import save_picture, delete_picture
 
-from models.photo_item_relation import PhotoItemRelation
+from bson import ObjectId
+from fastapi import APIRouter, File, UploadFile
+
+from app.core.picture.picture_helper import delete_picture, save_picture
 from config.db import db
-from schemas.photo_item_relation import photo_item_relation_entity, \
-    photo_item_relation_entities
+from models.photo_item_relation import PhotoItemRelation
+from schemas.photo_item_relation import (
+    photo_item_relation_entities,
+    photo_item_relation_entity,
+)
 
 relation_router = APIRouter()
 
@@ -31,15 +34,13 @@ def delete_all_items_photo(item_id):
     db.items_photo.delete_many({"item_id": item_id})
     for relation in relations:
         delete_picture(relation.get("photo_url"))
-    return {
-        "chat_message": "success"
-    }
+    return {"chat_message": "success"}
 
 
 @relation_router.delete("/{relation_id}")
 def delete_items_photo(relation_id):
-    relation = photo_item_relation_entity(db.items_photo.find_one_and_delete({"_id": ObjectId(relation_id)}))
+    relation = photo_item_relation_entity(
+        db.items_photo.find_one_and_delete({"_id": ObjectId(relation_id)})
+    )
     delete_picture(relation.get("photo_url"))
-    return {
-        "chat_message": "success"
-    }
+    return {"chat_message": "success"}

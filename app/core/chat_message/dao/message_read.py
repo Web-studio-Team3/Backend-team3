@@ -1,6 +1,7 @@
 from typing import Protocol
-from app.core.chat_message.enteties.message import Message
+
 from app.core.chat_message.dto.message import MessageId
+from app.core.chat_message.enteties.message import Message
 
 
 class MessageRead(Protocol):

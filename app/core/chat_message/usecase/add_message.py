@@ -4,20 +4,20 @@ from app.core.shared.usecase_base import UseCase
 
 
 class AddMessageUseCase(UseCase):
-    def __init__(self, dao: Message):
-        self._dao = dao
+    def __init__(self, write_dao: Message):
+        self.write_dao = write_dao
 
     def execute(self, message: Message) -> None:
         try:
             message = Message(
                 user_name=message.user_name,
                 date_time=message.date_time,
-                message=message.message
+                message=message.message,
             )
         except TypeError:
             raise TypeError
 
         try:
-            return self._dao.create(message=message)
+            return self.write_dao.create(message=message)
         except TypeError:
             raise TypeError

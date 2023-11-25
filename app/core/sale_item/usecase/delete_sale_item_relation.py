@@ -1,6 +1,6 @@
-from app.core.shared.usecase_base import UseCase
 from app.core.sale_item.dao.sale_item_relation_write import SaleItemRelationWrite
 from app.core.sale_item.dto.sale_item_relation import SaleItemRelationId
+from app.core.shared.usecase_base import UseCase
 
 
 class DeleteSaleItemRelationUseCase(UseCase[SaleItemRelationId, None]):

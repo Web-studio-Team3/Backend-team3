@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import TypeVar, Generic
+from typing import Generic, TypeVar
 
 RequestType = TypeVar("RequestType")
 ReturnType = TypeVar("ReturnType")

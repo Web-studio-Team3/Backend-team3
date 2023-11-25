@@ -1,8 +1,10 @@
-from app.core.token.dao.token_coder import TokenCoder
+import time
+
+import jwt
 from decouple import config
 from envparse import Env
-import jwt
-import time
+
+from app.core.token.dao.token_coder import TokenCoder
 
 env = Env()
 JWT_SECRET = env.str("SECRET", default="please_please_update_me_please")

@@ -1,6 +1,6 @@
 from typing import Protocol
-from app.core.chat.entities.chat import Chat
 
+from app.core.chat.entities.chat import Chat
 
 
 class ChatRead(Protocol):

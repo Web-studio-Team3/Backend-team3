@@ -1,5 +1,8 @@
 from typing import Protocol
-from app.core.picture_item_relation.entities.picture_item_relation import PictureItemRelation
+
+from app.core.picture_item_relation.entities.picture_item_relation import (
+    PictureItemRelation,
+)
 
 
 class PictureItemRelationRead(Protocol):

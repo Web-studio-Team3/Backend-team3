@@ -11,4 +11,3 @@ class Item:
     address: str
     cost: str
     status: str
-    

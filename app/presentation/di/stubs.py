@@ -169,6 +169,7 @@ def provide_get_sold_item_relation_by_item_id_stub():
 def provide_get_sold_item_relation_by_seller_id_stub():
     raise NotImplementedError
 
+
 def provide_create_favourite_stub():
     raise NotImplementedError
 
@@ -205,7 +206,7 @@ def provide_delete_sold_item_realtion_by_item_id_stub():
 
 
 def provide_create_chat_stub():
-    raise  NotImplementedError
+    raise NotImplementedError
 
 
 def provide_get_chat_by_id_stub():
@@ -231,4 +232,6 @@ def provide_delete_all_messages_stub():
 def provide_get_all_messages_stub():
     raise NotImplementedError
 
+def provide_connection_manager_stub():
+    raise NotImplementedError
 
