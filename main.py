@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 from app.presentation.di.di import setup_di
 from app.presentation.routes import router
-from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
@@ -17,5 +17,5 @@ app.add_middleware(
 )
 
 setup_di(app)
-app.mount("/static", StaticFiles(directory="static"))
+# app.mount("/static", StaticFiles(directory="static"))
 app.include_router(router)

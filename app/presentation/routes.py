@@ -7,7 +7,8 @@ from app.presentation.v1 import (
     picture_item_relation,
     sale_item_relation,
     sold_item_relation,
-    favourite
+    favourite,
+    search,
 )
 
 router = APIRouter(prefix="/api")
@@ -22,3 +23,4 @@ router.include_router(sale_item_relation.router,
 router.include_router(sold_item_relation.router,
                       prefix="/sold_item_relations", tags=["sold_item_relations"])
 router.include_router(favourite.router, prefix="/favourites", tags=["favourites"])
+router.include_router(search.router, prefix="/search", tags=["search"])

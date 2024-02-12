@@ -22,7 +22,6 @@ from app.core.picture_item_relation.dto.picture_item_relation import (
     PictureItemRelationId
 )
 
-
 from app.presentation.di import (
     provide_get_items_stub,
     provide_get_item_by_id_stub,
@@ -35,9 +34,11 @@ from app.presentation.di import (
     provide_delete_picture_item_relation_stub
 )
 
+from elasticsearch import AsyncElasticsearch
 
 router = APIRouter()
 
+es = AsyncElasticsearch("http://elasticsearch:9200")
 
 @router.get(path='/')
 async def get_item_all(
@@ -128,6 +129,16 @@ async def create_item(
                     picture_id=picture_id,
                     item_id=item_id)
             )
+        es_doc = {
+            "category_id": category_id,
+            "title": title,
+            "description": description,
+            "condition": condition,
+            "address": address,
+            "cost": cost,
+            "status": item_status,
+        }
+        await es.index(index="items", id=item_id, document=es_doc)
     except Exception as e:
         return HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
