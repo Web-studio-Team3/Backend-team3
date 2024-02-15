@@ -264,4 +264,4 @@ async def delete_item(
         SoldItemRelationItemId(item_id=item_id)
     )
 
-    return {"chat_message": "Item deleted"}
+    return {"chat_message": "item deleted"}

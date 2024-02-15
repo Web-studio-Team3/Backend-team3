@@ -10,6 +10,7 @@ class AddMessageUseCase(UseCase):
     def execute(self, message: Message) -> None:
         try:
             message = Message(
+                chat_id=message.chat_id,
                 user_name=message.user_name,
                 date_time=message.date_time,
                 message=message.message,

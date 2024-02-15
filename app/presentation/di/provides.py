@@ -162,32 +162,29 @@ from app.core.user.usecases.sign_in import SignInUseCase
 from app.core.user.usecases.sign_up import SignUpUseCase
 from app.core.user.usecases.update_user import UpdateUserUseCase
 from app.infrastracture.dao.base import BaseDao, Dao
-from app.infrastracture.dao.category_read import CategoryReadDaoImpl
-from app.infrastracture.dao.category_write import CategoryWriteDaoImpl
-from app.infrastracture.dao.chat_read import ChatReadDaoImpl
-from app.infrastracture.dao.chat_write import ChatWriteDaoImpl
+from app.infrastracture.dao.category.category_read import CategoryReadDaoImpl
+from app.infrastracture.dao.category.category_write import CategoryWriteDaoImpl
+from app.infrastracture.dao.chat.chat_read import ChatReadDaoImpl
+from app.infrastracture.dao.chat.chat_write import ChatWriteDaoImpl
 from app.infrastracture.dao.favourite.favourite_read import FavouriteReadImpl
 from app.infrastracture.dao.favourite.favourite_write import FavouriteWriteImpl
-from app.infrastracture.dao.item_read import ItemReadDaoImpl
-from app.infrastracture.dao.item_write import ItemWriteDaoImpl
-from app.infrastracture.dao.message_read import MessageReadDaoImpl
-from app.infrastracture.dao.message_write import MessageWriteDaoImpl
-from app.infrastracture.dao.picture_item_relation_read import (
-    PictureItemRelationReadImpl,
-)
-from app.infrastracture.dao.picture_item_relation_write import (
-    PictureItemRelationWriteImpl,
-)
-from app.infrastracture.dao.picture_read import PictureReadImpl
-from app.infrastracture.dao.picture_write import PictureWriteImpl
+from app.infrastracture.dao.item.item_read import ItemReadDaoImpl
+from app.infrastracture.dao.item.item_write import ItemWriteDaoImpl
+from app.infrastracture.dao.message.message_read import MessageReadDaoImpl
+from app.infrastracture.dao.message.message_write import MessageWriteDaoImpl
+from app.infrastracture.dao.picture_item.picture_item_relation_read import PictureItemRelationReadImpl
+
+from app.infrastracture.dao.picture_item.picture_item_relation_write import PictureItemRelationWriteImpl
+from app.infrastracture.dao.picture.picture_read import PictureReadImpl
+from app.infrastracture.dao.picture.picture_write import PictureWriteImpl
 from app.infrastracture.dao.sale_item.sale_item_read import SaleItemRelationReadImpl
 from app.infrastracture.dao.sale_item.sale_item_write import SaleItemRelationWriteImpl
 from app.infrastracture.dao.sold_item.sold_item_read import SoldItemRelationReadImpl
 from app.infrastracture.dao.sold_item.sold_item_write import SoldItemRelationWriteImpl
-from app.infrastracture.dao.token_read import TokenReadDaoImpl
-from app.infrastracture.dao.token_write import TokenWriteDaoImpl
-from app.infrastracture.dao.user_read import UserReadDaoImpl
-from app.infrastracture.dao.user_write import UserWriteDaoImpl
+from app.infrastracture.dao.token.token_read import TokenReadDaoImpl
+from app.infrastracture.dao.token.token_write import TokenWriteDaoImpl
+from app.infrastracture.dao.user.user_read import UserReadDaoImpl
+from app.infrastracture.dao.user.user_write import UserWriteDaoImpl
 from app.presentation.di.stubs import (
     provide_create_picture_stub,
     provide_create_token_stub,

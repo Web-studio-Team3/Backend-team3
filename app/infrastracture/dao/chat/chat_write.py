@@ -8,20 +8,24 @@ from app.infrastracture.models.chat import ChatModel
 
 class ChatWriteDaoImpl(BaseDao, ChatWrite):
     def create(self, chat: CreateChat) -> ChatId:
-        messages = self._database.create_collection("chat")
+        print("Creating chat...")
+        print(chat)
+        #messages_id = self._database["messages"].insert_one({}).inserted_id
         chat_id = (
-            self._database["chat"]
+            self._database["chat_1"]
             .insert_one(
                 ChatModel(
                     seller_id=ObjectId(chat.seller_id),
                     buyer_id=ObjectId(chat.buyer_id),
-                    messages_id=ObjectId(f"chat_{chat.seller_id + chat.buyer_id}"),
-                )
-            )
-            .inserted_id
+                    # messages_id="0-",
+                ).dict(exclude_none=True)
+            ).inserted_id
         )
-        messages.rename(f"chat_{chat.seller_id + chat.buyer_id}")
+        print(chat_id)
+        print("The chat has been created")
         return ChatId(id=str(chat_id))
 
     def delete(self, chat_id: ChatId) -> None:
-        self._database["chat"].find_one_and_delete({"_id": ObjectId(chat_id.id)})
+        chat = self._database["сhats"].find_one({"_id": ObjectId(id)})
+        self._database['messages'].find_one_and_delete({"_id": ObjectId(chat["messages_id"])})
+        self._database["chat"].find_one_and_delete({"_id":ObjectId(chat["_id"])})

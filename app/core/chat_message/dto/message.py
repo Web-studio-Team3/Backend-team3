@@ -1,11 +1,12 @@
 from app.shared.dto_base import BaseDto
 
-
-class MessageId(BaseDto):
+# ID сообщений
+class MessagesId(BaseDto):
     id: str
 
-
+# Объект сообщения
 class Message(BaseDto):
-    user_name: str
+    chat_id: str
+   # user_name: str
     date_time: str
     message: str

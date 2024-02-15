@@ -10,10 +10,9 @@ class CreateChatUseCase(UseCase[CreateChat, ChatId]):
 
     def execute(self, obj: CreateChat) -> ChatId:
         try:
-            chat = Chat(
+            chat = CreateChat(
                 seller_id=obj.seller_id,
                 buyer_id=obj.buyer_id,
-                messages_id=obj.messages_id,
             )
         except TypeError:
             raise TypeError

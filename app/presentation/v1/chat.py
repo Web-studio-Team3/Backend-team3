@@ -72,7 +72,6 @@ async def websocket_endpoint(
 @router.get("/{item_id}/chat/{chat_id}")
 async def get_chat_by_id(
     chat_id: str,
-    jwt: str = Depends(JWTBearer()),
     get_chat_by_id: GetChatByIdUseCase = Depends(provide_get_chat_by_id_stub),
     get_all_messages: GetAllMessagesUseCase = Depends(provide_get_all_messages_stub),
     get_access_token_by_jwt_use_case: GetAccessTokenByJwtUseCase = Depends(
@@ -99,13 +98,15 @@ async def get_chat_by_id(
 async def create_chat(
     seller_id: str = Form(),
     buyer_id: str = Form(),
-    create_chat: CreateChatUseCase = Depends(provide_create_chat_stub),
+    create_chat_use_case: CreateChatUseCase = Depends(provide_create_chat_stub),
 ):
     try:
-        create_chat.execute(
-            CreateChat(seller_id=seller_id, buyer_id=buyer_id, messages_id="0")
+        print("1")
+        create_chat_use_case.execute(
+            obj=CreateChat(seller_id=seller_id, buyer_id=buyer_id)
         )
     except Exception as e:
+        print("2")
         return HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e)
         )
