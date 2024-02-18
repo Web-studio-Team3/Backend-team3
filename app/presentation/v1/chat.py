@@ -93,11 +93,11 @@ async def get_chat_by_id(
             status_code=status.HTTP_400_BAD_REQUEST, detail="No chat with such id"
         )
 
-
+#Создание чата
 @router.post("/{item_id}/{chat_id}")
 async def create_chat(
-    seller_id: str = Form(),
-    buyer_id: str = Form(),
+    seller_id: str,
+    buyer_id: str,
     create_chat_use_case: CreateChatUseCase = Depends(provide_create_chat_stub),
 ):
     try:

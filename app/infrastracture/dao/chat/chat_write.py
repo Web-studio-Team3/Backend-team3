@@ -12,7 +12,7 @@ class ChatWriteDaoImpl(BaseDao, ChatWrite):
         print(chat)
         #messages_id = self._database["messages"].insert_one({}).inserted_id
         chat_id = (
-            self._database["chat_1"]
+            self._database["chats"]
             .insert_one(
                 ChatModel(
                     seller_id=ObjectId(chat.seller_id),
@@ -27,5 +27,5 @@ class ChatWriteDaoImpl(BaseDao, ChatWrite):
 
     def delete(self, chat_id: ChatId) -> None:
         chat = self._database["сhats"].find_one({"_id": ObjectId(id)})
-        self._database['messages'].find_one_and_delete({"_id": ObjectId(chat["messages_id"])})
-        self._database["chat"].find_one_and_delete({"_id":ObjectId(chat["_id"])})
+        #self._database['messages'].find_one_and_delete({"_id": ObjectId(chat["messages_id"])})
+        #self._database["chat"].find_one_and_delete({"_id":ObjectId(chat["_id"])})
