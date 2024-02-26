@@ -66,7 +66,7 @@ async def delete(
     user_id = get_access_token_by_jwt_use_case.execute(jwt).user_id
     favourites = get_favourites_by_user_id.execute(FavouriteUserId(user_id=user_id))
     if not any(favourite.user_id == user_id for favourite in favourites):
-        return {"message": "Not allowed for this user"}
+        return {"chat_message": "Not allowed for this user"}
 
     delete_favourite_use_case.execute(obj=FavouriteId(id=favourite_id))
     return {"chat_message": "favourite was successfully deleted"}
@@ -87,7 +87,7 @@ async def get(
 
     user_id = get_access_token_by_jwt_use_case.execute(jwt).user_id
     if user_id != favourite.user_id:
-        return {"message": "Not allowed for this user"}
+        return {"chat_message": "Not allowed for this user"}
 
     return favourite
 

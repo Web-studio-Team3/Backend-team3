@@ -62,7 +62,7 @@ async def create(
         sale_item_relation.item_id == picture_item_relation.item_id
         for sale_item_relation in sale_item_relations
     ):
-        return {"message": "Not allowed for this user"}
+        return {"chat_message": "Not allowed for this user"}
 
     created_picture_item_relation = picture_item_relation_create_use_case.execute(
         picture_item_relation
@@ -123,7 +123,7 @@ async def update(
         sale_item_relation.item_id == picture_item_relation.item_id
         for sale_item_relation in sale_item_relations
     ):
-        return {"message": "Not allowed for this user"}
+        return {"chat_message": "Not allowed for this user"}
 
     return picture_item_relation_update_use_case.execute(picture_item_relation)
 
@@ -157,7 +157,7 @@ async def delete(
         sale_item_relation.item_id == picture_item_relation.item_id
         for sale_item_relation in sale_item_relations
     ):
-        return {"message": "Not allowed for this user"}
+        return {"chat_message": "Not allowed for this user"}
 
     delete_picture_item_relation_use_case.execute(
         PictureItemRelationId(id=picture_item_relation_id)

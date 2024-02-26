@@ -1,11 +1,11 @@
-from app.core.chat_message.dao.message_read import MessageRead
+from app.core.chat_message.dao.message_read import MessagesRead
 from app.core.chat_message.dto.message import MessagesId
 from app.core.chat_message.enteties.message import Message
 from app.core.shared.usecase_base import UseCase
 
 
 class GetAllMessagesUseCase(UseCase[MessagesId, list[Message]]):
-    def __init__(self, read_dao: MessageRead):
+    def __init__(self, read_dao: MessagesRead):
         self.read_dao = read_dao
 
     def execute(self, messages_id: str) -> list[Message]:

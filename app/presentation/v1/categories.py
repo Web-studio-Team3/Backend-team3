@@ -98,4 +98,4 @@ async def delete_category(
     ),
 ):
     delete_category_use_case.execute(category_id=CategoryId(id=category_id))
-    return {"message": "Category deleted"}
+    return {"chat_message": "Category deleted"}

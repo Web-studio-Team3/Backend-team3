@@ -11,10 +11,11 @@ from fastapi import (
     status,
 )
 
-from app.core.chat.dto.chat import ChatId, CreateChat
+from app.core.chat.dto.chat import ChatId, CreateChat, ChatUpdate, ChatUpdateWithId
 from app.core.chat.entities.chat import Chat
 from app.core.chat.usecase.create_chat import CreateChatUseCase
 from app.core.chat.usecase.delete_chat import DeleteChatUseCase
+from app.core.chat.usecase.update_chat import UpdateChatUseCase
 from app.core.chat.usecase.get_chat_by_id import GetChatByIdUseCase
 from app.core.chat_message.dto.message import Message
 from app.core.chat_message.usecase.add_message import AddMessageUseCase
@@ -35,13 +36,15 @@ from app.presentation.di import (
     provide_get_access_token_by_jwt_stub,
     provide_get_all_messages_stub,
     provide_get_chat_by_id_stub,
-    provide_get_user_by_id_stub,
+    provide_update_chat_stub
 )
 
 router = APIRouter()
 
 
 # Работа в веб-сокетом
+
+
 async def connect_user(user_id):
     async with aiohttp.ClientSession() as session:
         async with session.ws_connect(
@@ -55,7 +58,6 @@ async def connect_user(user_id):
 @router.websocket("{chat_id}/ws/{client_id}")
 async def websocket_endpoint(
     websocket: WebSocket,
-    chat_id: str,
     manager: ConnectionManager = Depends(provide_connection_manager_stub),
 ):
     await manager.connect(websocket)
@@ -69,6 +71,8 @@ async def websocket_endpoint(
 
 
 # Работа с чатом
+
+
 @router.get("/{item_id}/chat/{chat_id}")
 async def get_chat_by_id(
     chat_id: str,
@@ -80,12 +84,14 @@ async def get_chat_by_id(
     manager: ConnectionManager = Depends(provide_connection_manager_stub),
 ):
     try:
+        print("получение чата...")
         chat = get_chat_by_id.execute(ChatId(id=chat_id))
+        print(f"чат{chat}")
         if chat not in manager.chats:
             manager.chats.append(chat)
         else:
             pass
-        connect_user(get_access_token_by_jwt_use_case.execute(jwt).user_id)
+
         messages = get_all_messages.execute(id=chat.messages_id)
         return messages
     except TypeError:
@@ -93,7 +99,7 @@ async def get_chat_by_id(
             status_code=status.HTTP_400_BAD_REQUEST, detail="No chat with such id"
         )
 
-#Создание чата
+
 @router.post("/{item_id}/{chat_id}")
 async def create_chat(
     seller_id: str,
@@ -115,13 +121,26 @@ async def create_chat(
 @router.delete("/{chat_id}")
 async def delete_chat(
     chat_id: str,
-    message_id: str,
     delete_chat: DeleteChatUseCase = Depends(provide_delete_chat_stub),
 ):
-    delete_chat.execute(chat_id=chat_id, message_id=message_id)
+    delete_chat.execute(chat_id=chat_id)
+
+
+# @router.put("/{chat_id}")
+# async def update_chat(
+#     chat_id: str,
+#     chat=ChatUpdate,
+#     update_chat_use_case: UpdateChatUseCase = Depends(provide_update_chat_stub)
+# ):
+#     update_chat = update_chat_use_case.execute(
+#         ChatUpdateWithId(id=chat_id, chat_update=chat)
+#     )
+#     return update_chat
 
 
 # Работа с сообщениями
+
+
 async def add_message(
     user_name: str,
     message: str = Form(),
@@ -139,16 +158,6 @@ async def add_message(
         return HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e)
         )
-
-
-@router.delete("/{chat_id}/{message_id}")
-async def delete_all_messages(
-    messages_id: str,
-    delete_all_messages: DeleteAllMessagesUseCase = Depends(
-        provide_delete_all_messages_stub
-    ),
-):
-    delete_all_messages.execute(messages_id)
 
 
 @router.delete("/{chat_id}/{message_id}")

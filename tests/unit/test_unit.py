@@ -58,7 +58,12 @@ class TestChat:
         )
         assert response.status_code == 200
 
-    def test_get_chat(self):
+    def test_delete_chat(self):
+        response = client.post(
+            "/api/chat/{item_id}/{chat_id}?seller_id=65c397bae1756a2508104f27&buyer_id=65ca4a46d64f34e484ba389c"
+        )
+        assert response.status_code == 200
+    def test_update_chat(self):
         response = client.post(
             "/api/chat/{item_id}/{chat_id}?seller_id=65c397bae1756a2508104f27&buyer_id=65ca4a46d64f34e484ba389c"
         )

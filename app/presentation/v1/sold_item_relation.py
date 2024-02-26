@@ -82,7 +82,7 @@ async def create(
         sale_item_relation.item_id == sold_item_relation.item_id
         for sale_item_relation in sale_item_relations
     ):
-        return {"message": "Not allowed for this user"}
+        return {"chat_message": "Not allowed for this user"}
 
     sold_item_relation_id = create_sold_item_relation_use_case.execute(
         obj=sold_item_relation
@@ -114,7 +114,7 @@ async def delete(
         sold_item_relation.seller_id
         != get_access_token_by_jwt_use_case.execute(jwt).user_id
     ):
-        return {"message": "Not allowed for this user"}
+        return {"chat_message": "Not allowed for this user"}
 
     delete_sold_item_relation_use_case.execute(
         obj=SoldItemRelationId(id=sold_item_relation_id)
@@ -142,7 +142,7 @@ async def get(
         sold_item_relation.seller_id != user_id
         and sold_item_relation.buyer_id != user_id
     ):
-        return {"message": "Not allowed for this user"}
+        return {"chat_message": "Not allowed for this user"}
 
     return sold_item_relation
 
@@ -167,7 +167,7 @@ async def get_by_item_id(
         sold_item_relation.seller_id != user_id
         and sold_item_relation.buyer_id != user_id
     ):
-        return {"message": "Not allowed for this user"}
+        return {"chat_message": "Not allowed for this user"}
 
     return sold_item_relation
 

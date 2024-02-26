@@ -217,6 +217,10 @@ def provide_delete_chat_stub():
     raise NotImplementedError
 
 
+def provide_update_chat_stub():
+    raise NotImplementedError
+
+
 def provide_add_message_stub():
     raise NotImplementedError
 

@@ -63,6 +63,7 @@ from app.core.chat_message.usecase.delete_all_messages import DeleteAllMessagesU
 
 from app.core.chat.usecase.create_chat import CreateChatUseCase
 from app.core.chat.usecase.delete_chat import DeleteChatUseCase
+from app.core.chat.usecase.update_chat import UpdateChatUseCase
 from app.core.chat.usecase.get_chat_by_id import GetChatByIdUseCase
 from app.core.chat_message.usecase.add_message import AddMessageUseCase
 from app.core.chat_message.usecase.delete_all_messages import DeleteAllMessagesUseCase
@@ -170,8 +171,8 @@ from app.infrastracture.dao.favourite.favourite_read import FavouriteReadImpl
 from app.infrastracture.dao.favourite.favourite_write import FavouriteWriteImpl
 from app.infrastracture.dao.item.item_read import ItemReadDaoImpl
 from app.infrastracture.dao.item.item_write import ItemWriteDaoImpl
-from app.infrastracture.dao.message.message_read import MessageReadDaoImpl
-from app.infrastracture.dao.message.message_write import MessageWriteDaoImpl
+from app.infrastracture.dao.chat_message.message_read import MessageReadDaoImpl
+from app.infrastracture.dao.chat_message.message_write import MessageWriteDaoImpl
 from app.infrastracture.dao.picture_item.picture_item_relation_read import PictureItemRelationReadImpl
 
 from app.infrastracture.dao.picture_item.picture_item_relation_write import PictureItemRelationWriteImpl
@@ -604,6 +605,12 @@ def provide_delete_chat(
     chat_write_dao: BaseDao = Depends(get_pymongo_dao(ChatWriteDaoImpl)),
 ) -> DeleteChatUseCase:
     return DeleteChatUseCase(write_dao=chat_write_dao)
+
+
+def provide_update_chat(
+    chat_write_dao: BaseDao = Depends(get_pymongo_dao(ChatWriteDaoImpl)),
+) -> UpdateChatUseCase:
+    return UpdateChatUseCase(write_dao=chat_write_dao)
 
 
 def provide_add_message(

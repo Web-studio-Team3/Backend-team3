@@ -196,7 +196,7 @@ async def update_item(
         sale_item_relation.item_id == item_id
         for sale_item_relation in sale_item_relations
     ):
-        return {"message": "This user can't change item"}
+        return {"chat_message": "This user can't change item"}
 
     updated_item = update_item_use_case.execute(
         ItemUpdateWithId(id=item_id, item_update=item)
@@ -243,7 +243,7 @@ async def delete_item(
         sale_item_relation.item_id == item_id
         for sale_item_relation in sale_item_relations
     ):
-        return {"message": "This user can't delete item"}
+        return {"chat_message": "This user can't delete item"}
 
     delete_item_use_case.execute(item_id=ItemId(id=item_id))
     picture_item_relations = get_picture_items_relation_by_item_id_use_case.execute(

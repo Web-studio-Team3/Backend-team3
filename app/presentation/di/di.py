@@ -145,6 +145,7 @@ from app.presentation.di.provides import (
     provide_update_item,
     provide_update_picture_item_relation,
     provide_update_user,
+    provide_update_chat,
 )
 from app.presentation.di.stubs import (
     provide_add_message_stub,
@@ -207,6 +208,7 @@ from app.presentation.di.stubs import (
     provide_update_item_stub,
     provide_update_picture_item_relation_stub,
     provide_update_user_stub,
+    provide_update_chat_stub,
 )
 
 
@@ -274,6 +276,7 @@ def setup_di(app: FastAPI):
             provide_delete_sold_item_realtion_by_item_id_stub: provide_delete_sold_item_relation_by_item_id,
             provide_get_favourites_by_item_id_stub: provide_get_favourites_by_item_id,
             provide_create_chat_stub: provide_create_chat,
+            provide_update_chat_stub: provide_update_chat,
             provide_delete_chat_stub: provide_delete_chat,
             provide_get_chat_by_id_stub: provide_get_chat_by_id,
             provide_get_all_messages_stub: provide_get_all_messages,

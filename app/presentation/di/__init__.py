@@ -60,4 +60,5 @@ from app.presentation.di.di import (
     provide_update_item_stub,
     provide_update_picture_item_relation_stub,
     provide_update_user_stub,
+    provide_update_chat_stub,
 )
