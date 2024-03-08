@@ -189,6 +189,10 @@ def provide_get_favourites_count_by_item_id_stub():
 def provide_get_favourites_by_user_id_stub():
     raise NotImplementedError
 
+
+def provide_get_favourites_by_item_id_stub():
+    raise NotImplementedError
+
 def provide_get_access_token_by_jwt_stub():
     raise NotImplementedError
 

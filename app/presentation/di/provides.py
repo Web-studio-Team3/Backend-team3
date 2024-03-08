@@ -9,8 +9,8 @@ from app.core.category.usecases.get_category_all import GetCategoryAllUseCase
 from app.core.category.usecases.get_category_by_id import GetCategoryByIdUseCase
 from app.core.category.usecases.update_category import UpdateCategoryUseCase
 
-from app.infrastracture.dao.picture_item_relation_write import PictureItemRelationWriteImpl
-from app.infrastracture.dao.picture_item_relation_read import PictureItemRelationReadImpl
+from app.infrastracture.dao.picture_item.picture_item_relation_write import PictureItemRelationWriteImpl
+from app.infrastracture.dao.picture_item.picture_item_relation_read import PictureItemRelationReadImpl
 
 from app.core.picture_item_relation.usecases.create_picture_item_relation import CreatePictureItemRelationUseCase
 from app.core.picture_item_relation.usecases.delete_picture_item_relation import DeletePictureItemRelationUseCase
@@ -46,15 +46,15 @@ from app.core.favourites.usecase.get_favourites_count_by_item_id import GetFavou
 from app.core.favourites.usecase.get_favourites_by_user_id import GetFavouritesByUserIdUseCase
 from app.core.favourites.usecase.delete_favourites_by_item_id import DeleteFavouritesByItemIdUseCase
 
-from app.infrastracture.dao.chat_write import ChatWriteDaoImpl
-from app.infrastracture.dao.chat_read import ChatReadDaoImpl
+from app.infrastracture.dao.chat.chat_write import  ChatWriteDaoImpl
+from app.infrastracture.dao.chat.chat_read import ChatReadDaoImpl
 from app.core.chat.usecase.get_chat_by_id import GetChatByIdUseCase
 from app.core.chat.usecase.create_chat import CreateChatUseCase
 from app.core.chat.usecase.delete_chat import DeleteChatUseCase
 
-from app.infrastracture.dao.message_write import MessageWriteDaoImpl
-from app.infrastracture.dao.message_read import MessageReadDaoImpl
-from app.core.chat_message.usecase.get_all_messages import GetAllMesagesUseCase
+from app.infrastracture.dao.chat_message.message_write import MessageWriteDaoImpl
+from app.infrastracture.dao.chat_message.message_read import MessageReadDaoImpl
+from app.core.chat_message.usecase.get_all_messages import GetAllMessagesUseCase
 from app.core.chat_message.usecase.add_message import AddMessageUseCase
 from app.core.chat_message.usecase.delete_message import DeleteMessageUseCase
 from app.core.chat_message.usecase.delete_all_messages import DeleteAllMessagesUseCase
@@ -557,6 +557,12 @@ def provide_get_favourites_by_user_id(
     favourite_read_dao: BaseDao = Depends(get_pymongo_dao(FavouriteReadImpl)),
 ) -> GetFavouritesByUserIdUseCase:
     return GetFavouritesByUserIdUseCase(read_dao=favourite_read_dao)
+
+
+def provide_get_favourites_by_item_id(
+    favourite_read_dao: BaseDao = Depends(get_pymongo_dao(FavouriteReadImpl)),
+) -> GetFavouritesCountByItemIdUseCase:
+    return GetFavouritesCountByItemIdUseCase(read_dao=favourite_read_dao)
 
 
 def provide_get_access_token_by_jwt(
