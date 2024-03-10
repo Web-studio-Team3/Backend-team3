@@ -1,13 +1,9 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-
 from app.presentation.di.di import setup_di
 from app.presentation.routes import router
-
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_pagination import add_pagination
-
 
 app = FastAPI()
 
@@ -25,5 +21,4 @@ setup_di(app)
 app.mount("/static", StaticFiles(directory="static"))
 app.include_router(router)
 add_pagination(app)
-
 
