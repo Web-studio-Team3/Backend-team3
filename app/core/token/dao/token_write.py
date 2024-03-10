@@ -1,8 +1,9 @@
 from typing import Protocol
+
 from app.core.token.dto.token import (
     AccessTokenDto,
     AccessTokenUpdateDto,
-    AccessTokenUserIdDto
+    AccessTokenUserIdDto,
 )
 from app.core.token.entities.token import AccessToken
 

@@ -1,9 +1,6 @@
-from app.core.shared.usecase_base import UseCase
 from app.core.favourites.dao.favourite_read import FavouriteRead
-from app.core.favourites.dto.favourite import (
-    FavouriteId,
-    Favourite
-)
+from app.core.favourites.dto.favourite import Favourite, FavouriteId
+from app.core.shared.usecase_base import UseCase
 
 
 class GetFavouriteByIdUseCase(UseCase[FavouriteId, Favourite]):

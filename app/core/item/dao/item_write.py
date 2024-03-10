@@ -1,7 +1,6 @@
 from typing import Protocol
-from app.core.item.dto.item import (
-    ItemId, ItemCreate, ItemUpdateWithId
-)
+
+from app.core.item.dto.item import ItemCreate, ItemId, ItemUpdateWithId
 
 
 class ItemWrite(Protocol):

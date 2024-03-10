@@ -1,6 +1,7 @@
 from typing import Protocol
-from app.core.user.entities.user import User
+
 from app.core.user.dto.user import UserGetByEmailResp
+from app.core.user.entities.user import User
 
 
 class UserRead(Protocol):

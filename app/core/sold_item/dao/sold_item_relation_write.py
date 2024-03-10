@@ -1,5 +1,9 @@
 from typing import Protocol
-from app.core.sold_item.dto.sold_item_relation import SoldItemRelation, SoldItemRelationId
+
+from app.core.sold_item.dto.sold_item_relation import (
+    SoldItemRelation,
+    SoldItemRelationId,
+)
 
 
 class SoldItemRelationWrite(Protocol):

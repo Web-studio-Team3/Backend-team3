@@ -1,6 +1,9 @@
-from app.core.shared.usecase_base import UseCase
 from app.core.sale_item.dao.sale_item_relation_write import SaleItemRelationWrite
-from app.core.sale_item.dto.sale_item_relation import SaleItemRelation, SaleItemRelationId
+from app.core.sale_item.dto.sale_item_relation import (
+    SaleItemRelation,
+    SaleItemRelationId,
+)
+from app.core.shared.usecase_base import UseCase
 
 
 class CreateSaleItemRelationUseCase(UseCase[SaleItemRelation, SaleItemRelationId]):

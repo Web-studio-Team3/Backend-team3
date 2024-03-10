@@ -1,4 +1,5 @@
 from typing import Protocol
+
 from app.core.favourites.dto.favourite import Favourite, FavouriteId
 
 

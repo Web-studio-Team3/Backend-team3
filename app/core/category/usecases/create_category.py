@@ -1,7 +1,6 @@
-from app.core.shared.usecase_base import UseCase
-
-from app.core.category.dto.category import CategoryCreate
 from app.core.category.dao.category_write import CategoryWrite
+from app.core.category.dto.category import CategoryCreate
+from app.core.shared.usecase_base import UseCase
 
 
 class CreateCategoryUseCase(UseCase[CategoryCreate, None]):
@@ -16,7 +15,7 @@ class CreateCategoryUseCase(UseCase[CategoryCreate, None]):
             )
         except TypeError:
             raise TypeError
-            
+
         try:
             self._dao.create(category=category)
         except TypeError:

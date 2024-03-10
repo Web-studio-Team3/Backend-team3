@@ -1,13 +1,13 @@
-from fastapi import APIRouter, Depends, UploadFile, File
+from fastapi import APIRouter, Depends, File, UploadFile
 
-from app.core.picture.usecases.create_picture import CreatePictureUseCase
-from app.core.picture.usecases.get_picture_by_id import GetPictureByIdUseCase
-from app.core.picture.usecases.delete_picture_by_id import DeletePictureByIDUseCase
 from app.core.picture.dto.picture import PictureCreate, PictureId
-
+from app.core.picture.usecases.create_picture import CreatePictureUseCase
+from app.core.picture.usecases.delete_picture_by_id import DeletePictureByIDUseCase
+from app.core.picture.usecases.get_picture_by_id import GetPictureByIdUseCase
 from app.presentation.di import (
-    provide_create_picture_stub, provide_get_picture_stub,
-    provide_delete_picture_stub
+    provide_create_picture_stub,
+    provide_delete_picture_stub,
+    provide_get_picture_stub,
 )
 
 router = APIRouter()
@@ -18,25 +18,18 @@ async def create(
     picture: UploadFile = File(...),
     create_picture_use_case: CreatePictureUseCase = Depends(
         provide_create_picture_stub
-    )
+    ),
 ):
     created_picture = create_picture_use_case.execute(PictureCreate(file=picture))
-    return {
-        "id": created_picture.id,
-        "url": created_picture.picture_url
-    }
+    return {"id": created_picture.id, "url": created_picture.picture_url}
 
 
 @router.get(path="/{picture_id}")
 async def get(
     picture_id: str,
-    get_picture_by_id: GetPictureByIdUseCase = Depends(
-        provide_get_picture_stub
-    )
+    get_picture_by_id: GetPictureByIdUseCase = Depends(provide_get_picture_stub),
 ):
-    return get_picture_by_id.execute(picture_id_obj=PictureId(
-        id=picture_id
-    ))
+    return get_picture_by_id.execute(picture_id_obj=PictureId(id=picture_id))
 
 
 @router.delete(path="/{picture_id}")
@@ -44,11 +37,7 @@ async def delete(
     picture_id: str,
     delete_picture_by_id_use_case: DeletePictureByIDUseCase = Depends(
         provide_delete_picture_stub
-    )
+    ),
 ):
-    delete_picture_by_id_use_case.execute(picture_id_obj=PictureId(
-        id=picture_id
-    ))
-    return {
-        "message": "picture was deleted"
-    }
+    delete_picture_by_id_use_case.execute(picture_id_obj=PictureId(id=picture_id))
+    return {"chat_message": "picture was deleted"}

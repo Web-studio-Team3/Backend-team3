@@ -21,3 +21,4 @@ setup_di(app)
 app.mount("/static", StaticFiles(directory="static"))
 app.include_router(router)
 add_pagination(app)
+

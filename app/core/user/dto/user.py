@@ -1,5 +1,6 @@
-from app.shared.dto_base import BaseDto
 from typing import Optional
+
+from app.shared.dto_base import BaseDto
 
 
 class UserSignUpRaw(BaseDto):
@@ -16,7 +17,7 @@ class UserSignUpRaw(BaseDto):
                 "raw_password": "12345",
                 "full_name": "Jane Doe",
                 "date_of_birth": "01-01-2000",
-                "picture_id": "642aab64757e9f5d986662c1"
+                "picture_id": "642aab64757e9f5d986662c1",
             }
         }
 

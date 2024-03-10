@@ -1,5 +1,6 @@
-from config.db import db
 from bson import ObjectId
+
+from config.db import db
 
 
 def itemEntity(item) -> dict:
@@ -16,9 +17,10 @@ def itemEntity(item) -> dict:
             # "owner": item["owner_id"],
         }
     else:
-      return {
-        "error": "Not Found",
-      }
+        return {
+            "error": "Not Found",
+        }
+
 
 def itemsEntity(entity) -> list:
     return [itemEntity(item) for item in entity]
