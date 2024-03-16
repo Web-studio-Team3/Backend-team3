@@ -1,5 +1,9 @@
 from typing import Protocol
-from app.core.sale_item.dto.sale_item_relation import SaleItemRelation, SaleItemRelationId
+
+from app.core.sale_item.dto.sale_item_relation import (
+    SaleItemRelation,
+    SaleItemRelationId,
+)
 
 
 class SaleItemRelationWrite(Protocol):
@@ -7,4 +11,7 @@ class SaleItemRelationWrite(Protocol):
         raise NotImplementedError
 
     def delete(self, sale_item_relation_id: str) -> None:
+        raise NotImplementedError
+
+    def deleteByItemId(self, item_id: str) -> None:
         raise NotImplementedError

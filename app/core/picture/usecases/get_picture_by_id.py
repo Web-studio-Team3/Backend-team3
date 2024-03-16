@@ -5,10 +5,7 @@ from app.core.picture.entities.picture import Picture
 
 
 class GetPictureByIdUseCase(PictureUseCase[PictureId, Picture]):
-    def __init__(
-            self,
-            read_dao: PictureRead
-    ):
+    def __init__(self, read_dao: PictureRead):
         self._read_dao = read_dao
 
     def execute(self, picture_id_obj: PictureId) -> Picture:

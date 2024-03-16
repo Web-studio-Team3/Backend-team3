@@ -1,4 +1,5 @@
 from typing import Protocol
+
 from app.core.picture.entities.picture import Picture
 
 

@@ -1,7 +1,6 @@
 from typing import Protocol
-from app.core.user.dto.user import (
-    UserSignUpHash, UserId, UserUpdateWithId
-)
+
+from app.core.user.dto.user import UserId, UserSignUpHash, UserUpdateWithId
 
 
 class UserWrite(Protocol):

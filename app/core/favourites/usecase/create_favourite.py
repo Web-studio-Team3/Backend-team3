@@ -1,6 +1,6 @@
-from app.core.shared.usecase_base import UseCase
 from app.core.favourites.dao.favourite_write import FavouriteWrite
 from app.core.favourites.dto.favourite import Favourite, FavouriteId
+from app.core.shared.usecase_base import UseCase
 
 
 class CreateFavouriteUseCase(UseCase[Favourite, FavouriteId]):

@@ -11,4 +11,4 @@ class PictureItemRelationId(BaseDto):
 
 
 class PictureItemRelationItemId(BaseDto):
-    item_id:str
+    item_id: str

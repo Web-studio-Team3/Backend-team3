@@ -1,7 +1,7 @@
-from pydantic import BaseModel
-from app.core.category.entities.category import Category
-
 from bson.objectid import ObjectId
+from pydantic import BaseModel
+
+from app.core.category.entities.category import Category
 
 
 class PyObjectId(ObjectId):
@@ -12,7 +12,7 @@ class PyObjectId(ObjectId):
     @classmethod
     def validate(cls, v):
         if not isinstance(v, ObjectId):
-            raise TypeError('ObjectId required')
+            raise TypeError("ObjectId required")
         return str(v)
 
 
@@ -26,6 +26,6 @@ class CategoryModel(BaseModel):
 
 def from_entity(category: Category) -> CategoryModel:
     return CategoryModel(
-        title = category.title,
-        childs = category.childs,
+        title=category.title,
+        childs=category.childs,
     )

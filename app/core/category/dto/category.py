@@ -1,5 +1,6 @@
-from app.shared.dto_base import BaseDto
 from typing import Optional
+
+from app.shared.dto_base import BaseDto
 
 
 class CategoryId(BaseDto):
@@ -19,4 +20,3 @@ class CategoryUpdate(BaseDto):
 class CategoryUpdateWithId(BaseDto):
     id: str
     category_update: CategoryUpdate
-    

@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
-from typing import TypeVar, Generic
+from typing import Generic, TypeVar
+
 from app.shared.dto_base import BaseDto
 
-DtoType = TypeVar('DtoType', bound=BaseDto)
-ReturnType = TypeVar('ReturnType')
+DtoType = TypeVar("DtoType", bound=BaseDto)
+ReturnType = TypeVar("ReturnType")
 
 
 class UseCase(ABC, Generic[DtoType, ReturnType]):

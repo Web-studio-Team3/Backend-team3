@@ -1,14 +1,16 @@
 from fastapi import APIRouter
+
 from app.presentation.v1 import (
-    user,
-    picture,
-    items,
     categories,
+    chat,
+    items,
+    picture,
     picture_item_relation,
     sale_item_relation,
     sold_item_relation,
     favourite,
     search,
+    user,
 )
 
 router = APIRouter(prefix="/api")
@@ -24,3 +26,22 @@ router.include_router(sold_item_relation.router,
                       prefix="/sold_item_relations", tags=["sold_item_relations"])
 router.include_router(favourite.router, prefix="/favourites", tags=["favourites"])
 router.include_router(search.router, prefix="/search", tags=["search"])
+
+router.include_router(
+    picture_item_relation.router,
+    prefix="/picture_item_relations",
+    tags=["picture_item_relations"],
+)
+router.include_router(
+    sale_item_relation.router,
+    prefix="/sale_item_relations",
+    tags=["sale_item_relations"],
+)
+router.include_router(
+    sold_item_relation.router,
+    prefix="/sold_item_relations",
+    tags=["sold_item_relations"],
+)
+router.include_router(favourite.router, prefix="/favourites", tags=["favourites"])
+router.include_router(chat.router, prefix="/chat", tags=["chat"])
+

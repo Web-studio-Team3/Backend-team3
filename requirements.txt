@@ -35,3 +35,7 @@ typing_extensions==4.5.0
 urllib3==1.26.16
 uvicorn==0.21.0
 yarl==1.9.2
+fastapi-pagination==0.12.10
+aiohttp~=3.8.6
+jose~=1.0.0
+

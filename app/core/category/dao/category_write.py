@@ -1,6 +1,9 @@
 from typing import Protocol
+
 from app.core.category.dto.category import (
-    CategoryId, CategoryCreate, CategoryUpdateWithId
+    CategoryCreate,
+    CategoryId,
+    CategoryUpdateWithId,
 )
 
 

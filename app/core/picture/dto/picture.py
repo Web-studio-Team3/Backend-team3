@@ -1,6 +1,7 @@
-from pydantic import BaseModel
-from fastapi import File, UploadFile
 from dataclasses import dataclass
+
+from fastapi import File, UploadFile
+from pydantic import BaseModel
 
 
 @dataclass
