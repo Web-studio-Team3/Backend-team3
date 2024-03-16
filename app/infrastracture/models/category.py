@@ -18,7 +18,7 @@ class PyObjectId(ObjectId):
 
 class CategoryModel(BaseModel):
     title: str
-    childs: list[ObjectId]
+    childs: list[ObjectId] | None
 
     class Config:
         arbitrary_types_allowed = True

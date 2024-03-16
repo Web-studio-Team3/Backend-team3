@@ -1,103 +1,80 @@
-from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
-from fastapi_pagination import Page, paginate
+from fastapi import APIRouter, Depends, status, HTTPException, Form, UploadFile, File
 
-from app.core.favourites.dto.favourite import FavouriteItemId
-from app.core.favourites.usecase.delete_favourites_by_item_id import (
-    DeleteFavouritesByItemIdUseCase,
+from app.core.item.dto.item import (
+    ItemId, ItemCreate, ItemUpdate, ItemUpdateWithId
 )
-from app.core.item.dto.item import ItemCreate, ItemId, ItemUpdate, ItemUpdateWithId
-from app.core.item.entities.item import Item
-from app.core.item.usecases.create_item import CreateItemUseCase
-from app.core.item.usecases.delete_item import DeleteItemUseCase
+
 from app.core.item.usecases.get_item_all import GetItemAllUseCase
 from app.core.item.usecases.get_item_by_id import GetItemByIdUseCase
+from app.core.item.usecases.create_item import CreateItemUseCase
+from app.core.item.usecases.delete_item import DeleteItemUseCase
 from app.core.item.usecases.update_item import UpdateItemUseCase
-from app.core.picture.dto.picture import PictureCreate, PictureId
+
 from app.core.picture.usecases.create_picture import CreatePictureUseCase
-from app.core.picture.usecases.delete_picture_by_id import DeletePictureByIDUseCase
+from app.core.picture.dto.picture import PictureCreate
+
+from app.core.picture_item_relation.usecases.create_picture_item_relation import CreatePictureItemRelationUseCase
+from app.core.picture_item_relation.usecases.get_picture_item_relations_by_item_id import GetPictureItemRelationsByItemIdUseCase
+from app.core.picture_item_relation.usecases.delete_picture_item_relation import DeletePictureItemRelationUseCase
 from app.core.picture_item_relation.dto.picture_item_relation import (
     PictureItemRelation,
-    PictureItemRelationId,
     PictureItemRelationItemId,
+    PictureItemRelationId
 )
-from app.core.picture_item_relation.usecases.create_picture_item_relation import (
-    CreatePictureItemRelationUseCase,
-)
-from app.core.picture_item_relation.usecases.delete_picture_item_relation import (
-    DeletePictureItemRelationUseCase,
-)
-from app.core.picture_item_relation.usecases.get_picture_item_relations_by_item_id import (
-    GetPictureItemRelationsByItemIdUseCase,
-)
-from app.core.sale_item.dto.sale_item_relation import (
-    SaleItemRelation,
-    SaleItemRelationItemId,
-    SaleItemRelationUserId,
-)
-from app.core.sale_item.usecase.create_sale_item_relation import (
-    CreateSaleItemRelationUseCase,
-)
-from app.core.sale_item.usecase.delete_sale_item_relation_by_item_id import (
-    DeleteSaleItemRelationByItemIdUseCase,
-)
-from app.core.sale_item.usecase.get_sale_item_relation_by_user_id import (
-    GetSaleItemRelationByUserIdUseCase,
-)
-from app.core.sold_item.dto.sold_item_relation import SoldItemRelationItemId
-from app.core.sold_item.usecase.delete_sold_item_relation_by_item_id import (
-    DeleteSoldItemRelationByItemIdUseCase,
-)
-from app.core.token.usecases.get_access_token_by_jwt import GetAccessTokenByJwtUseCase
-from app.presentation.bearer import JWTBearer
+
 from app.presentation.di import (
-    provide_create_item_stub,
-    provide_create_picture_item_relation_stub,
-    provide_create_picture_stub,
-    provide_create_sale_item_relation_stub,
-    provide_delete_favourites_by_item_id_stub,
-    provide_delete_item_stub,
-    provide_delete_picture_item_relation_stub,
-    provide_delete_picture_stub,
-    provide_delete_sale_item_relation_by_item_id_stub,
-    provide_delete_sold_item_realtion_by_item_id_stub,
-    provide_get_access_token_by_jwt_stub,
-    provide_get_item_by_id_stub,
     provide_get_items_stub,
-    provide_get_picture_item_relations_by_item_id_stub,
-    provide_get_sale_item_relation_by_user_id_stub,
+    provide_get_item_by_id_stub,
+    provide_create_item_stub,
+    provide_delete_item_stub,
     provide_update_item_stub,
+    provide_create_picture_stub,
+    provide_create_picture_item_relation_stub,
+    provide_get_picture_item_relations_by_item_id_stub,
+    provide_delete_picture_item_relation_stub
 )
+
+from elasticsearch import AsyncElasticsearch
 
 router = APIRouter()
 
+es = AsyncElasticsearch("http://elasticsearch:9200")
 
-@router.get(path="/", response_model=Page[Item])
+@router.get(path='/')
 async def get_item_all(
-    get_item_all_use_case: GetItemAllUseCase = Depends(provide_get_items_stub),
+    get_item_all_use_case: GetItemAllUseCase = Depends(provide_get_items_stub)
 ):
     try:
         items = get_item_all_use_case.execute()
     except TypeError:
-        return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No items")
-    return paginate(items)
+        return HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="No items"
+        )
+    return items
 
 
-@router.get(path="/{item_id}")
+@router.get(path='/{item_id}')
 async def get_item_by_id(
     item_id: str,
-    get_item_by_id_use_case: GetItemByIdUseCase = Depends(provide_get_item_by_id_stub),
-    get_picture_items_relation_by_item_id_use_case: GetPictureItemRelationsByItemIdUseCase = Depends(
+    get_item_by_id_use_case: GetItemByIdUseCase = Depends(
+        provide_get_item_by_id_stub),
+    get_picture_items_relation_by_item_id_use_case:
+    GetPictureItemRelationsByItemIdUseCase = Depends(
         provide_get_picture_item_relations_by_item_id_stub
-    ),
+    )
 ):
     try:
         item = get_item_by_id_use_case.execute(ItemId(id=item_id))
         relations = get_picture_items_relation_by_item_id_use_case.execute(
-            PictureItemRelationItemId(item_id=item_id)
+            PictureItemRelationItemId(
+                item_id=item_id
+            )
         )
     except TypeError:
         return HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="No item with such id"
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="No item with such id"
         )
     pictures = []
     for relation in relations:
@@ -112,7 +89,7 @@ async def get_item_by_id(
         "address": item.address,
         "cost": item.cost,
         "status": item.status,
-        "pictures_id": list(pictures),
+        "pictures_id": list(pictures)
     }
 
 
@@ -125,143 +102,86 @@ async def create_item(
     address: str = Form(),
     cost: str = Form(),
     item_status: str = Form(),
-    pictures: list[UploadFile] = File(...),
-    create_item_use_case: CreateItemUseCase = Depends(provide_create_item_stub),
+    picture: UploadFile = File(...),
+    create_item_use_case: CreateItemUseCase = Depends(
+        provide_create_item_stub),
     create_picture_use_case: CreatePictureUseCase = Depends(
-        provide_create_picture_stub
-    ),
-    create_picture_item_relation: CreatePictureItemRelationUseCase = Depends(
-        provide_create_picture_item_relation_stub
-    ),
-    jwt: str = Depends(JWTBearer()),
-    get_access_token_by_jwt_use_case: GetAccessTokenByJwtUseCase = Depends(
-        provide_get_access_token_by_jwt_stub
-    ),
-    create_sale_item_relation: CreateSaleItemRelationUseCase = Depends(
-        provide_create_sale_item_relation_stub
-    ),
+        provide_create_picture_stub),
+    create_picture_item_relation: CreatePictureItemRelationUseCase =
+    Depends(provide_create_picture_item_relation_stub)
 ):
     try:
-        item_id = create_item_use_case.execute(
-            item=ItemCreate(
-                category_id=category_id,
-                title=title,
-                description=description,
-                condition=condition,
-                address=address,
-                cost=cost,
-                status=item_status,
+        item_id = create_item_use_case.execute(item=ItemCreate(
+            category_id=category_id,
+            title=title,
+            description=description,
+            condition=condition,
+            address=address,
+            cost=cost,
+            status=item_status
+        )).id
+        if picture:
+            picture_id = create_picture_use_case.execute(
+                picture_create=PictureCreate(file=picture)
+            ).id
+            create_picture_item_relation.execute(
+                obj=PictureItemRelation(
+                    picture_id=picture_id,
+                    item_id=item_id)
             )
-        ).id
-        if pictures:
-            for picture in pictures:
-                picture_id = create_picture_use_case.execute(
-                    picture_create=PictureCreate(file=picture)
-                ).id
-                create_picture_item_relation.execute(
-                    obj=PictureItemRelation(picture_id=picture_id, item_id=item_id)
-                )
-        create_sale_item_relation.execute(
-            SaleItemRelation(
-                user_id=get_access_token_by_jwt_use_case.execute(jwt).user_id,
-                item_id=item_id,
-            )
-        )
+        es_doc = {
+            "category_id": category_id,
+            "title": title,
+            "description": description,
+            "condition": condition,
+            "address": address,
+            "cost": cost,
+            "status": item_status,
+        }
+        await es.index(index="items", id=item_id, document=es_doc)
     except Exception as e:
         return HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e)
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=str(e)
         )
-    return {"item_id": item_id}
+    return {
+        "item_id": item_id
+    }
 
 
-@router.put(path="/{item_id}")
+@router.put(path='/{item_id}')
 async def update_item(
     item_id: str,
     item: ItemUpdate,
-    update_item_use_case: UpdateItemUseCase = Depends(provide_update_item_stub),
-    jwt: str = Depends(JWTBearer()),
-    get_access_token_by_jwt_use_case: GetAccessTokenByJwtUseCase = Depends(
-        provide_get_access_token_by_jwt_stub
-    ),
-    get_sale_items_by_user_id_use_case: GetSaleItemRelationByUserIdUseCase = Depends(
-        provide_get_sale_item_relation_by_user_id_stub
-    ),
+    update_item_use_case: UpdateItemUseCase = Depends(provide_update_item_stub)
 ):
-    sale_item_relations = get_sale_items_by_user_id_use_case.execute(
-        SaleItemRelationUserId(
-            user_id=get_access_token_by_jwt_use_case.execute(jwt).user_id
-        )
-    )
-    if not any(
-        sale_item_relation.item_id == item_id
-        for sale_item_relation in sale_item_relations
-    ):
-        return {"chat_message": "This user can't change item"}
-
-    updated_item = update_item_use_case.execute(
-        ItemUpdateWithId(id=item_id, item_update=item)
-    )
+    updated_item = update_item_use_case.execute(ItemUpdateWithId(
+        id=item_id,
+        item_update=item
+    ))
     return updated_item
 
 
-@router.delete(path="/{item_id}")
+@router.delete(path='/{item_id}')
 async def delete_item(
     item_id: str,
-    delete_item_use_case: DeleteItemUseCase = Depends(provide_delete_item_stub),
-    get_picture_items_relation_by_item_id_use_case: GetPictureItemRelationsByItemIdUseCase = Depends(
+    delete_item_use_case: DeleteItemUseCase = Depends(
+        provide_delete_item_stub),
+    get_picture_items_relation_by_item_id_use_case:
+    GetPictureItemRelationsByItemIdUseCase = Depends(
         provide_get_picture_item_relations_by_item_id_stub
     ),
-    delete_picture_items_relation_use_case: DeletePictureItemRelationUseCase = Depends(
-        provide_delete_picture_item_relation_stub
-    ),
-    jwt: str = Depends(JWTBearer()),
-    get_access_token_by_jwt_use_case: GetAccessTokenByJwtUseCase = Depends(
-        provide_get_access_token_by_jwt_stub
-    ),
-    get_sale_items_by_user_id_use_case: GetSaleItemRelationByUserIdUseCase = Depends(
-        provide_get_sale_item_relation_by_user_id_stub
-    ),
-    delete_sale_item_relation_by_item_id_use_case: DeleteSaleItemRelationByItemIdUseCase = Depends(
-        provide_delete_sale_item_relation_by_item_id_stub
-    ),
-    delete_picture_by_id_use_case: DeletePictureByIDUseCase = Depends(
-        provide_delete_picture_stub
-    ),
-    delete_favourites_by_item_id_use_case: DeleteFavouritesByItemIdUseCase = Depends(
-        provide_delete_favourites_by_item_id_stub
-    ),
-    delete_sold_item_relation_by_item_id_use_case: DeleteSoldItemRelationByItemIdUseCase = Depends(
-        provide_delete_sold_item_realtion_by_item_id_stub
-    ),
+    delete_picture_items_relation_use_case: DeletePictureItemRelationUseCase =
+    Depends(provide_delete_picture_item_relation_stub)
 ):
-    sale_item_relations = get_sale_items_by_user_id_use_case.execute(
-        SaleItemRelationUserId(
-            user_id=get_access_token_by_jwt_use_case.execute(jwt).user_id
-        )
-    )
-    if not any(
-        sale_item_relation.item_id == item_id
-        for sale_item_relation in sale_item_relations
-    ):
-        return {"chat_message": "This user can't delete item"}
-
     delete_item_use_case.execute(item_id=ItemId(id=item_id))
-    picture_item_relations = get_picture_items_relation_by_item_id_use_case.execute(
+    relations = get_picture_items_relation_by_item_id_use_case.execute(
         PictureItemRelationItemId(item_id=item_id)
     )
-    for relation in picture_item_relations:
+    for relation in relations:
         delete_picture_items_relation_use_case.execute(
             PictureItemRelationId(id=relation.id)
         )
-        delete_picture_by_id_use_case.execute(
-            picture_id_obj=PictureId(id=relation.picture_id)
-        )
-    delete_favourites_by_item_id_use_case.execute(FavouriteItemId(item_id=item_id))
-    delete_sale_item_relation_by_item_id_use_case.execute(
-        SaleItemRelationItemId(item_id=item_id)
-    )
-    delete_sold_item_relation_by_item_id_use_case.execute(
-        SoldItemRelationItemId(item_id=item_id)
-    )
-
-    return {"chat_message": "item deleted"}
+    return {
+        "message": "Item deleted"
+    }
