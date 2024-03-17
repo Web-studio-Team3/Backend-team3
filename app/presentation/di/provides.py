@@ -8,59 +8,6 @@ from app.core.category.usecases.delete_category import DeleteCategoryUseCase
 from app.core.category.usecases.get_category_all import GetCategoryAllUseCase
 from app.core.category.usecases.get_category_by_id import GetCategoryByIdUseCase
 from app.core.category.usecases.update_category import UpdateCategoryUseCase
-
-from app.infrastracture.dao.picture_item.picture_item_relation_write import PictureItemRelationWriteImpl
-from app.infrastracture.dao.picture_item.picture_item_relation_read import PictureItemRelationReadImpl
-
-from app.core.picture_item_relation.usecases.create_picture_item_relation import CreatePictureItemRelationUseCase
-from app.core.picture_item_relation.usecases.delete_picture_item_relation import DeletePictureItemRelationUseCase
-from app.core.picture_item_relation.usecases.get_picture_item_relations_by_item_id import GetPictureItemRelationsByItemIdUseCase
-from app.core.picture_item_relation.usecases.get_picture_item_relation_by_id import GetPictureItemRelationByIdUseCase
-from app.core.picture_item_relation.usecases.update_picture_item_relation import UpdatePictureItemRelationUseCase
-
-from app.core.sale_item.usecase.create_sale_item_relation import CreateSaleItemRelationUseCase
-from app.core.sale_item.usecase.delete_sale_item_relation import DeleteSaleItemRelationUseCase
-from app.core.sale_item.usecase.get_sale_item_relation_by_id import GetSaleItemRelationByIdUseCase
-from app.core.sale_item.usecase.get_sale_item_relation_by_item_id import GetSaleItemRelationByItemIdUseCase
-from app.core.sale_item.usecase.get_sale_item_relation_by_user_id import GetSaleItemRelationByUserIdUseCase
-from app.core.sale_item.usecase.delete_sale_item_relation_by_item_id import DeleteSaleItemRelationByItemIdUseCase
-from app.infrastracture.dao.sale_item.sale_item_write import SaleItemRelationWriteImpl
-from app.infrastracture.dao.sale_item.sale_item_read import SaleItemRelationReadImpl
-
-from app.infrastracture.dao.sold_item.sold_item_write import SoldItemRelationWriteImpl
-from app.infrastracture.dao.sold_item.sold_item_read import SoldItemRelationReadImpl
-from app.core.sold_item.usecase.create_sold_item_relation import CreateSoldItemRelationUseCase
-from app.core.sold_item.usecase.delete_sold_item_relation import DeleteSoldItemRelationUseCase
-from app.core.sold_item.usecase.get_sold_item_relation_by_buyer_id import GetSoldItemRelationByBuyerIdUseCase
-from app.core.sold_item.usecase.get_sold_item_relation_by_id import GetSoldItemRelationByIdUseCase
-from app.core.sold_item.usecase.get_sold_item_relation_by_item_id import GetSoldItemRelationByItemIdUseCase
-from app.core.sold_item.usecase.get_sold_item_relation_by_seller_id import GetSoldItemRelationBySellerIdUseCase
-from app.core.sold_item.usecase.delete_sold_item_relation_by_item_id import DeleteSoldItemRelationByItemIdUseCase
-
-from app.infrastracture.dao.favourite.favourite_read import FavouriteReadImpl
-from app.infrastracture.dao.favourite.favourite_write import FavouriteWriteImpl
-from app.core.favourites.usecase.create_favourite import CreateFavouriteUseCase
-from app.core.favourites.usecase.delete_favourite import DeleteFavouriteUseCase
-from app.core.favourites.usecase.get_favourite_by_id import GetFavouriteByIdUseCase
-from app.core.favourites.usecase.get_favourites_count_by_item_id import GetFavouritesCountByItemIdUseCase
-from app.core.favourites.usecase.get_favourites_by_user_id import GetFavouritesByUserIdUseCase
-from app.core.favourites.usecase.delete_favourites_by_item_id import DeleteFavouritesByItemIdUseCase
-
-from app.infrastracture.dao.chat.chat_write import  ChatWriteDaoImpl
-from app.infrastracture.dao.chat.chat_read import ChatReadDaoImpl
-from app.core.chat.usecase.get_chat_by_id import GetChatByIdUseCase
-from app.core.chat.usecase.create_chat import CreateChatUseCase
-from app.core.chat.usecase.delete_chat import DeleteChatUseCase
-
-from app.infrastracture.dao.chat_message.message_write import MessageWriteDaoImpl
-from app.infrastracture.dao.chat_message.message_read import MessageReadDaoImpl
-from app.core.chat_message.usecase.get_all_messages import GetAllMessagesUseCase
-from app.core.chat_message.usecase.add_message import AddMessageUseCase
-from app.core.chat_message.usecase.delete_message import DeleteMessageUseCase
-from app.core.chat_message.usecase.delete_all_messages import DeleteAllMessagesUseCase
-
-
-
 from app.core.chat.usecase.create_chat import CreateChatUseCase
 from app.core.chat.usecase.delete_chat import DeleteChatUseCase
 from app.core.chat.usecase.update_chat import UpdateChatUseCase

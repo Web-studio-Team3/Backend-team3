@@ -1,4 +1,5 @@
 from bson import ObjectId
+from fastapi.websockets import WebSocket
 
 from app.infrastracture.connect import database
 from fastapi.testclient import TestClient
@@ -68,3 +69,22 @@ class TestChat:
             "/api/chat/{item_id}/{chat_id}?seller_id=65c397bae1756a2508104f27&buyer_id=65ca4a46d64f34e484ba389c"
         )
         assert response.status_code == 200
+
+class WebSoketTest:
+    @app.websocket("/ws")
+    async def websocket(self,websocket: WebSocket):
+        await websocket.accept()
+        await websocket.send_json({"msg": "Hello WebSocket"})
+        await websocket.close()
+
+    def test_read_main(self):
+        client = TestClient(app)
+        response = client.get("/")
+        assert response.status_code == 200
+        assert response.json() == {"msg": "Hello World"}
+
+    def test_websocket(self):
+        client = TestClient(app)
+        with client.websocket_connect("/ws") as websocket:
+            data = websocket.receive_json()
+            assert data == {"msg": "Hello WebSocket"}

@@ -1,6 +1,6 @@
 from app.presentation.di.di import (
     provide_add_message_stub,
-    provide_connection_manager_stub,
+    provide_chat_manager_stub,
     provide_create_category_stub,
     provide_create_chat_stub,
     provide_create_favourite_stub,

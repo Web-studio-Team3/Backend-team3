@@ -5,21 +5,31 @@ from app.core.chat.dto.chat import ChatId, CreateChat, ChatUpdateWithId
 from app.infrastracture.dao.base import BaseDao
 from app.infrastracture.models.chat import ChatModel
 
+from app.core.chat_message.dto.message import AllMessages
+
 
 class ChatWriteDaoImpl(BaseDao, ChatWrite):
-    def create(self, chat: CreateChat) -> ChatId:
-        print("Creating chat...")
+    async def create(self, chat: CreateChat) -> ChatId:
+        print("Creating messages...")
+        messages_id = (
+            await self._database["chat_messages"].insert_one(
+                AllMessages()
+            ).inserted_id
+        )
+        print("The messages has been created")
+        print(messages_id)
+
+        chat.messages_id = messages_id
         chat_id = (
-            self._database["chats"]
+            await self._database["chats"]
             .insert_one(
                 ChatModel(
                     seller_id=ObjectId(chat.seller_id),
                     buyer_id=ObjectId(chat.buyer_id),
+                    messages_id=ObjectId(chat.messages_id)
                 ).dict(exclude_none=True)
             ).inserted_id
         )
-        print(chat_id)
-        print("The chat has been created")
         return ChatId(id=str(chat_id))
 
     def delete(self, chat_id: ChatId) -> None:

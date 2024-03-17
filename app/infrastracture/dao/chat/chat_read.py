@@ -12,7 +12,8 @@ class ChatReadDaoImpl(BaseDao, ChatRead):
         if not chat:
             raise TypeError
         return Chat(
-            id=str(chat["_id"]),
-            seller_id=str(chat["seller_id"]),
+            id=chat["_id"],
+            seller_id=chat["seller_id"],
             buyer_id=chat["buyer_id"],
+            messages_id=chat["messages_id"],
         )

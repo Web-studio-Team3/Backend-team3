@@ -7,5 +7,5 @@ class DeleteMessageUseCase(UseCase[Message, None]):
     def __init__(self, write_dao: MessageWrite):
         self.write_dao = write_dao
 
-    def execute(self, message_id: MessagesId) -> None:
+    def execute(self, message_id: int) -> None:
         self.write_dao.delete(messge_id=message_id)
