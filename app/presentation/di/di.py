@@ -133,7 +133,7 @@ from app.presentation.di.stubs import (
 
 
 def setup_di(app: FastAPI):
-    chat_manager = ChatManager
+    chat_manager = ChatManager()
     app.dependency_overrides.update(
          {
              provide_database_stub: lambda: database,

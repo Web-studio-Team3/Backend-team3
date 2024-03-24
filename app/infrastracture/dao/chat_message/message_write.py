@@ -20,6 +20,6 @@ class MessageWriteDaoImpl(BaseDao, MessageWrite):
             {"_id": ObjectId(message.id)}
         )
 
-    def delete_message(self, messages_id: MessagesId, id: int) -> None:
-        messages = self._database["chat_messages"].find_one({"_id": ObjectId(messages_id.id)})
-        messages.messages[id].pop()
+    # def delete_message(self, messages_id: MessagesId, id: int) -> None:
+    #     messages = self._database["chat_messages"].find_one({"_id": ObjectId(messages_id)})
+    #     messages.messages[id].pop()

@@ -10,7 +10,7 @@ class GetChatByIdUseCase(UseCase[ChatId, Chat]):
 
     def execute(self, chat_id: ChatId) -> Chat:
         try:
-            chat = self.read_dao.get_by_id(chat_id.id)
+            chat = self.read_dao.get_by_id(chat_id)
         except TypeError:
             raise TypeError
         return chat

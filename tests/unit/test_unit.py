@@ -79,7 +79,7 @@ class WebSoketTest:
 
     def test_read_main(self):
         client = TestClient(app)
-        response = client.get("/")
+        response = client.get("/chat/")
         assert response.status_code == 200
         assert response.json() == {"msg": "Hello World"}
 

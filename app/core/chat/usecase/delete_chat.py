@@ -8,4 +8,4 @@ class DeleteChatUseCase(UseCase[ChatId, None]):
         self.write_dao = write_dao
 
     def execute(self, chat_id: ChatId) -> None:
-        self._chat_write_dao.delete(chat_id=chat_id)
+        self.write_dao.delete(chat_id=chat_id)

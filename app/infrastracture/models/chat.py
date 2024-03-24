@@ -6,7 +6,7 @@ from app.core.chat.entities.chat import Chat
 class ChatModel(BaseModel):
     seller_id: ObjectId
     buyer_id: ObjectId
-    message_id: ObjectId
+    messages_id: ObjectId
 
     class Config:
         arbitrary_types_allowed = True
