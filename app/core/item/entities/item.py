@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass
@@ -11,3 +12,5 @@ class Item:
     address: str
     cost: str
     status: str
+    buyer_id: Optional[str]
+    seller_id: str

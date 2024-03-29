@@ -15,6 +15,8 @@ class ItemCreate(BaseDto):
     address: str
     cost: str
     status: str
+    buyer_id: Optional[str]
+    seller_id: str
 
 
 class ItemUpdate(BaseDto):
@@ -25,6 +27,8 @@ class ItemUpdate(BaseDto):
     address: Optional[str]
     cost: Optional[str]
     status: Optional[str]
+    buyer_id: Optional[str]
+    seller_id: Optional[str]
 
 
 class ItemUpdateWithId(BaseDto):
