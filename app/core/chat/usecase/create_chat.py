@@ -13,6 +13,7 @@ class CreateChatUseCase(UseCase[CreateChat, ChatId]):
             chat = CreateChat(
                 seller_id=obj.seller_id,
                 buyer_id=obj.buyer_id,
+                messages_id=obj.messages_id,
             )
         except TypeError:
             raise TypeError

@@ -1,3 +1,5 @@
+from typing import Optional
+
 from bson import ObjectId
 
 from app.core.item.dao.item_read import ItemRead
@@ -19,6 +21,8 @@ class ItemReadDaoImpl(BaseDao, ItemRead):
             address=item["address"],
             cost=item["cost"],
             status=item["status"],
+            buyer_id=str(item["buyer_id"]),
+            seller_id=str(item["seller_id"]),
         )
 
     def get_all(self) -> list[Item]:
@@ -37,6 +41,8 @@ class ItemReadDaoImpl(BaseDao, ItemRead):
                     address=item["address"],
                     cost=item["cost"],
                     status=item["status"],
+                    buyer_id=str(item["buyer_id"]),
+                    seller_id=str(item["seller_id"]),
                 )
             )
         return items_res

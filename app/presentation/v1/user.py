@@ -91,7 +91,6 @@ async def get_self_user_info(
     ),
 ):
     user_id = get_access_token_by_jwt_use_case.execute(jwt).user_id
-    print(user_id)
     try:
         user = get_user_by_id_use_case.execute(UserId(id=user_id))
     except TypeError:

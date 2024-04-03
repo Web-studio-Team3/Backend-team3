@@ -1,7 +1,6 @@
 from typing import Protocol
 
 from app.core.item.entities.item import Item
-
 # from app.core.item.dto.item import UserGetByEmailResp
 
 

@@ -1,3 +1,5 @@
+from typing import Optional
+
 from bson.objectid import ObjectId
 from pydantic import BaseModel
 
@@ -24,6 +26,8 @@ class ItemModel(BaseModel):
     address: str
     cost: str
     status: str
+    buyer_id: Optional[ObjectId]
+    seller_id: ObjectId
 
     class Config:
         arbitrary_types_allowed = True
@@ -38,4 +42,6 @@ def from_entity(item: Item) -> ItemModel:
         address=item.address,
         cost=item.cost,
         status=item.status,
+        buyer_id=ObjectId(item.buyer_id),
+        seller_id=ObjectId(item.seller_id),
     )

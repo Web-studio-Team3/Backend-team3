@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import APIRouter, Depends, status, HTTPException, Form, UploadFile, File
 
 from app.core.item.dto.item import (
@@ -12,6 +14,10 @@ from app.core.item.usecases.update_item import UpdateItemUseCase
 
 from app.core.picture.usecases.create_picture import CreatePictureUseCase
 from app.core.picture.dto.picture import PictureCreate
+
+from app.presentation.bearer import JWTBearer
+from app.core.token.usecases.get_access_token_by_jwt import GetAccessTokenByJwtUseCase
+
 
 from app.core.picture_item_relation.usecases.create_picture_item_relation import CreatePictureItemRelationUseCase
 from app.core.picture_item_relation.usecases.get_picture_item_relations_by_item_id import GetPictureItemRelationsByItemIdUseCase
@@ -31,7 +37,8 @@ from app.presentation.di import (
     provide_create_picture_stub,
     provide_create_picture_item_relation_stub,
     provide_get_picture_item_relations_by_item_id_stub,
-    provide_delete_picture_item_relation_stub
+    provide_delete_picture_item_relation_stub,
+    provide_get_access_token_by_jwt_stub,
 )
 
 from elasticsearch import AsyncElasticsearch
@@ -39,6 +46,7 @@ from elasticsearch import AsyncElasticsearch
 router = APIRouter()
 
 es = AsyncElasticsearch("http://elasticsearch:9200")
+
 
 @router.get(path='/')
 async def get_item_all(
@@ -89,7 +97,9 @@ async def get_item_by_id(
         "address": item.address,
         "cost": item.cost,
         "status": item.status,
-        "pictures_id": list(pictures)
+        "pictures_id": list(pictures),
+        "buyer_id": item.buyer_id,
+        "seller_id": item.seller_id,
     }
 
 
@@ -108,9 +118,14 @@ async def create_item(
     create_picture_use_case: CreatePictureUseCase = Depends(
         provide_create_picture_stub),
     create_picture_item_relation: CreatePictureItemRelationUseCase =
-    Depends(provide_create_picture_item_relation_stub)
+    Depends(provide_create_picture_item_relation_stub),
+    jwt: str = Depends(JWTBearer()),
+    get_access_token_by_jwt_use_case: GetAccessTokenByJwtUseCase = Depends(
+        provide_get_access_token_by_jwt_stub
+    ),
 ):
     try:
+        seller_id = get_access_token_by_jwt_use_case.execute(jwt).user_id
         item_id = create_item_use_case.execute(item=ItemCreate(
             category_id=category_id,
             title=title,
@@ -118,7 +133,8 @@ async def create_item(
             condition=condition,
             address=address,
             cost=cost,
-            status=item_status
+            status=item_status,
+            seller_id=seller_id,
         )).id
         if picture:
             picture_id = create_picture_use_case.execute(
@@ -137,6 +153,8 @@ async def create_item(
             "address": address,
             "cost": cost,
             "status": item_status,
+            "buyer_id": "null",
+            "seller_id": seller_id,
         }
         await es.index(index="items", id=item_id, document=es_doc)
     except Exception as e:

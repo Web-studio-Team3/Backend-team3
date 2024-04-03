@@ -1,9 +1,11 @@
+from typing import Optional
+
 from bson import ObjectId
 
 from app.core.item.dao.item_write import ItemWrite
 from app.core.item.dto.item import ItemCreate, ItemId, ItemUpdateWithId
 from app.infrastracture.dao.base import BaseDao
-from app.infrastracture.models.item import ItemModel, PyObjectId
+from app.infrastracture.models.item import ItemModel
 
 
 class ItemWriteDaoImpl(BaseDao, ItemWrite):
@@ -21,6 +23,8 @@ class ItemWriteDaoImpl(BaseDao, ItemWrite):
                     address=item.address,
                     cost=item.cost,
                     status=item.status,
+                    buyer_id=item.buyer_id,
+                    seller_id=ObjectId(item.seller_id),
                 ).dict(exclude_none=True)
             )
             .inserted_id

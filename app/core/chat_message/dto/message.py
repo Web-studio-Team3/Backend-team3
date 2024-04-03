@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional
 from app.shared.dto_base import BaseDto
 
 
@@ -9,24 +9,21 @@ class MessagesId(BaseDto):
 
 # Объект сообщения
 class Message(BaseDto):
-    id: int
     date_time: str
     user_name: str
     message: str
 
 
 # Объект сообщений для 1 чата
-class ChatMessages(BaseDto):
-    chat_id: str
-    messages: Optional[List[Message]]
+class AllMessages(BaseDto):
+    messages: Optional[list[Message]]
 
 
 class UpdateMessage(BaseDto):
-    chat_id: Optional[str]
     date_time: Optional[str]
     message: Optional[str]
 
 
 class MessageUpdateWithId(BaseDto):
-    id: str
+    id: int
     message_update: UpdateMessage
