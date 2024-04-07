@@ -74,6 +74,10 @@ def provide_get_item_by_id_stub():
     raise NotImplementedError
 
 
+def provide_get_items_by_seller_id_stub():
+    raise NotImplementedError
+
+
 def provide_create_item_stub():
     raise NotImplementedError
 

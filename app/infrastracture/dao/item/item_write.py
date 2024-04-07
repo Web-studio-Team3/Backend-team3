@@ -23,7 +23,7 @@ class ItemWriteDaoImpl(BaseDao, ItemWrite):
                     address=item.address,
                     cost=item.cost,
                     status=item.status,
-                    buyer_id=item.buyer_id,
+                    buyer_id=None,
                     seller_id=ObjectId(item.seller_id),
                 ).dict(exclude_none=True)
             )

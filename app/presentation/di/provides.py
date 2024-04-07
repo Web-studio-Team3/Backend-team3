@@ -33,6 +33,7 @@ from app.core.item.usecases.delete_item import DeleteItemUseCase
 from app.core.item.usecases.get_item_all import GetItemAllUseCase
 from app.core.item.usecases.get_item_by_id import GetItemByIdUseCase
 from app.core.item.usecases.update_item import UpdateItemUseCase
+from app.core.item.usecases.get_items_by_seller_id import GetAllItemsBySellerIdUseCase
 from app.core.picture.picture_helper import PictureHelper
 from app.core.picture.usecases.create_picture import CreatePictureUseCase
 from app.core.picture.usecases.delete_picture_by_id import DeletePictureByIDUseCase
@@ -292,6 +293,12 @@ def provide_get_item_by_id(
     dao: BaseDao = Depends(get_pymongo_dao(ItemReadDaoImpl)),
 ) -> GetItemByIdUseCase:
     return GetItemByIdUseCase(dao)
+
+
+def provide_get_items_by_seller_id(
+    dao: BaseDao = Depends(get_pymongo_dao(ItemReadDaoImpl)),
+) -> GetAllItemsBySellerIdUseCase:
+    return GetAllItemsBySellerIdUseCase(dao)
 
 
 def provide_create_item(
