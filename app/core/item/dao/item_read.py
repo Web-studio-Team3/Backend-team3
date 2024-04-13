@@ -10,3 +10,6 @@ class ItemRead(Protocol):
 
     def get_all(self) -> list[Item]:
         raise NotImplementedError
+
+    def get_all_by_id(self, id: str) -> list[Item]:
+        raise NotImplementedError
