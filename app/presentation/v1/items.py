@@ -194,7 +194,7 @@ async def update_item(
     update_item_use_case: UpdateItemUseCase = Depends(provide_update_item_stub)
 ):
     item.seller_id = ObjectId(item.seller_id)
-    item.buyer_id = ObjectId(item.buyer_id  )
+    item.buyer_id = ObjectId(item.buyer_id)
     updated_item = update_item_use_case.execute(ItemUpdateWithId(
         id=item_id,
         item_update=item

@@ -45,6 +45,8 @@ async def sign_up(
     full_name: str = Form(),
     date_of_birth: str = Form(),
     picture: UploadFile = File(...),
+    telegram_id: Optional[int] = Form(None),
+    telegram_username: Optional[str] = Form(None),
     sign_up_use_case: SignUpUseCase = Depends(provide_sign_up_stub),
     create_picture_use_case: CreatePictureUseCase = Depends(
         provide_create_picture_stub
@@ -60,6 +62,8 @@ async def sign_up(
                 picture_id=create_picture_use_case.execute(
                     PictureCreate(file=picture)
                 ).id,
+                telegram_id=telegram_id,
+                telegram_username=telegram_username,
             )
         )
     except AuthError as e:
@@ -111,7 +115,15 @@ async def get_user_info(
         return HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="no user with such id"
         )
-    return {"id": user.id, "full_name": user.full_name, "picture_id": user.picture_id}
+    return {
+        "id": user.id,
+        "full_name": user.full_name,
+        "email": user.email,
+        "date_of_birth": user.date_of_birth,
+        "picture_id": user.picture_id,
+        "telegram_id": user.telegram_id,
+        "telegram_username": user.telegram_username,
+    }
 
 
 @router.post(path="/logout/")
@@ -134,6 +146,8 @@ async def update_user_info(
     full_name: Optional[str] = Form(None),
     date_of_birth: Optional[str] = Form(None),
     picture: Optional[UploadFile] = File(None),
+    telegram_id: Optional[int] = Form(None),
+    telegram_username: Optional[str] = Form(None),
     update_user_use_case: UpdateUserUseCase = Depends(provide_update_user_stub),
     jwt: str = Depends(JWTBearer()),
     get_access_token_by_jwt_use_case: GetAccessTokenByJwtUseCase = Depends(
@@ -164,6 +178,8 @@ async def update_user_info(
                 full_name=full_name,
                 date_of_birth=date_of_birth,
                 picture_id=picture_id,
+                telegram_id=telegram_id,
+                telegram_username=telegram_username,
             ),
         )
     )
