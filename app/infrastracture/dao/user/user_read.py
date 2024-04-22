@@ -19,26 +19,13 @@ class UserReadDaoImpl(BaseDao, UserRead):
         user = self._database["user"].find_one({"_id": ObjectId(id)})
         if not user:
             raise TypeError
-        if "telegram_id" in user.keys():
-            return User(
-                id=str(user["_id"]),
-                email=user["email"],
-                hashed_password=user["hashed_password"],
-                full_name=user["full_name"],
-                date_of_birth=user["date_of_birth"],
-                picture_id=user["picture_id"],
-                telegram_id=user["telegram_id"],
-                telegram_username=user["telegram_username"],
-            )
-        else:
-            return User(
-                id=str(user["_id"]),
-                email=user["email"],
-                hashed_password=user["hashed_password"],
-                full_name=user["full_name"],
-                date_of_birth=user["date_of_birth"],
-                picture_id=user["picture_id"],
-                telegram_id=None,
-                telegram_username=None,
-            )
-
+        return User(
+            id=str(user["_id"]),
+            email=user["email"],
+            hashed_password=user["hashed_password"],
+            full_name=user["full_name"],
+            date_of_birth=user["date_of_birth"],
+            picture_id=user["picture_id"],
+            telegram_id=user.get("telegram_username"),
+            telegram_username=user.get("telegram_username")
+        )
