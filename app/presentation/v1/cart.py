@@ -58,7 +58,6 @@ async def create(
 ):
     user_id = get_access_token_by_jwt_use_case.execute(jwt).user_id
     cart = get_cart_by_user_id_use_case.execute(CartUserId(user_id=user_id))
-    print(cart)
     if any(cart_item.item_id == item_id.item_id for cart_item in cart):
         return {"chat message": "This item is already in your cart"}
     
