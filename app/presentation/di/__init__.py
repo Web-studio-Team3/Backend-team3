@@ -62,4 +62,7 @@ from app.presentation.di.di import (
     provide_update_picture_item_relation_stub,
     provide_update_user_stub,
     provide_update_chat_stub,
+    provide_get_cart_by_user_id_stub,
+    provide_create_cart_item_stub,
+    provide_delete_cart_item_stub,
 )
