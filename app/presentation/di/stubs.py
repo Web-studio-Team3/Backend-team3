@@ -248,3 +248,15 @@ def provide_get_all_messages_stub():
 
 def provide_chat_manager_stub():
     raise NotImplementedError
+
+
+def provide_get_cart_by_user_id_stub():
+    raise NotImplementedError
+
+
+def provide_create_cart_item_stub():
+    raise NotImplementedError
+
+
+def provide_delete_cart_item_stub():
+    raise NotImplementedError

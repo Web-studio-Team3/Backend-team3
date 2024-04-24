@@ -95,6 +95,15 @@ from app.core.sold_item.usecase.get_sold_item_relation_by_item_id import (
 from app.core.sold_item.usecase.get_sold_item_relation_by_seller_id import (
     GetSoldItemRelationBySellerIdUseCase,
 )
+from app.core.cart.usecase.get_cart_by_user_id import (
+    GetCartByUserIdUseCase,
+)
+from app.core.cart.usecase.create_cart_item import (
+    CreateCartItemUseCase,
+)
+from app.core.cart.usecase.delete_cart_item import (
+    DeleteCartItemUseCase,
+)
 from app.core.token.dao.token_coder import TokenCoder
 from app.core.token.usecases.create_token import CreateTokenUseCase
 from app.core.token.usecases.decode_token import DecodeToken
@@ -134,6 +143,10 @@ from app.infrastracture.dao.token.token_read import TokenReadDaoImpl
 from app.infrastracture.dao.token.token_write import TokenWriteDaoImpl
 from app.infrastracture.dao.user.user_read import UserReadDaoImpl
 from app.infrastracture.dao.user.user_write import UserWriteDaoImpl
+
+from app.infrastracture.dao.cart.cart_read import CartReadImpl
+from app.infrastracture.dao.cart.cart_write import CartWriteImpl
+
 from app.presentation.di.stubs import (
     provide_create_picture_stub,
     provide_create_token_stub,
@@ -595,4 +608,22 @@ def provide_get_all_messages(
     message_read_dao: BaseDao = Depends(get_pymongo_dao(MessageReadDaoImpl)),
 ) -> GetAllMessagesUseCase:
     return GetAllMessagesUseCase(read_dao=message_read_dao)
+
+
+def provide_get_cart_by_user_id(
+    cart_read_dao: BaseDao = Depends(get_pymongo_dao(CartReadImpl)),
+) -> GetCartByUserIdUseCase:
+    return GetCartByUserIdUseCase(read_dao=cart_read_dao)
+
+
+def provide_create_cart_item(
+    cart_write_dao: BaseDao = Depends(get_pymongo_dao(CartWriteImpl)),
+) -> CreateCartItemUseCase:
+    return CreateCartItemUseCase(write_dao=cart_write_dao)
+
+
+def provide_delete_cart_item(
+    cart_write_dao: BaseDao = Depends(get_pymongo_dao(CartWriteImpl)),
+) -> DeleteCartItemUseCase:
+    return DeleteCartItemUseCase(write_dao=cart_write_dao)
 
