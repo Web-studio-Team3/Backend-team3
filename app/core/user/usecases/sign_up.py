@@ -18,6 +18,8 @@ class SignUpUseCase(UseCase[UserSignUpRaw, None]):
                 full_name=user.full_name,
                 date_of_birth=user.date_of_birth,
                 picture_id=user.picture_id,
+                telegram_id=user.telegram_id,
+                telegram_username=user.telegram_username,
             )
         except ValueError as e:
             raise AuthError(e)

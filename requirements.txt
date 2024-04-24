@@ -37,4 +37,3 @@ yarl==1.9.2
 fastapi-pagination==0.12.10
 aiohttp~=3.8.6
 jose~=1.0.0
-

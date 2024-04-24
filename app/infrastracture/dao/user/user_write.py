@@ -1,3 +1,5 @@
+from typing import Optional
+
 from bson import ObjectId
 
 from app.core.user.dao.user_write import UserWrite
@@ -18,6 +20,8 @@ class UserWriteDaoImpl(BaseDao, UserWrite):
                     full_name=user.full_name,
                     date_of_birth=user.date_of_birth,
                     picture_id=user.picture_id,
+                    telegram_id=user.telegram_id,
+                    telegram_username=user.telegram_username,
                 ).dict(exclude_none=True)
             )
         else:

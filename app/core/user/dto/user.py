@@ -9,6 +9,8 @@ class UserSignUpRaw(BaseDto):
     full_name: str
     date_of_birth: str
     picture_id: str
+    telegram_id: Optional[int]
+    telegram_username: Optional[str]
 
     class Config:
         schema_extra = {
@@ -28,6 +30,8 @@ class UserSignUpHash(BaseDto):
     full_name: str
     date_of_birth: str
     picture_id: str
+    telegram_id: Optional[int]
+    telegram_username: Optional[str]
 
 
 class UserId(BaseDto):
@@ -40,6 +44,8 @@ class UserUpdate(BaseDto):
     full_name: Optional[str]
     date_of_birth: Optional[str]
     picture_id: Optional[str]
+    telegram_id: Optional[int]
+    telegram_username: Optional[str]
 
 
 class UserUpdateWithId(BaseDto):
@@ -67,3 +73,5 @@ class UserInfo(BaseDto):
     hashed_password: str
     full_name: str
     date_of_birth: str
+    telegram_id: Optional[int]
+    telegram_username: Optional[str]

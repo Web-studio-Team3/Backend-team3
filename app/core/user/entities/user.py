@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from datetime import date
+from typing import Optional
 
 
 @dataclass
@@ -10,3 +11,5 @@ class User:
     full_name: str
     date_of_birth: date
     picture_id: str
+    telegram_id: Optional[int]
+    telegram_username: Optional[str]
