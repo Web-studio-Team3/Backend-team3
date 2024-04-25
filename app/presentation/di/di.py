@@ -69,6 +69,7 @@ from app.presentation.di.provides import (
     provide_get_cart_by_user_id,
     provide_create_cart_item,
     provide_delete_cart_item,
+    provide_get_reviews_by_item_id,
 )
 from app.presentation.di.stubs import (
     provide_add_message_stub,
@@ -137,6 +138,7 @@ from app.presentation.di.stubs import (
     provide_get_cart_by_user_id_stub,
     provide_create_cart_item_stub,
     provide_delete_cart_item_stub,
+    provide_get_reviews_by_item_id_stub,
 )
 
 
@@ -215,5 +217,6 @@ def setup_di(app: FastAPI):
             provide_get_cart_by_user_id_stub: provide_get_cart_by_user_id,
             provide_create_cart_item_stub: provide_create_cart_item,
             provide_delete_cart_item_stub: provide_delete_cart_item,
+            provide_get_reviews_by_item_id_stub: provide_get_reviews_by_item_id,
         }
     )

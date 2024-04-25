@@ -260,3 +260,7 @@ def provide_create_cart_item_stub():
 
 def provide_delete_cart_item_stub():
     raise NotImplementedError
+
+
+def provide_get_reviews_by_item_id_stub():
+    raise NotImplementedError

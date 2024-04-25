@@ -65,4 +65,5 @@ from app.presentation.di.di import (
     provide_get_cart_by_user_id_stub,
     provide_create_cart_item_stub,
     provide_delete_cart_item_stub,
+    provide_get_reviews_by_item_id_stub,
 )

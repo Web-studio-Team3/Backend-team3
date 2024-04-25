@@ -104,6 +104,9 @@ from app.core.cart.usecase.create_cart_item import (
 from app.core.cart.usecase.delete_cart_item import (
     DeleteCartItemUseCase,
 )
+from app.core.review.usecase.get_reviews_by_item_id import (
+    GetReviewsByItemIdUseCase,
+)
 from app.core.token.dao.token_coder import TokenCoder
 from app.core.token.usecases.create_token import CreateTokenUseCase
 from app.core.token.usecases.decode_token import DecodeToken
@@ -146,6 +149,8 @@ from app.infrastracture.dao.user.user_write import UserWriteDaoImpl
 
 from app.infrastracture.dao.cart.cart_read import CartReadImpl
 from app.infrastracture.dao.cart.cart_write import CartWriteImpl
+
+from app.infrastracture.dao.review.review_read import ReviewReadImpl
 
 from app.presentation.di.stubs import (
     provide_create_picture_stub,
@@ -627,3 +632,8 @@ def provide_delete_cart_item(
 ) -> DeleteCartItemUseCase:
     return DeleteCartItemUseCase(write_dao=cart_write_dao)
 
+
+def provide_get_reviews_by_item_id(
+    review_read_dao: BaseDao = Depends(get_pymongo_dao(ReviewReadImpl)),
+) -> GetReviewsByItemIdUseCase:
+    return GetReviewsByItemIdUseCase(read_dao=review_read_dao)
