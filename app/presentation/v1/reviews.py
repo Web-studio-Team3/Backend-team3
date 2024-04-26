@@ -5,6 +5,7 @@ from app.core.review.dto.review import (
     ReviewItemId,
     Review,
     CreateReviewRequest,
+    ReviewUserId,
 )
 from app.core.user.dto.user import (
     UserId,
@@ -17,6 +18,7 @@ from app.presentation.di import (
     provide_get_access_token_by_jwt_stub,
     provide_create_review_stub,
     provide_get_user_by_id_stub,
+    provide_get_reviews_by_user_id_stub,
 )
 from app.core.user.usecases.get_user_by_id import GetUserByIdUseCase
 from app.core.review.usecase.get_reviews_by_item_id import (
@@ -24,6 +26,9 @@ from app.core.review.usecase.get_reviews_by_item_id import (
 )
 from app.core.review.usecase.create_review import (
     CreateReviewUseCase,
+)
+from app.core.review.usecase.get_reviews_by_user_id import (
+    GetReviewsByUserIdUseCase,
 )
 
 router = APIRouter()
@@ -54,6 +59,9 @@ async def create(
     get_user_by_id_use_case: GetUserByIdUseCase = Depends(
         provide_get_user_by_id_stub
     ),
+    get_reviews_by_user_id_use_case: GetReviewsByUserIdUseCase = Depends(
+        provide_get_reviews_by_user_id_stub
+    ),
 ):
     user_id = get_access_token_by_jwt_use_case.execute(jwt).user_id
     try:
@@ -62,7 +70,14 @@ async def create(
         return HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="no user with such id"
         )
+    
+    reviews = get_reviews_by_user_id_use_case.execute(
+        obj=ReviewUserId(user_id=user_id)
+    )
+    if any(review.item_id == request.item_id for review in reviews):
+        return {"chat message": "You have already reviewed this item"}
+    
     review_id = create_review_use_case.execute(
         obj=Review(user_id=user_id, item_id=request.item_id, text=request.text, full_name=user.full_name)
     )
-    return {"id": review_id.id}
+    return {"id": review_id}

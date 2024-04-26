@@ -12,6 +12,13 @@ class ReviewReadImpl(BaseDao, ReviewRead):
             raise TypeError
         
         return list(map(create_review, reviews))
+    
+    def get_reviews_by_user_id(self, user_id: str) -> list[Review]:
+        reviews = self._database["review"].find({"user_id": user_id})
+        if not reviews:
+            raise TypeError
+
+        return list(map(create_review, reviews))
 
 
 def create_review(review_db_object):

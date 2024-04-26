@@ -268,3 +268,7 @@ def provide_get_reviews_by_item_id_stub():
 
 def provide_create_review_stub():
     raise NotImplementedError
+
+
+def provide_get_reviews_by_user_id_stub():
+    raise NotImplementedError
