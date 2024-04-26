@@ -12,7 +12,11 @@ class ReviewWriteImpl(BaseDao, ReviewWrite):
             self._database["review"]
             .insert_one(
                 ReviewModel(
-                    user_id=review.user_id, item_id=review.item_id, text=review.text, full_name=review.full_name
+                    user_id=review.user_id, 
+                    item_id=review.item_id, 
+                    text=review.text, 
+                    full_name=review.full_name,
+                    rating=review.rating
                 ).dict(exclude_none=True)
             )
             .inserted_id

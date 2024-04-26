@@ -8,3 +8,4 @@ class Review:
     item_id: str
     text: str
     full_name: str
+    rating: str

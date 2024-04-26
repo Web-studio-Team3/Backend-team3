@@ -78,6 +78,12 @@ async def create(
         return {"chat message": "You have already reviewed this item"}
     
     review_id = create_review_use_case.execute(
-        obj=Review(user_id=user_id, item_id=request.item_id, text=request.text, full_name=user.full_name)
+        obj=Review(
+            user_id=user_id, 
+            item_id=request.item_id, 
+            text=request.text, 
+            full_name=user.full_name, 
+            rating=request.rating
+        )
     )
     return {"id": review_id}

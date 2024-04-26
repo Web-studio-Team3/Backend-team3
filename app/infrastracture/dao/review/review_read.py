@@ -27,5 +27,6 @@ def create_review(review_db_object):
         user_id=review_db_object["user_id"],
         item_id=review_db_object["item_id"],
         text=review_db_object["text"],
-        full_name=review_db_object["full_name"]
+        full_name=review_db_object["full_name"],
+        rating=review_db_object["rating"]
     )

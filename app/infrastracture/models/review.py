@@ -6,4 +6,5 @@ class ReviewModel(BaseModel):
     item_id: str
     text: str
     full_name: str
+    rating: str
 

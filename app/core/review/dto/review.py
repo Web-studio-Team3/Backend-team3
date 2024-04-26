@@ -6,6 +6,7 @@ class Review(BaseDto):
     item_id: str
     text: str
     full_name: str
+    rating: str
 
 
 class ReviewId(BaseDto):
@@ -23,3 +24,4 @@ class ReviewUserId(BaseDto):
 class CreateReviewRequest(BaseDto):
     item_id: str
     text: str
+    rating: str
