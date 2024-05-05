@@ -43,9 +43,6 @@ class SignInUseCase(UseCase[UserSignIn, AccessToken]):
             return [
                 self._create_access_token_use_case.execute(
                     AccessTokenUserIdDto(user_id=user_entity.user_id)
-                ),
-                self._create_refresh_token_use_case.execute(
-
                 )
             ]
 
