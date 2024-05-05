@@ -26,7 +26,7 @@ router.include_router(sale_item_relation.router,
 router.include_router(sold_item_relation.router,
                       prefix="/sold_item_relations", tags=["sold_item_relations"])
 router.include_router(favourite.router, prefix="/favourites", tags=["favourites"])
-router.include_router(search.router, prefix="/search", tags=["search"])
+#router.include_router(search.router, prefix="/search", tags=["search"])
 router.include_router(cart.router, prefix="/cart", tags=["cart"])
 
 router.include_router(

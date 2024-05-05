@@ -45,11 +45,11 @@ from app.presentation.di import (
     provide_get_items_by_seller_id_stub,
 )
 
-from elasticsearch import AsyncElasticsearch
+# from elasticsearch import AsyncElasticsearch
 
 router = APIRouter()
 
-es = AsyncElasticsearch("http://elasticsearch:9200")
+# es = AsyncElasticsearch("http://elasticsearch:9200")
 
 
 @router.get(path='/')
@@ -165,18 +165,18 @@ async def create_item(
                     picture_id=picture_id,
                     item_id=item_id)
             )
-        es_doc = {
-            "category_id": category_id,
-            "title": title,
-            "description": description,
-            "condition": condition,
-            "address": address,
-            "cost": cost,
-            "status": item_status,
-            "buyer_id": "null",
-            "seller_id": seller_id,
-        }
-        await es.index(index="items", id=item_id, document=es_doc)
+        # es_doc = {
+        #     "category_id": category_id,
+        #     "title": title,
+        #     "description": description,
+        #     "condition": condition,
+        #     "address": address,
+        #     "cost": cost,
+        #     "status": item_status,
+        #     "buyer_id": "null",
+        #     "seller_id": seller_id,
+        # }
+        # await es.index(index="items", id=item_id, document=es_doc)
     except Exception as e:
         return HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
