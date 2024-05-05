@@ -66,6 +66,9 @@ from app.presentation.di.provides import (
     provide_update_picture_item_relation,
     provide_update_user,
     provide_update_chat,
+    provide_get_cart_by_user_id,
+    provide_create_cart_item,
+    provide_delete_cart_item,
 )
 from app.presentation.di.stubs import (
     provide_add_message_stub,
@@ -132,6 +135,9 @@ from app.presentation.di.stubs import (
     provide_update_user_stub,
     provide_update_chat_stub,
     provide_chat_manager_stub,
+    provide_get_cart_by_user_id_stub,
+    provide_create_cart_item_stub,
+    provide_delete_cart_item_stub,
 )
 
 
@@ -218,5 +224,8 @@ def setup_di(app: FastAPI):
             provide_add_message_stub: provide_add_message,
             provide_delete_message_stub: provide_delete_message,
             provide_delete_all_messages_stub: provide_delete_all_messages,
+            provide_get_cart_by_user_id_stub: provide_get_cart_by_user_id,
+            provide_create_cart_item_stub: provide_create_cart_item,
+            provide_delete_cart_item_stub: provide_delete_cart_item,
         }
     )
