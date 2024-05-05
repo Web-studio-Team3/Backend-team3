@@ -27,5 +27,6 @@ class UserReadDaoImpl(BaseDao, UserRead):
             date_of_birth=user["date_of_birth"],
             picture_id=user["picture_id"],
             telegram_id=user.get("telegram_username"),
-            telegram_username=user.get("telegram_username")
+            telegram_username=user.get("telegram_username"),
+            telegram_token=user.get("telegram_token"),
         )

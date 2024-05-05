@@ -1,6 +1,7 @@
 from typing import Optional
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
+from fastapi_jwt_auth import AuthJWT
 
 from app.core.picture.dto.picture import PictureCreate
 from app.core.picture.usecases.create_picture import CreatePictureUseCase
@@ -38,6 +39,7 @@ from app.presentation.di import (
 router = APIRouter()
 
 
+#REG - AUTH - GROUP
 @router.post(path="/sign_up")
 async def sign_up(
     email: str = Form(),
@@ -75,7 +77,7 @@ async def sign_up(
 
 @router.post(path="/sign_in")
 async def sign_in(
-    user: UserSignIn, sign_in_use_case: SignInUseCase = Depends(provide_sign_in_stub)
+    user: UserSignIn, sign_in_use_case: SignInUseCase = Depends(provide_sign_in_stub),
 ):
     try:
         access_token = sign_in_use_case.execute(user=user)
@@ -83,8 +85,13 @@ async def sign_in(
         return HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e)
         )
-    return {"user_id": access_token.user_id, "jwt_token": access_token.jwt_token}
+    return {"user_id": access_token.user_id, "access_token": access_token.jwt_token}
 
+
+#TOKEN - GROUP
+@router.get("tg-token")
+async def get_telegram_token():
+    pass
 
 @router.get(path="/self/")
 async def get_self_user_info(
@@ -104,6 +111,7 @@ async def get_self_user_info(
     return user
 
 
+# USER
 @router.get(path="/info/{user_id}")
 async def get_user_info(
     user_id: str,
@@ -123,6 +131,7 @@ async def get_user_info(
         "picture_id": user.picture_id,
         "telegram_id": user.telegram_id,
         "telegram_username": user.telegram_username,
+        "telegram_token": user.telegram_token,
     }
 
 
@@ -148,6 +157,7 @@ async def update_user_info(
     picture: Optional[UploadFile] = File(None),
     telegram_id: Optional[int] = Form(None),
     telegram_username: Optional[str] = Form(None),
+    telegram_token: Optional[str] = Form(None),
     update_user_use_case: UpdateUserUseCase = Depends(provide_update_user_stub),
     jwt: str = Depends(JWTBearer()),
     get_access_token_by_jwt_use_case: GetAccessTokenByJwtUseCase = Depends(
@@ -180,6 +190,7 @@ async def update_user_info(
                 picture_id=picture_id,
                 telegram_id=telegram_id,
                 telegram_username=telegram_username,
+                telegram_token=telegram_token
             ),
         )
     )

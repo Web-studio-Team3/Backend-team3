@@ -13,3 +13,4 @@ class User:
     picture_id: str
     telegram_id: Optional[int]
     telegram_username: Optional[str]
+    telegram_token: Optional[str]

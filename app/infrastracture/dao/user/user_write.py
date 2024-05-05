@@ -22,6 +22,7 @@ class UserWriteDaoImpl(BaseDao, UserWrite):
                     picture_id=user.picture_id,
                     telegram_id=user.telegram_id,
                     telegram_username=user.telegram_username,
+                    telegram_token=user.telegram_token,
                 ).dict(exclude_none=True)
             )
         else:

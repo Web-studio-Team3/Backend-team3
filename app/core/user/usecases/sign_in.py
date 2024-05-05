@@ -2,7 +2,9 @@ from app.core.shared.usecase_base import UseCase
 from app.core.token.dao.token_read import TokenRead
 from app.core.token.dto.token import AccessTokenUserIdDto
 from app.core.token.entities.token import AccessToken
-from app.core.token.usecases.create_token import CreateTokenUseCase
+from app.core.token.entities.token import RefreshToken
+from app.core.token.usecases.create_access_token import CreateAccessTokenUseCase
+from app.core.token.usecases.create_refresh_token import CreateRefreshTokenUseCase
 from app.core.user.dao.password_hasher import PasswordHasher
 from app.core.user.dao.user_read import UserRead
 from app.core.user.dto.user import UserSignIn
@@ -13,16 +15,16 @@ class SignInUseCase(UseCase[UserSignIn, AccessToken]):
     def __init__(
         self,
         token_read_dao: TokenRead,
-        create_token_use_case: CreateTokenUseCase,
+        create_access_token_use_case: CreateAccessTokenUseCase,
         user_read_dao: UserRead,
         password_hasher: PasswordHasher,
     ):
         self._token_read_dao = token_read_dao
         self._user_read_dao = user_read_dao
-        self._create_token_use_case = create_token_use_case
+        self._create_access_token_use_case = create_access_token_use_case
         self._password_hasher = password_hasher
 
-    def execute(self, user: UserSignIn) -> AccessToken:
+    def execute(self, user: UserSignIn) -> [AccessToken, RefreshToken]:
         user_entity = self._user_read_dao.get_by_email(user.email)
 
         if not user_entity:
@@ -36,9 +38,15 @@ class SignInUseCase(UseCase[UserSignIn, AccessToken]):
             access_token = self._token_read_dao.get_by_user_id(
                 user_id=user_entity.user_id
             )
+
         except TypeError:
-            return self._create_token_use_case.execute(
-                AccessTokenUserIdDto(user_id=user_entity.user_id)
-            )
+            return [
+                self._create_access_token_use_case.execute(
+                    AccessTokenUserIdDto(user_id=user_entity.user_id)
+                ),
+                self._create_refresh_token_use_case.execute(
+
+                )
+            ]
 
         return access_token

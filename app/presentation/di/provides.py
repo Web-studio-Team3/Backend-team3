@@ -96,7 +96,9 @@ from app.core.sold_item.usecase.get_sold_item_relation_by_seller_id import (
     GetSoldItemRelationBySellerIdUseCase,
 )
 from app.core.token.dao.token_coder import TokenCoder
-from app.core.token.usecases.create_token import CreateTokenUseCase
+from app.core.token.dao.token_coder import RefreshTokenCoder
+from app.core.token.usecases.create_access_token import CreateAccessTokenUseCase
+from app.core.token.usecases.create_refresh_token import CreateRefreshTokenUseCase
 from app.core.token.usecases.decode_token import DecodeToken
 from app.core.token.usecases.delete_token_by_user_id import DeleteTokenByUserIdUseCase
 from app.core.token.usecases.encode_token import EncodeToken
@@ -132,6 +134,7 @@ from app.infrastracture.dao.sold_item.sold_item_read import SoldItemRelationRead
 from app.infrastracture.dao.sold_item.sold_item_write import SoldItemRelationWriteImpl
 from app.infrastracture.dao.token.token_read import TokenReadDaoImpl
 from app.infrastracture.dao.token.token_write import TokenWriteDaoImpl
+from app.infrastracture.dao.token.tg_token_write import RefreshTokenWriteDaoImpl
 from app.infrastracture.dao.user.user_read import UserReadDaoImpl
 from app.infrastracture.dao.user.user_write import UserWriteDaoImpl
 from app.presentation.di.stubs import (
@@ -160,13 +163,13 @@ def provide_sign_up(
 
 def provide_sign_in(
     token_read_dao: BaseDao = Depends(get_pymongo_dao(TokenReadDaoImpl)),
-    create_token_use_case: CreateTokenUseCase = Depends(provide_create_token_stub),
+    create_access_token_use_case: CreateAccessTokenUseCase = Depends(provide_create_token_stub),
     user_read_dao: BaseDao = Depends(get_pymongo_dao(UserReadDaoImpl)),
     password_hasher: PasswordHasher = Depends(provide_password_hasher_stub),
 ) -> SignInUseCase:
     return SignInUseCase(
         token_read_dao=token_read_dao,
-        create_token_use_case=create_token_use_case,
+        create_access_token_use_case=create_access_token_use_case,
         user_read_dao=user_read_dao,
         password_hasher=password_hasher,
     )
@@ -181,8 +184,15 @@ def provide_get_user_by_id(
 def provide_create_token(
     token_write_dao: BaseDao = Depends(get_pymongo_dao(TokenWriteDaoImpl)),
     token_coder: TokenCoder = Depends(provide_token_encoder_stub),
-) -> CreateTokenUseCase:
-    return CreateTokenUseCase(dao=token_write_dao, token_coder=token_coder)
+) -> CreateAccessTokenUseCase:
+    return CreateAccessTokenUseCase(dao=token_write_dao, token_coder=token_coder)
+
+
+def provide_create_refresh_token(
+    token_write_dao: BaseDao = Depends(get_pymongo_dao(RefreshTokenWriteDaoImpl)),
+    token_coder: RefreshTokenCoder = Depends(provide_token_encoder_stub),
+) -> CreateRefreshTokenUseCase:
+    return CreateRefreshTokenUseCase(dao=token_write_dao, token_coder=token_coder)
 
 
 def provide_delete_token_by_user_id(
