@@ -13,6 +13,7 @@ from app.core.review.dto.review import (
 from app.core.user.dto.user import (
     UserId,
 )
+from app.core.review.entities.review import Review as ReviewDataClass
 
 from app.core.token.usecases.get_access_token_by_jwt import GetAccessTokenByJwtUseCase
 from app.presentation.bearer import JWTBearer
@@ -44,7 +45,7 @@ from app.core.review.usecase.delete_review import (
 
 router = APIRouter()
 
-@router.get(path="/{item_id}")
+@router.get(path="/{item_id}", response_model=Page[ReviewDataClass])
 async def get_reviews_by_item_id(
     item_id: str,
     get_reviews_by_item_id_use_case: GetReviewsByItemIdUseCase = Depends(
@@ -54,7 +55,7 @@ async def get_reviews_by_item_id(
     reviews = get_reviews_by_item_id_use_case.execute(
         obj=ReviewItemId(item_id=item_id)
     )
-    return reviews
+    return paginate(list(reviews))
 
 
 @router.post(path="/")
