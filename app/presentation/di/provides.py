@@ -104,6 +104,21 @@ from app.core.cart.usecase.create_cart_item import (
 from app.core.cart.usecase.delete_cart_item import (
     DeleteCartItemUseCase,
 )
+from app.core.review.usecase.get_reviews_by_item_id import (
+    GetReviewsByItemIdUseCase,
+)
+from app.core.review.usecase.create_review import (
+    CreateReviewUseCase,
+)
+from app.core.review.usecase.get_reviews_by_user_id import (
+    GetReviewsByUserIdUseCase,
+)
+from app.core.review.usecase.update_review import (
+    UpdateReviewUseCase,
+)
+from app.core.review.usecase.delete_review import (
+    DeleteReviewUseCase,
+)
 from app.core.token.dao.token_coder import TokenCoder
 from app.core.token.usecases.create_token import CreateTokenUseCase
 from app.core.token.usecases.decode_token import DecodeToken
@@ -146,6 +161,10 @@ from app.infrastracture.dao.user.user_write import UserWriteDaoImpl
 
 from app.infrastracture.dao.cart.cart_read import CartReadImpl
 from app.infrastracture.dao.cart.cart_write import CartWriteImpl
+
+from app.infrastracture.dao.review.review_read import ReviewReadImpl
+from app.infrastracture.dao.review.review_write import ReviewWriteImpl
+
 
 from app.presentation.di.stubs import (
     provide_create_picture_stub,
@@ -626,4 +645,34 @@ def provide_delete_cart_item(
     cart_write_dao: BaseDao = Depends(get_pymongo_dao(CartWriteImpl)),
 ) -> DeleteCartItemUseCase:
     return DeleteCartItemUseCase(write_dao=cart_write_dao)
+
+
+def provide_get_reviews_by_item_id(
+    review_read_dao: BaseDao = Depends(get_pymongo_dao(ReviewReadImpl)),
+) -> GetReviewsByItemIdUseCase:
+    return GetReviewsByItemIdUseCase(read_dao=review_read_dao)
+
+
+def provide_create_review(
+    review_write_dao: BaseDao = Depends(get_pymongo_dao(ReviewWriteImpl)),
+) -> CreateReviewUseCase:
+    return CreateReviewUseCase(write_dao=review_write_dao)
+
+
+def provide_get_reviews_by_user_id(
+    review_read_dao: BaseDao = Depends(get_pymongo_dao(ReviewReadImpl)),
+) -> GetReviewsByUserIdUseCase:
+    return GetReviewsByUserIdUseCase(read_dao=review_read_dao)
+
+
+def provide_update_review(
+    review_write_dao: BaseDao = Depends(get_pymongo_dao(ReviewWriteImpl)),
+) -> UpdateReviewUseCase:
+    return UpdateReviewUseCase(review_write_dao=review_write_dao)
+
+
+def provide_delete_review(
+    review_write_dao: BaseDao = Depends(get_pymongo_dao(ReviewWriteImpl)),
+) -> DeleteReviewUseCase:
+    return DeleteReviewUseCase(review_write_dao=review_write_dao)
 
