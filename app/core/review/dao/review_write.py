@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from app.core.review.dto.review import Review, ReviewId
+from app.core.review.dto.review import Review, ReviewId, ReviewUpdateWithId
 
 
 class ReviewWrite(Protocol):
@@ -8,4 +8,7 @@ class ReviewWrite(Protocol):
         raise NotImplementedError
 
     def delete(self, review_id: str) -> None:
+        raise NotImplementedError
+    
+    def update(self, item: ReviewUpdateWithId) -> Review:
         raise NotImplementedError

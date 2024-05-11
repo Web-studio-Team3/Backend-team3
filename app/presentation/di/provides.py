@@ -113,6 +113,12 @@ from app.core.review.usecase.create_review import (
 from app.core.review.usecase.get_reviews_by_user_id import (
     GetReviewsByUserIdUseCase,
 )
+from app.core.review.usecase.update_review import (
+    UpdateReviewUseCase,
+)
+from app.core.review.usecase.delete_review import (
+    DeleteReviewUseCase,
+)
 from app.core.token.dao.token_coder import TokenCoder
 from app.core.token.usecases.create_token import CreateTokenUseCase
 from app.core.token.usecases.decode_token import DecodeToken
@@ -657,3 +663,16 @@ def provide_get_reviews_by_user_id(
     review_read_dao: BaseDao = Depends(get_pymongo_dao(ReviewReadImpl)),
 ) -> GetReviewsByUserIdUseCase:
     return GetReviewsByUserIdUseCase(read_dao=review_read_dao)
+
+
+def provide_update_review(
+    review_write_dao: BaseDao = Depends(get_pymongo_dao(ReviewWriteImpl)),
+) -> UpdateReviewUseCase:
+    return UpdateReviewUseCase(review_write_dao=review_write_dao)
+
+
+def provide_delete_review(
+    review_write_dao: BaseDao = Depends(get_pymongo_dao(ReviewWriteImpl)),
+) -> DeleteReviewUseCase:
+    return DeleteReviewUseCase(review_write_dao=review_write_dao)
+

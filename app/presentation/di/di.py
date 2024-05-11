@@ -72,6 +72,8 @@ from app.presentation.di.provides import (
     provide_get_reviews_by_item_id,
     provide_create_review,
     provide_get_reviews_by_user_id,
+    provide_update_review,
+    provide_delete_review,
 )
 from app.presentation.di.stubs import (
     provide_add_message_stub,
@@ -143,6 +145,8 @@ from app.presentation.di.stubs import (
     provide_get_reviews_by_item_id_stub,
     provide_create_review_stub,
     provide_get_reviews_by_user_id_stub, 
+    provide_update_review_stub,
+    provide_delete_review_stub,
 )
 
 
@@ -224,5 +228,7 @@ def setup_di(app: FastAPI):
             provide_get_reviews_by_item_id_stub: provide_get_reviews_by_item_id,
             provide_create_review_stub: provide_create_review,
             provide_get_reviews_by_user_id_stub: provide_get_reviews_by_user_id,
+            provide_update_review_stub: provide_update_review,
+            provide_delete_review_stub: provide_delete_review,
         }
     )
