@@ -23,10 +23,11 @@ class SignInUseCase(UseCase[UserSignIn, AccessToken]):
         self._password_hasher = password_hasher
 
     def execute(self, user: UserSignIn) -> AccessToken:
-        user_entity = self._user_read_dao.get_by_email(user.email)
-
-        if not user_entity:
+        try:
+            user_entity = self._user_read_dao.get_by_email(user.email)
+        except():
             raise AuthError("wrong email")
+
         if not self._password_hasher.check_password(
             user.raw_password, user_entity.hashed_password
         ):
