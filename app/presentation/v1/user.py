@@ -1,7 +1,7 @@
 from typing import Optional
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
-
+from fastapi.responses import JSONResponse
 from app.core.picture.dto.picture import PictureCreate
 from app.core.picture.usecases.create_picture import CreatePictureUseCase
 from app.core.picture.usecases.delete_picture_by_user_id import (
@@ -67,9 +67,7 @@ async def sign_up(
             )
         )
     except AuthError as e:
-        return HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e)
-        )
+        return JSONResponse(content={"message": str(e)}, status_code=404)
     return {"chat_message": "user successfully created"}
 
 
@@ -80,9 +78,7 @@ async def sign_in(
     try:
         access_token = sign_in_use_case.execute(user=user)
     except AuthError as e:
-        return HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e)
-        )
+        return JSONResponse(content={"message": str(e)}, status_code=422)
     return {"user_id": access_token.user_id, "jwt_token": access_token.jwt_token}
 
 
@@ -99,7 +95,7 @@ async def get_self_user_info(
         user = get_user_by_id_use_case.execute(UserId(id=user_id))
     except TypeError:
         return HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="no user with such id"
+            status_code=400, detail="no user with such id"
         )
     return user
 
@@ -111,10 +107,8 @@ async def get_user_info(
 ):
     try:
         user = get_user_by_id_use_case.execute(UserId(id=user_id))
-    except TypeError:
-        return HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="no user with such id"
-        )
+    except AuthError as e:
+        return JSONResponse(content={"message": str(e)}, status_code=404)
     return {
         "id": user.id,
         "full_name": user.full_name,
@@ -136,7 +130,7 @@ async def logout(
 ):
     user_id = get_access_token_by_jwt_use_case.execute(jwt).user_id
     logout_use_case.execute(UserId(id=user_id))
-    return {"chat_message": "success"}
+    return {"message": "success"}
 
 
 @router.put(path="/info/")
@@ -201,4 +195,4 @@ async def delete(
 
     delete_user_use_case.execute(user_id=UserId(id=user_id))
     delete_picture_by_user_id_use_case.execute(user_id_obj=UserId(id=user_id))
-    return {"chat_message": "user was deleted"}
+    return {"message": "user was deleted"}
