@@ -40,7 +40,6 @@ class UserId(BaseDto):
 
 class UserUpdate(BaseDto):
     email: Optional[str]
-    password: Optional[str]
     full_name: Optional[str]
     date_of_birth: Optional[str]
     picture_id: Optional[str]
@@ -51,6 +50,11 @@ class UserUpdate(BaseDto):
 class UserUpdateWithId(BaseDto):
     id: str
     user_update: UserUpdate
+
+
+class UserUpdatePasswordWithId(BaseDto):
+    id: str
+    new_password: str
 
 
 class UserGetByEmailReq(BaseDto):

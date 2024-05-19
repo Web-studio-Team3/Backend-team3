@@ -69,6 +69,7 @@ from app.presentation.di.provides import (
     provide_get_cart_by_user_id,
     provide_create_cart_item,
     provide_delete_cart_item,
+    provide_update_password,
 )
 from app.presentation.di.stubs import (
     provide_add_message_stub,
@@ -132,6 +133,7 @@ from app.presentation.di.stubs import (
     provide_update_item_stub,
     provide_update_picture_item_relation_stub,
     provide_update_user_stub,
+    provide_update_password_stub,
     provide_update_chat_stub,
     provide_chat_manager_stub,
     provide_get_cart_by_user_id_stub,
@@ -163,6 +165,7 @@ def setup_di(app: FastAPI):
             provide_logout_stub: provide_logout,
             provide_delete_user_stub: provide_delete_user,
             provide_update_user_stub: provide_update_user,
+            provide_update_password_stub: provide_update_password,
             provide_create_picture_stub: provide_create_picture,
             provide_get_picture_stub: provide_get_picture,
             provide_delete_picture_by_user_id_stub: provide_delete_picture_by_user_id,
