@@ -6,7 +6,7 @@ from app.core.user.entities.user import User
 from app.core.user.usecases.password_hasher import PasswordHasher
 
 
-class UpdatePasswordUseCase(UseCase[UserUpdatePasswordWithId, User]):
+class UpdatePasswordUseCase(UseCase[UserUpdatePasswordWithId, None]):
     def __init__(
         self,
         user_write_dao: UserWrite,
@@ -17,10 +17,9 @@ class UpdatePasswordUseCase(UseCase[UserUpdatePasswordWithId, User]):
         self._user_read_dao = user_read_dao
         self._password_hasher = password_hasher
 
-    def execute(self, updated_user: UserUpdatePasswordWithId) -> User:
+    def execute(self, updated_user: UserUpdatePasswordWithId) -> None:
         if updated_user.new_password:
             updated_user.new_password = self._password_hasher.hash(
                 updated_user.new_password
             )
         self._user_write_dao.update_password(updated_user)
-        return self._user_read_dao.get_by_id(updated_user.id)

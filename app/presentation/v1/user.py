@@ -198,13 +198,13 @@ async def update_password(
 ):
     user_id = get_access_token_by_jwt_use_case.execute(jwt).user_id
 
-    updated_user = update_password_use_case.execute(
+    update_password_use_case.execute(
         UserUpdatePasswordWithId(
             id=user_id,
             new_password=password
         )
     )
-    return updated_user
+    return {"chat_message": "password successfully updated"}
 
 
 @router.delete(path="/", dependencies=[Depends(JWTBearer())])
