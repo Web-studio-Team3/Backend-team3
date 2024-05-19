@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from app.core.user.dto.user import UserId, UserSignUpHash, UserUpdateWithId
+from app.core.user.dto.user import UserId, UserSignUpHash, UserUpdateWithId, UserUpdatePasswordWithId
 
 
 class UserWrite(Protocol):
@@ -11,4 +11,7 @@ class UserWrite(Protocol):
         raise NotImplementedError
 
     def update(self, user: UserUpdateWithId) -> None:
+        raise NotImplementedError
+    
+    def update_password(self, user: UserUpdatePasswordWithId) -> None:
         raise NotImplementedError

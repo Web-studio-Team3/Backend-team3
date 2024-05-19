@@ -14,6 +14,7 @@ from app.core.user.dto.user import (
     UserSignUpRaw,
     UserUpdate,
     UserUpdateWithId,
+    UserUpdatePasswordWithId,
 )
 from app.core.user.exceptions.user import AuthError
 from app.core.user.usecases.delete_user import DeleteUserUseCase
@@ -22,6 +23,7 @@ from app.core.user.usecases.logout import LogoutUseCase
 from app.core.user.usecases.sign_in import SignInUseCase
 from app.core.user.usecases.sign_up import SignUpUseCase
 from app.core.user.usecases.update_user import UpdateUserUseCase
+from app.core.user.usecases.update_password import UpdatePasswordUseCase
 from app.presentation.bearer import JWTBearer
 from app.presentation.di import (
     provide_create_picture_stub,
@@ -33,6 +35,7 @@ from app.presentation.di import (
     provide_sign_in_stub,
     provide_sign_up_stub,
     provide_update_user_stub,
+    provide_update_password_stub,
 )
 
 router = APIRouter()
@@ -142,7 +145,6 @@ async def logout(
 @router.put(path="/info/")
 async def update_user_info(
     email: Optional[str] = Form(None),
-    password: Optional[str] = Form(None),
     full_name: Optional[str] = Form(None),
     date_of_birth: Optional[str] = Form(None),
     picture: Optional[UploadFile] = File(None),
@@ -174,7 +176,6 @@ async def update_user_info(
             id=user_id,
             user_update=UserUpdate(
                 email=email,
-                password=password,
                 full_name=full_name,
                 date_of_birth=date_of_birth,
                 picture_id=picture_id,
@@ -184,6 +185,26 @@ async def update_user_info(
         )
     )
     return updated_user
+
+
+@router.put(path="/pwd/update/")
+async def update_password(
+    password: str = Form(None),
+    update_password_use_case: UpdatePasswordUseCase = Depends(provide_update_password_stub),
+    jwt: str = Depends(JWTBearer()),
+    get_access_token_by_jwt_use_case: GetAccessTokenByJwtUseCase = Depends(
+        provide_get_access_token_by_jwt_stub
+    ),
+):
+    user_id = get_access_token_by_jwt_use_case.execute(jwt).user_id
+
+    update_password_use_case.execute(
+        UserUpdatePasswordWithId(
+            id=user_id,
+            new_password=password
+        )
+    )
+    return {"chat_message": "password successfully updated"}
 
 
 @router.delete(path="/", dependencies=[Depends(JWTBearer())])

@@ -46,6 +46,11 @@ def provide_update_user_stub():
     raise NotImplementedError
 
 
+
+def provide_update_password_stub():
+    raise NotImplementedError
+
+
 def provide_delete_user_stub():
     raise NotImplementedError
 

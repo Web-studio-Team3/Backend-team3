@@ -119,6 +119,7 @@ from app.core.user.usecases.password_hasher import PasswordHasherImp
 from app.core.user.usecases.sign_in import SignInUseCase
 from app.core.user.usecases.sign_up import SignUpUseCase
 from app.core.user.usecases.update_user import UpdateUserUseCase
+from app.core.user.usecases.update_password import UpdatePasswordUseCase
 from app.infrastracture.dao.base import BaseDao, Dao
 from app.infrastracture.dao.category.category_read import CategoryReadDaoImpl
 from app.infrastracture.dao.category.category_write import CategoryWriteDaoImpl
@@ -233,9 +234,19 @@ def provide_token_decoder() -> DecodeToken:
 def provide_update_user(
     user_write_dao: BaseDao = Depends(get_pymongo_dao(UserWriteDaoImpl)),
     user_read_dao: BaseDao = Depends(get_pymongo_dao(UserReadDaoImpl)),
-    password_hasher: PasswordHasher = Depends(provide_password_hasher_stub),
 ) -> UpdateUserUseCase:
     return UpdateUserUseCase(
+        user_write_dao=user_write_dao,
+        user_read_dao=user_read_dao,
+    )
+
+
+def provide_update_password(
+    user_write_dao: BaseDao = Depends(get_pymongo_dao(UserWriteDaoImpl)),
+    user_read_dao: BaseDao = Depends(get_pymongo_dao(UserReadDaoImpl)),
+    password_hasher: PasswordHasher = Depends(provide_password_hasher_stub),
+) -> UpdatePasswordUseCase:
+    return UpdatePasswordUseCase(
         user_write_dao=user_write_dao,
         user_read_dao=user_read_dao,
         password_hasher=password_hasher,
