@@ -6,9 +6,9 @@ from app.core.shared.usecase_base import UseCase
 
 
 class AddMessageUseCase(UseCase[MessageUpdateWithId, Message]):
-    def __init__(self, chat_message_write_dao: MessageWrite, chat_message_read_dao: MessagesRead):
-        self._chat_message_write_dao = chat_message_write_dao
-        self._chat_message_read_dao = chat_message_read_dao
+    def __init__(self, write_dao: MessageWrite):
+        self.write_dao = write_dao
+        #self.read_dao = read_dao
 
-    def execute(self, message: Message) -> None:
-        self._chat_message_write_dao.add_message(message)
+    def execute(self, messages_id: str, message: Message) -> None:
+        self.write_dao.add_message(messages_id, message)

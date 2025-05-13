@@ -10,7 +10,7 @@ class MessagesId(BaseDto):
 # Объект сообщения
 class Message(BaseDto):
     date_time: str
-    user_name: str
+    user_id: str
     message: str
 
 

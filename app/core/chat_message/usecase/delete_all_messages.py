@@ -8,4 +8,4 @@ class DeleteAllMessagesUseCase(UseCase[MessagesId, None]):
         self.write_dao = write_dao
 
     def execute(self, messages_id: MessagesId) -> None:
-        self.write_dao.delete(messages_id=messages_id)
+        self.write_dao.delete_all_messages(messages_id=messages_id)

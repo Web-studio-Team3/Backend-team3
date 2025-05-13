@@ -9,5 +9,5 @@ class MessageReadDaoImpl(BaseDao, MessagesRead):
         messages_obj = self._database["chat_messages"].find_one({"_id": ObjectId(messages_id)})
         if not messages_obj:
             raise TypeError
-        messages = [i for i in messages_obj["messages"]]
+        messages = messages_obj["messages"]
         return messages

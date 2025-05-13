@@ -1,5 +1,7 @@
 import datetime
 
+from bson import ObjectId
+
 import aiohttp
 from fastapi import (
     APIRouter,
@@ -32,6 +34,8 @@ from app.core.user.usecases.get_user_by_id import GetUserByIdUseCase
 
 from app.infrastracture.websoket import ChatManager
 
+from app.infrastracture.dao.chat_message.message_write import MessageWriteDaoImpl
+
 
 from app.presentation.di import (
     provide_add_message_stub,
@@ -54,7 +58,7 @@ router = APIRouter()
 async def connect_user(user_id: str):
     async with aiohttp.ClientSession() as session:
         async with session.ws_connect(
-            f"http://localhost:8000/api/chat/ws/{user_id}"
+            f"ws://localhost:8000/api/chat/ws/{user_id}"
         ) as ws:
             async for msg in ws:
                 if msg.type == aiohttp.WSMsgType.TEXT:
@@ -72,22 +76,22 @@ async def websocket_endpoint(
     try:
         while True:
             data = await websocket.receive_text()
-            await manager.send_personal_message(f"{data}", websocket)
-            await manager.broadcast(f"{data}")
+            
     except WebSocketDisconnect:
-        manager.disconnect(websocket)
+        await manager.disconnect(websocket)
 
 
 # Работа с чатом
 @router.get("/{chat_id}")
 async def get_chat_by_id(
     chat_id: str,
-    get_all_messages: GetAllMessagesUseCase = Depends(provide_get_all_messages_stub),
+    get_all_messages: GetAllMessagesUseCase = Depends(
+        provide_get_all_messages_stub),
     get_chat_by_id: GetChatByIdUseCase = Depends(provide_get_chat_by_id_stub),
     chat_manager: ChatManager = Depends(provide_chat_manager_stub),
 ):
     try:
-        if not(chat_id in chat_manager.active_chats):
+        if not (chat_id in chat_manager.active_chats):
             chat_manager.Add_connection_manager(chat_id)
         chat = get_chat_by_id.execute(chat_id)
         messages = get_all_messages.execute(chat.messages_id)
@@ -102,7 +106,8 @@ async def get_chat_by_id(
 async def create_chat(
     seller_id: str,
     buyer_id: str,
-    create_chat_use_case: CreateChatUseCase = Depends(provide_create_chat_stub),
+    create_chat_use_case: CreateChatUseCase = Depends(
+        provide_create_chat_stub),
 ):
     try:
         await create_chat_use_case.execute(
@@ -123,20 +128,84 @@ async def delete_chat(
 
 
 # Работа с сообщениями
+@router.post("/{chat_id}")
 async def add_message(
-    user_name: str,
+    chat_id: str,
+    messages_id: str,
+    user_id: str,
     message: str = Form(),
     add_message: AddMessageUseCase = Depends(provide_add_message_stub),
+    chat_manager: ChatManager = Depends(provide_chat_manager_stub),
 ):
     try:
-        add_message(
-            message=Message(
-                user_name=user_name,
-                date_time=str(datetime.datetime.now()),
-                message=message,
-            )
+        message = Message(
+            user_id=user_id,
+            date_time=str(datetime.datetime.now()),
+            message=message,
         )
+
+        add_message.execute(
+            messages_id=messages_id,
+            message=message
+        )
+
+        manager = chat_manager.Get_connection_manager(chat_id)
+        print(manager)
+        await manager.broadcast(message)
+
+        return {"status": "Message sent"}
     except Exception as e:
         return HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e)
         )
+
+
+@router.delete("/{chat_id}/messages/{message_id}")
+async def delete_message(
+    messages_id: str,
+    message_id: str,
+    delete_message: DeleteMessageUseCase = Depends(provide_delete_message_stub)
+):
+    try:
+        delete_message.execute(messages_id, message_id)
+
+        return {"status": "Message deleted"}
+
+    except Exception as e:
+        return HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e)
+        )
+
+
+@router.delete("/{chat_id}/messages")
+async def delete_all_messages(
+    messages_id: str,
+    delete_all_messages: DeleteAllMessagesUseCase = Depends(
+        provide_delete_all_messages_stub)
+):
+    try:
+        delete_all_messages.execute(messages_id)
+
+        return {"status": "Messages deleted"}
+
+    except Exception as e:
+        return HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e)
+        )
+
+
+@router.get("/{chat_id}/messages")
+async def get_all_messages_by_id(
+    messages_id: str,
+    get_all_messages_by_id: GetAllMessagesUseCase = Depends(
+        provide_get_all_messages_stub)
+):
+    try:
+        return get_all_messages_by_id.execute(messages_id)
+
+    except Exception as e:
+        return HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e)
+        )
+
+# @router.get("/{chat_id}")
